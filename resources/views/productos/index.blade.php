@@ -90,7 +90,7 @@
                     </div>
                 </div>
 
-                {{-- DERECHA: NAVEGACIÓN (COMO IMAGEN 2) --}}
+                {{-- DERECHA: NAVEGACIÓN --}}
                 <div class="catalog-right-top">
                     <a href="{{ route('portada.index') }}" class="back-home">
                         Volver al Inicio...
