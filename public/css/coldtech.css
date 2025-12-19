@@ -1133,7 +1133,7 @@ form label.required::after {
 /* Panel de carrito fijo al hacer scroll */
 .sticky-cart {
     position: sticky;
-    top: 60px;
+    top: 120px;
     z-index: 10;
 }
 
@@ -1191,4 +1191,317 @@ form label.required::after {
 /* CAMBIO DE COLOR AL SUBTOTAL DEL RESUMEN */
 .resultado_resumen {
     color: #0A1A2F;
+}
+
+/*CAMBIOS PARA EL CATALOGO*/
+
+.catalog-page .catalog-filters{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:10px;
+}
+
+.catalog-page .filters-block{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:12px;
+}
+
+.catalog-page .filters-label{
+    font-size:13px;
+    color:#495057;
+    min-width:160px;
+}
+
+.catalog-page .filters-options{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    align-items:center;
+}
+
+.catalog-page .filter-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin:0;
+    font-size:13px;
+}
+
+.catalog-page .catalog-right-top{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.catalog-page .back-home{
+    font-style:italic;
+    color:#0A1A2F;
+    text-decoration:none;
+}
+
+.catalog-page .catalog-pager .pagination{
+    margin:0;
+    gap:6px;
+}
+
+.catalog-page .catalog-pager .page-link{
+    border-radius:8px;
+    padding:8px 12px;
+}
+
+.catalog-page .catalog-pager .page-item.active .page-link{
+    background:#0A1A2F;
+    border-color:#0A1A2F;
+}
+
+.catalog-page .catalog-pager p,
+.catalog-page .catalog-pager .small,
+.catalog-page .catalog-pager .text-sm{
+    display:none;
+}
+
+.catalog-page .catalog-right-top {
+    margin-bottom: 18px;
+}
+
+/* ===== PAGINACIÓN COMPACTA (CATÁLOGO) ===== */
+.catalog-pager .pagination {
+    margin-top: 6px;
+    gap: 4px;
+}
+
+.catalog-pager .page-link {
+    padding: 4px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+.catalog-pager .page-item.active .page-link {
+    background-color: #0A1A2F;
+    border-color: #0A1A2F;
+}
+
+.catalog-right-top {
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+
+/* ===== TOPBAR: filtros (izq) + navegación (der) ===== */
+.catalog-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    flex-wrap:nowrap;          /* <- clave: evita que se vaya abajo */
+}
+
+/* El bloque de filtros debe poder encogerse */
+.catalog-topbar .filters-row{
+    flex:1 1 auto;
+    min-width:0;
+}
+
+/* Bloque derecho: que su ancho sea el del contenido (paginación) */
+.catalog-right-top{
+    width: fit-content;     /* <- clave: se ajusta al ancho del paginador */
+    margin-left: auto;      /* <- lo empuja totalmente a la derecha */
+    text-align: right;      /* <- alinea texto al borde derecho */
+}
+
+/* Para que "Volver..." y el resumen ocupen el mismo ancho del paginador */
+.catalog-right-top .back-home,
+.catalog-right-top .mini-note{
+    display: block;
+    width: 100%;
+    text-align: right;
+}
+
+
+/* Enlaces y texto finos */
+.back-home{
+    font-style:italic;
+    color:#0A1A2F;
+    text-decoration:none;
+    display:inline-block;
+    margin-bottom:4px;
+}
+
+.mini-note{
+    font-size:12px;
+    line-height:1.25;
+    margin-top:6px;
+}
+
+/* Paginación a la derecha, compacta */
+.catalog-pager .pagination{
+    margin:0;
+    justify-content:flex-end;
+    flex-wrap:nowrap;
+    gap:4px;
+}
+
+.catalog-pager .page-link{
+    padding:3px 8px;
+    font-size:12px;
+    border-radius:6px;
+}
+
+.catalog-pager .page-item.active .page-link{
+    background:#0A1A2F;
+    border-color:#0A1A2F;
+}
+
+/* Responsive: en pantallas pequeñas sí apila (natural) */
+@media (max-width: 992px){
+    .catalog-topbar{
+        flex-wrap:wrap;
+    }
+    .catalog-right-top{
+        flex:1 1 100%;
+        text-align:left;
+        margin-left:0;
+        margin-top:8px;
+    }
+    .catalog-pager .pagination{
+        justify-content:flex-start;
+    }
+}
+
+/* Ajuste vertical fino del bloque derecho */
+.catalog-right-top{
+    position: relative;
+    top: -65px;   /* ajusta 16–20px si quieres afinar */
+}
+
+
+/* ===== NAVBAR COMPACTA ===== */
+.header-coldtech {
+    padding: 6px 0;          /* antes seguramente 12px+ */
+}
+
+.header-coldtech .navbar {
+    min-height: 56px;        /* altura estándar moderna */
+}
+
+/* Contenedor del buscador */
+.search-container {
+    display: flex;
+    align-items: center;
+    height: 36px;            /* altura única */
+    background: #fff;
+    border-radius: 18px;
+    padding: 0 6px;
+}
+
+/* Input */
+.search-input {
+    height: 100%;
+    border: none;
+    padding: 0 10px;
+    font-size: 13px;
+    outline: none;
+}
+
+/* Botón lupa */
+.search-btn {
+    height: 100%;
+    width: 36px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.header-logo {
+    height: 38px;   /* antes muy grande */
+}
+
+.nav-link-coldtech {
+    font-size: 14px;
+    padding: 4px 6px;
+}
+
+.btn-login-header {
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 18px;
+}
+
+/* Buscador del catálogo: más largo */
+.catalog-search{
+    width: 100%;
+    max-width: 550px;   /* aquí se hace más largo */
+}
+
+/* Asegura proporción correcta */
+.catalog-search .search-input{
+    flex: 1;
+}
+
+.search-container{
+    display: flex;
+    align-items: center;
+    height: 42px;
+    background: #fff;
+    border-radius: 22px;
+    padding: 0 6px;
+    border: 1px solid #ced4da;
+}
+
+.search-input{
+    height: 100%;
+    border: none;
+    padding: 0 14px;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+}
+
+.search-btn{
+    height: 100%;
+    width: 42px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* ===== FIX: que el buscador NO cambie de tamaño al hacer focus ===== */
+
+.search-container,
+.search-input,
+.search-btn {
+    box-sizing: border-box;
+}
+
+/* Quitar cualquier cambio de tamaño en focus */
+.search-container:focus-within {
+    outline: none;
+    border-width: 1px;          /* SIEMPRE el mismo borde */
+    box-shadow: none;           /* evita “crecer” visualmente */
+}
+
+/* Evitar que el input modifique tamaño */
+.search-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* ===== SUBIR CATÁLOGO DE PRODUCTOS ===== */
+
+/* Reduce el espacio entre filtros y catálogo */
+.catalog-page .row.align-items-start {
+    margin-top: -50px;   /* prueba -8px a -16px si quieres afinar */
 }
