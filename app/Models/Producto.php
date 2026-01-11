@@ -20,7 +20,7 @@ class Producto extends Model
         'pro_valor_compra',
         'pro_precio_venta',
         'pro_saldo_inicial',
-        'pro_qty_ingreso',
+        'pro_qty_ingresos',
         'pro_qty_egresos',
         'pro_qty_ajustes',
         'pro_saldo_final',
@@ -33,6 +33,7 @@ class Producto extends Model
         return 'id_producto';
     }
 
+    // CAMBIAR A QUE SEAN TODOS LOS ESTADOS
     static public function getProductos() {
         return Producto::where('estado_prod','ACT');
     }

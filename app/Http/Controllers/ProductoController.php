@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
@@ -79,4 +80,18 @@ class ProductoController extends Controller
             ->route('productos.index')
             ->with('success', 'Producto Inhabilitado Exitosamente!');
     }
+
+
+    public function show (Producto $producto) {
+
+        // Para traer solo los productos activos
+        if ($producto -> estado_prod !== 'ACT') {
+            abort(404);
+        }
+
+        $stockActual = (int) $producto->pro_saldo_final;
+
+        return view('productos.show', compact('producto', 'stockActual'));
+    }
+
 }

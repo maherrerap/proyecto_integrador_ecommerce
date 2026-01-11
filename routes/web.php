@@ -24,6 +24,10 @@ Route::resource('carrito', CarritoController::class);
 /* RUTAS DE LOGIN */
 Route::resource('login', LoginController::class);
 
+
+
+
+
 /*CREACION DE GRUPO DE RUTAS ADMINISTRATIVAS
     Se utiliza para la administración de las clases independientes
     y dependientes. Esta sección se la trabaja en IS.
