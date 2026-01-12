@@ -8,10 +8,31 @@ use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
-    public function index() {
-        $productos = Producto::getProductos()->orderBy('id_producto')->paginate(20);
+    public function index(Request $request)
+    {
+        $criterio = trim((string) $request->get('criterio', ''));
+
+        $query = Producto::getProductos()
+            ->select('productos.*')
+            ->leftJoin('categoria as c', 'productos.id_categoria', '=', 'c.id_categoria')
+            ->orderBy('productos.id_producto');
+
+        // Solo se filtra si hay texto
+        if ($criterio !== '') {
+            $like = '%' . $criterio . '%';
+
+            $query->where(function ($q) use ($like) {
+                $q->whereRaw("unaccent(productos.pro_descripcion) ILIKE unaccent(?)", [$like])
+                ->orWhereRaw("unaccent(productos.id_producto) ILIKE unaccent(?)", [$like])
+                ->orWhereRaw("unaccent(c.cat_descripcion) ILIKE unaccent(?)", [$like]);
+            });
+        }
+
+        $productos = $query->paginate(20)->appends($request->query());
+
         return view('productos.index', compact('productos'));
     }
+
 
     public function create() {
         return view('productos.create');

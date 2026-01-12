@@ -14,8 +14,8 @@
                     type="text"
                     name="criterio"
                     value="{{ request('criterio') }}"
-                    class="search-input"
-                    placeholder="Buscar producto, categoría o marca..."
+                    class="form-control buscador-productos"
+                    placeholder="Buscar producto..."
                     aria-label="Buscar producto"
                 >
                 <button type="submit" class="search-btn" aria-label="Buscar">
@@ -23,8 +23,8 @@
                 </button>
             </form>
 
-            <div class="mt-2 text-muted" style="font-size:13px;">
-                Sugerencia: usa palabras clave como ‘alimentos’, ‘ferretería’ o ‘ropa’ para mejores resultados.
+            <div class="mt-2 text-muted">
+                Sugerencia: usa palabras clave como 'alimentos', 'ferretería' o 'ropa' para mejores resultados.
             </div>
 
             {{-- FILTROS --}}
@@ -34,7 +34,7 @@
                 <div class="filters-row d-flex flex-wrap align-items-center gap-3">
 
                     <div class="d-flex flex-wrap align-items-center">
-                        <span class="me-2" style="font-size:13px;color:#495057;">Categorías Disponibles:</span>
+                        <span class="me-2">Categorías Disponibles:</span>
 
                         @php
                             $cats = [
@@ -57,36 +57,9 @@
                                 <input type="checkbox" name="categorias[]" value="{{ $c['value'] }}"
                                        {{ $checked ? 'checked' : '' }}
                                        onchange="this.form.submit()">
-                                <span style="font-size:13px;">{{ $c['key'] }}</span>
+                                <span>{{ $c['key'] }}</span>
                             </label>
                         @endforeach
-                    </div>
-
-                    <div class="d-flex flex-wrap align-items-center">
-                        <span class="me-2" style="font-size:13px;color:#495057;">Filtros Rápidos:</span>
-
-                        @php $quick = request('filtro',''); @endphp
-
-                        <label class="filter-pill mb-0">
-                            <input type="radio" name="filtro" value="mas_vendidos"
-                                   {{ $quick==='mas_vendidos' ? 'checked' : '' }}
-                                   onchange="this.form.submit()">
-                            <span style="font-size:13px;">Más Vendidos  |</span>
-                        </label>
-
-                        <label class="filter-pill mb-0">
-                            <input type="radio" name="filtro" value="novedades"
-                                   {{ $quick==='novedades' ? 'checked' : '' }}
-                                   onchange="this.form.submit()">
-                            <span style="font-size:13px;">Novedades  |</span>
-                        </label>
-
-                        <label class="filter-pill mb-0">
-                            <input type="radio" name="filtro" value=""
-                                   {{ $quick==='' ? 'checked' : '' }}
-                                   onchange="this.form.submit()">
-                            <span style="font-size:13px;">Todos</span>
-                        </label>
                     </div>
                 </div>
 
@@ -97,7 +70,7 @@
                     </a>
 
                     <div class="catalog-pager">
-                        {{ $productos->onEachSide(1)->links() }}
+                        {{ $productos->appends(request()->query())->onEachSide(1)->links()}}
                     </div>
 
                     <div class="mini-note">
@@ -141,7 +114,7 @@
                                 </div>
 
                                 <div class="card-body d-flex flex-column text-center">
-                                    <div class="mb-2" style="font-size:18px;font-weight:700;color:#495057;">
+                                    <div class="mb-2">
                                         {{ $producto->pro_descripcion }}
                                     </div>
 
@@ -150,8 +123,7 @@
                                     </div>
 
                                     <a href="{{ $showUrl }}"
-                                       class="btn {{ $agotado ? 'btn-secondary' : 'btn-primary' }} btn-detalle mt-auto"
-                                        {{ $agotado ? 'style=pointer-events:none;opacity:.85;' : '' }}>
+                                       class="btn {{ $agotado ? 'btn-secondary btn-agotado' : 'btn-primary' }} btn-detalle mt-auto">
                                         Ver Detalles
                                     </a>
                                 </div>
