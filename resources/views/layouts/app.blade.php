@@ -7,9 +7,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/coldtech.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 <body>
+<script src="{{ asset('js/carrito.js') }}"></script>
 <header class="header-coldtech">
     <nav class="navbar navbar-dark">
         <div class="container-fluid d-flex align-items-center justify-content-between px-4">
@@ -29,10 +31,18 @@
                     <li class="nav-item">
                         <a class="nav-link nav-link-coldtech fw-semibold" href="{{ route('contacto.index') }}">Contáctanos</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('carrito.index') }}" class="nav-link text-light fw-semibold d-flex align-items-center" style="font-size:14px;">
-                            <img src="{{ asset('images/carrito.png') }}" alt="Carrito" style="height:22px; width:22px; margin-right:6px;">
-                            Carrito
+                    <li class="nav-item position-relative">
+                        <a class="nav-link d-flex align-items-center"
+                        href="{{ route('carrito.index') }}">
+
+                            <i class="bi bi-cart3 fs-5"></i>
+                            
+                            {{-- Badge cantidad --}}
+                            <span id="cart-count"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                style="font-size: 0.65rem; display: none;">
+                                0
+                            </span>
                         </a>
                     </li>
                 </ul>

@@ -53,6 +53,7 @@
 
             {{-- Info --}}
             <div>
+                <div id="alert-carrito"></div>
                 <h1 style="font-size:28px; margin:0 0 8px;">{{ $producto->pro_descripcion }}</h1>
 
                 <div style="font-size:22px; font-weight:700; margin:0 0 14px;">
@@ -67,22 +68,10 @@
                 </div>
 
                 <div class="d-flex gap-3 mt-3">
-                    <button
-                        type="button"
-                        class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
-                        {{ $disabled ? 'disabled' : '' }}
-                        title="{{ $disabled ? 'Producto sin stock' : 'Añadir al carrito' }}"
-                    >
-                        🛒 <span>Añadir al carrito</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
-                        {{ $disabled ? 'disabled' : '' }}
-                        title="{{ $disabled ? 'Producto sin stock' : 'Comprar ahora' }}"
-                    >
-                        🧾 <span>Comprar ahora</span>
+                    <button id="btn-add-cart"
+                            class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
+                            data-producto="{{ $producto->id_producto }}">
+                        <i class="bi bi-cart-plus"></i> Añadir al carrito
                     </button>
                 </div>
             </div>

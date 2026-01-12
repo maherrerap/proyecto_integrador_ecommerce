@@ -43,4 +43,8 @@ class Producto extends Model
     static public function updateProducto(Producto $producto, array $data) {
         return $producto->update($data);
     }
+
+    public function detallesCarrito() {
+        return $this -> hasMany(ProxFac::class, 'id_producto', 'id_producto');
+    }
 }
