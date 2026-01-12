@@ -87,7 +87,7 @@ class CarritoController extends Controller
 
     // F7.3. INHABILITAR VENTA
     public function anular(Request $request) {
-        DB::statement("CALL sp_anular_carrito(?)", 
+        DB::statement("CALL anular_factura(?)", 
         [$request -> id_factura]
         );
 
@@ -113,6 +113,20 @@ class CarritoController extends Controller
         return response()->json([
             'total' => $row->total ?? 0
         ]);
+    }
+
+    // APROBAR CARRITO DE COMPRAS (GENERA FACTURA EN APR Y ACTUALIZA EL STOCK)
+    public function aprobar(Request $request) {
+        $request -> validate([
+            "id_factura" => "required",
+        ]);
+
+        try {
+            DB::statement("CALL aprobar_factura(?)", [$request -> id_factura]);
+            return response()->json(["ok" => true, "message" => "Pago realizado correctamente"]); 
+        } catch (\Exception $e) {
+            return response()->json(["ok" => false, "message" => "Error al realizar el pago"]); 
+        }
     }
 }
 

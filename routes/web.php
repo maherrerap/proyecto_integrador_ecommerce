@@ -25,7 +25,7 @@ Route::post('/carrito/update-cantidad', [CarritoController::class, 'updateCantid
 Route::post('/carrito/remove-producto', [CarritoController::class, 'removeProducto'])->name('carrito.removeProducto');
 Route::post('/carrito/anular', [CarritoController::class, 'anular'])->name('carrito.anular');
 Route::get('/carrito/count', [CarritoController::class, 'count'])->name('carrito.count');
-
+Route::post('/carrito/aprobar', [CarritoController::class, 'aprobar'])->name('carrito.aprobar');
 
 
 

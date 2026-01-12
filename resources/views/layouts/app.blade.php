@@ -11,7 +11,7 @@
 
 </head>
 <body>
-<script src="{{ asset('js/carrito.js') }}"></script>
+
 <header class="header-coldtech">
     <nav class="navbar navbar-dark">
         <div class="container-fluid d-flex align-items-center justify-content-between px-4">
@@ -98,5 +98,6 @@
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('js/carrito.js') }}"></script>
 </body>
 </html>
