@@ -32,10 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         onCarritoCambiado();
 
                     } else {
-                        alert(data.message || 'No se pudo añadir al carrito');
+                        Swal.fire('Error', data.message || 'No se pudo añadir al carrito', 'error');
                     }
                 })
-                .catch(() => alert('Error de conexión al añadir al carrito'));
+                .catch(() => {
+                    Swal.fire('Error', 'Error de conexión al añadir al carrito', 'error');
+                });
         });
     }
 
@@ -43,27 +45,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAprobar = document.getElementById('btn-aprobar-carrito');
     if (btnAprobar) {
         btnAprobar.addEventListener('click', () => {
-            if (!confirm('¿Deseas confirmar el pago?')) return;
+            Swal.fire({
+                title: 'Confirmar pago',
+                text: '¿Deseas confirmar el pago de este carrito?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, pagar',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#198754'
+            }).then((result) => {
+                if (!result.isConfirmed) return;
 
-            fetch('/carrito/aprobar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({
-                    id_factura: btnAprobar.dataset.factura
+                fetch('/carrito/aprobar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        id_factura: btnAprobar.dataset.factura
+                    })
                 })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.ok) {
-                        alert(data.message);
-                        window.location.href = '/carrito';
-                    } else {
-                        alert(data.message);
-                    }
-                });
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Pago realizado',
+                                text: data.message,
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                window.location.href = '/carrito';
+                            });
+                        } else {
+                            Swal.fire('Error', data.message, 'error');
+                        }
+                    })
+                    .catch(() => {
+                        Swal.fire('Error', 'Error de conexión al procesar el pago', 'error');
+                    });
+            });
         });
     }
 
@@ -71,32 +93,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnVaciar = document.getElementById('btn-vaciar-carrito');
     if (btnVaciar) {
         btnVaciar.addEventListener('click', () => {
-            if (!confirm('¿Seguro que deseas vaciar el carrito?')) return;
+            Swal.fire({
+                title: '¿Vaciar carrito?',
+                text: 'Se eliminarán todos los productos del carrito',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, vaciar',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#d33'
+            }).then((result) => {
+                if (!result.isConfirmed) return;
 
-            fetch('/carrito/anular', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({
-                    id_factura: btnVaciar.dataset.factura
+                fetch('/carrito/anular', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        id_factura: btnVaciar.dataset.factura
+                    })
                 })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.ok) {
-                        alert(data.message);
-
-                        // Si se esta en /carrito, se recarga la página (porque cambian totales/tabla)
-                        // pero también actualiza badge y resumen por si vuelves al catálogo
-                        onCarritoCambiado();
-                        window.location.href = '/carrito';
-
-                    } else {
-                        alert(data.message || 'Error al vaciar el carrito');
-                    }
-                });
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Carrito vacío',
+                                text: data.message,
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                // Actualiza badge y resumen antes de recargar
+                                onCarritoCambiado();
+                                window.location.href = '/carrito';
+                            });
+                        } else {
+                            Swal.fire('Error', data.message || 'Error al vaciar el carrito', 'error');
+                        }
+                    })
+                    .catch(() => {
+                        Swal.fire('Error', 'Error de conexión al vaciar el carrito', 'error');
+                    });
+            });
         });
     }
 
@@ -208,7 +247,6 @@ function actualizarCantidad(btn, cambio) {
     })
         .then(res => res.json())
         .then(data => {
-
             // Si estás en /carrito, recarga porque se recalculan totales visuales
             // Si no, solo refresca resumen/badge
             if (window.location.pathname === '/carrito') {
@@ -217,31 +255,45 @@ function actualizarCantidad(btn, cambio) {
                 onCarritoCambiado();
             }
         })
-        .catch(() => alert('Error al actualizar cantidad'));
+        .catch(() => {
+            Swal.fire('Error', 'Error al actualizar cantidad', 'error');
+        });
 }
 
 /* Eliminar un producto individual del carrito */
 function eliminarProducto(btn) {
-    if (!confirm('¿Eliminar este producto del carrito?')) return;
+    Swal.fire({
+        title: 'Eliminar producto',
+        text: '¿Deseas eliminar este producto del carrito?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33'
+    }).then((result) => {
+        if (!result.isConfirmed) return;
 
-    fetch('/carrito/remove-producto', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            id_factura: btn.dataset.factura,
-            id_producto: btn.dataset.producto
+        fetch('/carrito/remove-producto', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                id_factura: btn.dataset.factura,
+                id_producto: btn.dataset.producto
+            })
         })
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (window.location.pathname === '/carrito') {
-                location.reload();
-            } else {
-                onCarritoCambiado();
-            }
-        })
-        .catch(() => alert('Error al eliminar producto'));
+            .then(res => res.json())
+            .then(data => {
+                if (window.location.pathname === '/carrito') {
+                    location.reload();
+                } else {
+                    onCarritoCambiado();
+                }
+            })
+            .catch(() => {
+                Swal.fire('Error', 'Error al eliminar producto', 'error');
+            });
+    });
 }
