@@ -27,7 +27,7 @@
             </div>
 
             <div class="mt-2 text-muted">
-                Sugerencia: usa palabras clave como 'alimentos', 'ferretería' o 'ropa' para mejores resultados.
+                Sugerencia: no es necesario llenar toda la palabra del producto a buscar, solo escriba la porción que recuerde....
             </div>
 
             {{-- TOPBAR: CATEGORÍAS + PAGINACIÓN --}}
