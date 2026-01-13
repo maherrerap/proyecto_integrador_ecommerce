@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,10 +13,25 @@ class ProductoController extends Controller
     {
         $criterio = trim((string) $request->get('criterio', ''));
 
+        // Para el filtro de categorías seleccionadas
+        $categoriasSeleccionadas = $request->input('categorias', []);
+        if(!is_array($categoriasSeleccionadas)) {
+            $categoriasSeleccionadas = [$categoriasSeleccionadas];
+        }
+
+        $categoriasSeleccionadas = array_values(array_filter(array_map('trim', $categoriasSeleccionadas)));
+
+        $categoriasSeleccionadas = array_values(array_diff($categoriasSeleccionadas, ['ALL']));
+        
         $query = Producto::getProductos()
-            ->select('productos.*')
+            ->select('productos.*', 'c.cat_descripcion as cat_descripcion')
             ->leftJoin('categoria as c', 'productos.id_categoria', '=', 'c.id_categoria')
             ->orderBy('productos.id_producto');
+
+        // Filtro por categoria (si se selecciona)
+        if (!empty($categoriasSeleccionadas)) {
+            $query->whereIn('productos.id_categoria', $categoriasSeleccionadas);
+        }
 
         // Solo se filtra si hay texto
         if ($criterio !== '') {
@@ -30,7 +46,12 @@ class ProductoController extends Controller
 
         $productos = $query->paginate(20)->appends($request->query());
 
-        return view('productos.index', compact('productos'));
+        // Categorias para la vista
+        $categorias = Categoria::orderBy('cat_descripcion')
+    ->get(['id_categoria','cat_descripcion']);
+
+
+        return view('productos.index', compact('productos', 'categorias', 'categoriasSeleccionadas', 'criterio'));
     }
 
 

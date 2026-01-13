@@ -2,9 +2,9 @@
 @section('titulo', 'Carrito de Compras')
 
 @section('contenido')
-<h3 class="fw-semibold mb-4">
-    <i class="bi bi-cart3"></i> Carrito de Compras
-</h3>
+<h1 class="catalog-title mb-3">
+    <i class="bi bi-cart3"></i> CARRITO DE COMPRAS
+</h1>
 
 {{-- IF: CARRITO VACÍO --}}
 @if($items->count() == 0)

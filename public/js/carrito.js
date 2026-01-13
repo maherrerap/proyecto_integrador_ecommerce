@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // BOTÓN AÑADIR AL CARRITO
+    // Al cargar cualquier página: badge + resumen (si existe el contenedor)
+    actualizarBadgeCarrito();
+    actualizarResumenCarrito();
+
+    // BOTÓN AÑADIR AL CARRITO (detalle producto)
     const btnAdd = document.getElementById('btn-add-cart');
     if (btnAdd) {
         btnAdd.addEventListener('click', () => {
@@ -23,9 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     if (data.ok) {
                         mostrarAlertaSuperior(data.message);
-                        actualizarBadgeCarrito();
+
+                        // Actualiza navbar + sidebar resumen
+                        onCarritoCambiado();
+
+                    } else {
+                        alert(data.message || 'No se pudo añadir al carrito');
                     }
-                });
+                })
+                .catch(() => alert('Error de conexión al añadir al carrito'));
         });
     }
 
@@ -77,7 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     if (data.ok) {
                         alert(data.message);
+
+                        // Si se esta en /carrito, se recarga la página (porque cambian totales/tabla)
+                        // pero también actualiza badge y resumen por si vuelves al catálogo
+                        onCarritoCambiado();
                         window.location.href = '/carrito';
+
                     } else {
                         alert(data.message || 'Error al vaciar el carrito');
                     }
@@ -87,6 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+/* ====== Helpers generales ====== */
+
+/* Llamar cuando el carrito cambió: badge + resumen */
+function onCarritoCambiado() {
+    actualizarBadgeCarrito();
+    actualizarResumenCarrito();
+}
+
 /* Actualizar badge del carrito en navbar */
 function actualizarBadgeCarrito() {
     fetch('/carrito/count')
@@ -95,12 +118,32 @@ function actualizarBadgeCarrito() {
             const badge = document.getElementById('cart-count');
             if (!badge) return;
 
-            if (data.total > 0) {
+            if (Number(data.total) > 0) {
                 badge.textContent = data.total;
                 badge.style.display = 'inline-block';
             } else {
                 badge.style.display = 'none';
             }
+        })
+        .catch(() => { /* silencioso */ });
+}
+
+/* Actualizar el resumen del carrito (sidebar catálogo) */
+function actualizarResumenCarrito() {
+    const contenedor = document.getElementById('cart-summary');
+    if (!contenedor) return; // si no estás en catálogo, no hace nada
+
+    fetch('/carrito/resumen')
+        .then(res => res.json())
+        .then(data => {
+            if (!data || !data.ok) {
+                contenedor.innerHTML = `<p class="mb-0 text-muted">No se pudo cargar el carrito.</p>`;
+                return;
+            }
+            contenedor.innerHTML = data.html;
+        })
+        .catch(() => {
+            contenedor.innerHTML = `<p class="mb-0 text-muted">No se pudo cargar el carrito.</p>`;
         });
 }
 
@@ -116,7 +159,6 @@ function mostrarAlertaSuperior(mensaje) {
         </div>
     `;
 
-    // Auto ocultar después de 2 segundos
     setTimeout(() => {
         const alerta = contenedor.querySelector('.alert');
         if (alerta) alerta.remove();
@@ -147,8 +189,9 @@ function actualizarCantidad(btn, cambio) {
     const idProducto = btn.dataset.producto;
     const idFactura = btn.dataset.factura;
     const qtySpan = document.getElementById(`qty-${idProducto}`);
-    let cantidad = parseInt(qtySpan.textContent) + cambio;
+    if (!qtySpan) return;
 
+    let cantidad = parseInt(qtySpan.textContent) + cambio;
     if (cantidad < 1) return;
 
     fetch('/carrito/update-cantidad', {
@@ -163,7 +206,18 @@ function actualizarCantidad(btn, cambio) {
             cantidad: cantidad
         })
     })
-        .then(() => location.reload());
+        .then(res => res.json())
+        .then(data => {
+
+            // Si estás en /carrito, recarga porque se recalculan totales visuales
+            // Si no, solo refresca resumen/badge
+            if (window.location.pathname === '/carrito') {
+                location.reload();
+            } else {
+                onCarritoCambiado();
+            }
+        })
+        .catch(() => alert('Error al actualizar cantidad'));
 }
 
 /* Eliminar un producto individual del carrito */
@@ -181,5 +235,13 @@ function eliminarProducto(btn) {
             id_producto: btn.dataset.producto
         })
     })
-        .then(() => location.reload());
+        .then(res => res.json())
+        .then(data => {
+            if (window.location.pathname === '/carrito') {
+                location.reload();
+            } else {
+                onCarritoCambiado();
+            }
+        })
+        .catch(() => alert('Error al eliminar producto'));
 }

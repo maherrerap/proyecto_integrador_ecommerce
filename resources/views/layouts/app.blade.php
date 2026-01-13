@@ -27,10 +27,11 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-coldtech fw-semibold" href="{{ route('producto.index') }}">Productos</a>
-                    </li>
+                    </li> 
+                    <!--             
                     <li class="nav-item">
                         <a class="nav-link nav-link-coldtech fw-semibold" href="{{ route('contacto.index') }}">Contáctanos</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item position-relative">
                         <a class="nav-link nav-link-coldtech fw-semibold"
                         href="{{ route('carrito.index') }}">

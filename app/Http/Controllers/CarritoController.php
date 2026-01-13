@@ -30,6 +30,7 @@ class CarritoController extends Controller
             'pro_x_fac.pxf_cantidad', 
             'pro_x_fac.pxf_precio', 
             'pro_x_fac.pxf_subtotal')
+        ->orderBy('productos.id_producto', 'asc')
         ->get();
 
         // 3. Totales del carrito
@@ -127,6 +128,42 @@ class CarritoController extends Controller
         } catch (\Exception $e) {
             return response()->json(["ok" => false, "message" => "Error al realizar el pago"]); 
         }
+    }
+
+    // PARA MOSTRAR RESUMEN DEL CARRITO EN EL CATÁLOGO POR AJAX
+    public function resumen() {
+        $idCliente = session('idCliente', 'CLI0001');
+
+        // Obtener o crear carrito en ABI
+        $idrow = DB::selectOne("SELECT fn_get_or_create_carrito(?) AS id_factura", [$idCliente]);
+        $idFactura = $idrow?->id_factura;
+
+        // Obtener productos del carrito
+        $items = ProxFac::join('productos', 'productos.id_producto', '=', 'pro_x_fac.id_producto')
+        ->where('pro_x_fac.id_factura', $idFactura)
+        ->where('pro_x_fac.estado_pxf', 'ABI')
+        ->select('productos.id_producto', 
+            'productos.pro_descripcion', 
+            'productos.pro_imagen',
+            'pro_x_fac.pxf_cantidad', 
+            'pro_x_fac.pxf_precio', 
+            'pro_x_fac.pxf_subtotal')
+        ->orderBy('productos.id_producto', 'asc')
+        ->get();
+
+        $factura = Factura::where('id_factura', $idFactura) -> first();
+
+        // Cantidad total de unidades (sumatoria de cantidades)
+        $totalUnidades = $items -> sum('pxf_cantidad');
+
+        // Renderizar un partial (HTML) para inyectarlo en el sidebar
+        $html = view('carrito.resumen', compact('items', 'factura', 'totalUnidades'))->render();
+
+        return response()->json([
+            'ok' => true,
+            'html' => $html,
+            'totalUnidades' => $totalUnidades,
+        ]);
     }
 }
 
