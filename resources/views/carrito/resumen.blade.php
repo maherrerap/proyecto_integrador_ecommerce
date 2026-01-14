@@ -30,7 +30,7 @@
         <strong>Subtotal ({{ $totalUnidades }} productos):</strong>
     </p>
     <p class="fs-5 text-success fw-bold mb-0">
-        ${{ number_format((float)($factura->fac_subtotal ?? 0), 2) }}
+        ${{ number_format((float)($Carrito->fac_subtotal ?? 0), 2) }}
     </p>
 @endif
 

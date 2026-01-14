@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProxFac extends Model
+class ProxCar extends Model
 {
-    protected $table = 'pro_x_fac';
+    protected $table = 'ecommerce.pro_x_car';
     public $timestamps = false;
 
     protected $fillable = [
-        'id_factura',
+        'id_carrito',
         'id_producto',
         'pxf_cantidad',
         'pxf_precio',

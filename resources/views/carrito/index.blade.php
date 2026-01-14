@@ -26,7 +26,7 @@
         <div class="d-flex justify-content-end mb-3">
             <button id="btn-vaciar-carrito"
                     class="btn btn-outline-danger"
-                    data-factura="{{ $idFactura }}">
+                    data-carrito="{{ $idCarrito }}">
                 <i class="bi bi-trash"></i> Vaciar carrito
             </button>
         </div>
@@ -52,21 +52,21 @@
                 <div class="carrito-item-controles">
                     <button class="btn-minus"
                             data-producto="{{ $item->id_producto }}"
-                            data-factura="{{ $idFactura }}">−</button>
+                            data-carrito="{{ $idCarrito }}">−</button>
                     <span id="qty-{{ $item->id_producto }}"
                           class="carrito-item-cantidad">
                         {{ $item->pxf_cantidad }}
                     </span>
                     <button class="btn-plus"
                             data-producto="{{ $item->id_producto }}"
-                            data-factura="{{ $idFactura }}">+</button>
+                            data-carrito="{{ $idCarrito }}">+</button>
                 </div>
             </div>
             
             <!-- BOTÓN ELIMINAR -->
             <button class="btn-remove"
                     data-producto="{{ $item->id_producto }}"
-                    data-factura="{{ $idFactura }}">
+                    data-carrito="{{ $idCarrito }}">
                 <i class="bi bi-trash"></i>
             </button>
         </div>
@@ -85,19 +85,19 @@
             <div class="card-body carrito-totales-body">
                 <h5 class="fw-semibold mb-3">Sub-Total</h5>
                 <p class="carrito-subtotal">
-                    ${{ number_format($factura->fac_subtotal, 2) }}
+                    ${{ number_format($Carrito->fac_subtotal, 2) }}
                 </p>
                 <p class="text-muted carrito-iva">
-                    I.V.A. (15%): ${{ number_format($factura->fac_iva, 2) }}
+                    I.V.A. (15%): ${{ number_format($Carrito->fac_iva, 2) }}
                 </p>
                 <hr class="carrito-totales-hr">
                 <h4 class="fw-bold carrito-total">
-                    ${{ number_format($factura->fac_total, 2) }}
+                    ${{ number_format($Carrito->fac_total, 2) }}
                 </h4>
 
                 <button id="btn-aprobar-carrito"
                         class="btn btn-success w-100"
-                        data-factura="{{ $idFactura }}">
+                        data-carrito="{{ $idCarrito }}">
                     Pagar con tarjeta
                 </button>
             </div>

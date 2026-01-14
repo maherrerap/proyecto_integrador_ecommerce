@@ -4,17 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Factura extends Model
+class Carrito extends Model
 {
-    protected $table = 'facturas';
-    protected $primaryKey = 'id_factura';
+    protected $table = 'ecommerce.carrito';
+    protected $primaryKey = 'id_carrito';
     
     public $incrementing = false;
     protected $keyType = 'string';
     public $timestamps = false;
 
     protected $fillable = [
-        'id_factura',
+        'id_carrito',
         'id_cliente',
         'fac_subtotal',
         'fac_iva',
@@ -22,10 +22,11 @@ class Factura extends Model
         'fac_descripcion',
         'fac_fecha_hora',
         'fac_fecha_pago',
-        'fac_total'
+        'fac_total',
+        'id_factura_public'
     ];
 
     public function detalles() {
-        return $this -> hasMany(ProxFac::class, 'id_factura', 'id_factura');
+        return $this -> hasMany(ProxCar::class, 'id_carrito', 'id_carrito');
     }
 }

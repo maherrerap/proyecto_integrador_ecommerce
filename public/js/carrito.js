@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     },
                     body: JSON.stringify({
-                        id_factura: btnAprobar.dataset.factura
+                        id_carrito: btnAprobar.dataset.carrito
                     })
                 })
                     .then(res => res.json())
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     },
                     body: JSON.stringify({
-                        id_factura: btnVaciar.dataset.factura
+                        id_carrito: btnVaciar.dataset.carrito
                     })
                 })
                     .then(res => res.json())
@@ -226,7 +226,7 @@ document.addEventListener('click', e => {
 /* Actualizar cantidad de un producto en el carrito */
 function actualizarCantidad(btn, cambio) {
     const idProducto = btn.dataset.producto;
-    const idFactura = btn.dataset.factura;
+    const idCarrito = btn.dataset.carrito;
     const qtySpan = document.getElementById(`qty-${idProducto}`);
     if (!qtySpan) return;
 
@@ -240,7 +240,7 @@ function actualizarCantidad(btn, cambio) {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
         },
         body: JSON.stringify({
-            id_factura: idFactura,
+            id_carrito: idCarrito,
             id_producto: idProducto,
             cantidad: cantidad
         })
@@ -280,7 +280,7 @@ function eliminarProducto(btn) {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
             },
             body: JSON.stringify({
-                id_factura: btn.dataset.factura,
+                id_carrito: btn.dataset.carrito,
                 id_producto: btn.dataset.producto
             })
         })
