@@ -9,35 +9,45 @@ use App\Models\ProxCar;
 
 class CarritoController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
 
         // TODO: LOGIN CARRITO MATHEO (sesión temporal)
         $idCliente = session('idCliente', 'CLI0001');
+
+        // Obtener criterio de búsqueda
+        $criterio = trim((string) $request->get('criterio', ''));
 
         // 1. Obtener o crear carrito en estado ABI (con procedure)
         $idrow = DB::selectOne("SELECT ecommerce.fn_get_or_create_carrito_ecom(?) AS id_carrito", [$idCliente]);
         $idCarrito = $idrow?->id_carrito;
 
+        // 2. Obtener productos del carrito (Eloquent) con búsqueda
+        $query = ProxCar::join('public.productos', 'public.productos.id_producto', '=', 'ecommerce.pro_x_car.id_producto')
+            ->where('ecommerce.pro_x_car.id_carrito', $idCarrito)
+            ->where('ecommerce.pro_x_car.estado_pxf', 'ABI')
+            ->select('public.productos.id_producto', 
+                'public.productos.pro_descripcion', 
+                'public.productos.pro_imagen',
+                'ecommerce.pro_x_car.pxf_cantidad', 
+                'ecommerce.pro_x_car.pxf_precio', 
+                'ecommerce.pro_x_car.pxf_subtotal');
 
+        // Aplicar filtro de búsqueda si hay criterio
+        if ($criterio !== '') {
+            $like = '%' . $criterio . '%';
+            
+            $query->where(function ($q) use ($like) {
+                $q->whereRaw("unaccent(public.productos.pro_descripcion) ILIKE unaccent(?)", [$like])
+                ->orWhereRaw("unaccent(public.productos.id_producto) ILIKE unaccent(?)", [$like]);
+            });
+        }
 
-        // 2. Obtener productos del carrito (Eloquent)
-        $items = ProxCar::join('public.productos', 'public.productos.id_producto', '=', 'ecommerce.pro_x_car.id_producto')
-        ->where('ecommerce.pro_x_car.id_carrito', $idCarrito)
-        ->where('ecommerce.pro_x_car.estado_pxf', 'ABI')
-        ->select('public.productos.id_producto', 
-            'public.productos.pro_descripcion', 
-            'public.productos.pro_imagen',
-            'ecommerce.pro_x_car.pxf_cantidad', 
-            'ecommerce.pro_x_car.pxf_precio', 
-            'ecommerce.pro_x_car.pxf_subtotal')
-        ->orderBy('public.productos.id_producto', 'asc')
-        ->get();
+        $items = $query->orderBy('public.productos.id_producto', 'asc')->get();
 
         // 3. Totales del carrito
-        $Carrito = Carrito::where('id_carrito', $idCarrito) -> first();
-
-        // E RETORNA VISTA
-        return view('carrito.index', compact('items', 'Carrito', 'idCarrito'));
+        $Carrito = Carrito::where('id_carrito', $idCarrito)->first();
+        
+        return view('carrito.index', compact('items', 'Carrito', 'idCarrito', 'criterio'));
     }
 
     // F7.1. REGISTRAR VENTA

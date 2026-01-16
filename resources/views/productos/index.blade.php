@@ -16,7 +16,7 @@
                 <input
                     type="text"
                     name="criterio"
-                    value="{{ request('criterio') }}"
+                    value="{{ $criterio }}"
                     class="form-control buscador-productos"
                     placeholder="Buscar producto..."
                     aria-label="Buscar producto"
@@ -26,9 +26,16 @@
                 </button>
             </div>
 
-            <div class="mt-2 text-muted">
-                Sugerencia: no es necesario llenar toda la palabra del producto a buscar, solo escriba la porción que recuerde....
+            {{-- MENSAJE DE BÚSQUEDA ACTIVA --}}
+            @if(!empty($criterio))
+            <div class="mt-2 mb-2">
+                <span class="text-muted">Buscando: <strong>"{{ $criterio }}"</strong></span>
+                <a href="{{ route('producto.index') }}" class="btn btn-sm btn-outline-secondary ms-2">
+                    <i class="bi bi-x-circle"></i> Limpiar búsqueda
+                </a>
             </div>
+            @else
+            @endif
 
             {{-- TOPBAR: CATEGORÍAS + PAGINACIÓN --}}
             <div class="mt-3 catalog-topbar">
@@ -90,70 +97,76 @@
 
         {{-- PRODUCTOS --}}
         <div class="col-lg-9 col-md-8">
-            <div class="row g-4">
-                @forelse($productos as $producto)
-                    @php
-                        $id = $producto->id_producto ?? $producto->id ?? null;
+            
+            {{-- MENSAJE SI NO HAY RESULTADOS DE BÚSQUEDA --}}
+            @if($productos->count() == 0 && !empty($criterio))
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    No se encontraron productos que coincidan con "<strong>{{ $criterio }}</strong>".
+                    <a href="{{ route('producto.index') }}" class="alert-link">Ver todos los productos</a>
+                </div>
+            @elseif($productos->count() == 0)
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> 
+                    No hay productos disponibles en este momento.
+                </div>
+            @else
+                <div class="row g-4">
+                    @foreach($productos as $producto)
+                        @php
+                            $id = $producto->id_producto ?? $producto->id ?? null;
 
-                        $categoria = $producto->cat_descripcion
-                            ?? $producto->pro_categoria
-                            ?? 'Sin Categoría';
+                            $categoria = $producto->cat_descripcion
+                                ?? $producto->pro_categoria
+                                ?? 'Sin Categoría';
 
-                        $precio = $producto->pro_precio_venta ?? null;
-                        $stock = $producto->pro_saldo_final ?? 1;
-                        $agotado = is_numeric($stock) && (int)$stock <= 0;
+                            $precio = $producto->pro_precio_venta ?? null;
+                            $stock = $producto->pro_saldo_final ?? 1;
+                            $agotado = is_numeric($stock) && (int)$stock <= 0;
 
-                        $img = $producto->pro_imagen
-                            ? asset(ltrim($producto->pro_imagen, '/'))
-                            : asset('images/no-image.png');
+                            $img = $producto->pro_imagen
+                                ? asset(ltrim($producto->pro_imagen, '/'))
+                                : asset('images/no-image.png');
 
-                        $showUrl = $id ? route('producto.show', $id) : '#';
-                    @endphp
+                            $showUrl = $id ? route('producto.show', $id) : '#';
+                        @endphp
 
-                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                        <div class="card product-card h-100 position-relative">
-                            <div class="tag-categoria">{{ $categoria }}</div>
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                            <div class="card product-card h-100 position-relative">
+                                <div class="tag-categoria">{{ $categoria }}</div>
 
-                            <div class="product-img-wrap">
-                                <img src="{{ $img }}" alt="{{ $producto->pro_descripcion }}" class="product-img">
-                            </div>
-
-                            <div class="card-body d-flex flex-column text-center">
-                                <div class="mb-2">
-                                    {{ $producto->pro_descripcion }}
+                                <div class="product-img-wrap">
+                                    <img src="{{ $img }}" alt="{{ $producto->pro_descripcion }}" class="product-img">
                                 </div>
 
-                                <div class="price mb-3">
-                                    ${{ number_format((float)($precio ?? 0), 2, ',', '.') }}
-                                </div>
+                                <div class="card-body d-flex flex-column text-center">
+                                    <div class="mb-2">
+                                        {{ $producto->pro_descripcion }}
+                                    </div>
 
-                                <a href="{{ $showUrl }}"
-                                   class="btn {{ $agotado ? 'btn-secondary btn-agotado' : 'btn-primary' }} btn-detalle mt-auto">
-                                    Ver Detalles
-                                </a>
+                                    <div class="price mb-3">
+                                        ${{ number_format((float)($precio ?? 0), 2, ',', '.') }}
+                                    </div>
+
+                                    <a href="{{ $showUrl }}"
+                                       class="btn {{ $agotado ? 'btn-secondary btn-agotado' : 'btn-primary' }} btn-detalle mt-auto">
+                                        Ver Detalles
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @empty
-                    <div class="col-12">
-                        <div class="alert alert-warning mb-0">
-                            No hay productos para mostrar.
-                        </div>
-                    </div>
-                @endforelse
-            </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         {{-- SIDEBAR CARRITO --}}
         <div class="col-lg-3 col-md-4">
-            {{-- SIDEBAR CARRITO --}}
-            <div class="col-lg-3 col-md-4">
-                <aside class="card cart-card sticky-cart">
-                    <div class="card-body" id="cart-summary">
-                        <p class="mb-0 text-muted">Cargando carrito...</p>
-                    </div>
-                </aside>
-            </div>
+            <aside class="card cart-card sticky-cart">
+                <div class="card-body" id="cart-summary">
+                    <p class="mb-0 text-muted">Cargando carrito...</p>
+                </div>
+            </aside>
         </div>
     </div>
 </div>
