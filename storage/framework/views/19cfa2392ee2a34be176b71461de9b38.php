@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $__env->yieldContent('titulo','ColdMarket'); ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo e(asset('css/coldtech.css')); ?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+<body>
+<header class="header-coldtech">
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid d-flex align-items-center justify-content-between px-4">
+
+            <div class="d-flex align-items-center gap-4">
+                <a href="<?php echo e(route('portada.index')); ?>" class="d-flex align-items-center">
+                    <img src="<?php echo e(asset('images/cold_tech_logo.png')); ?>" alt="ColdTech Logo" class="header-logo">
+                </a>
+
+                <ul class="navbar-nav flex-row align-items-center mb-0 gap-4">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-coldtech fw-semibold" href="<?php echo e(route('portada.index')); ?>">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-coldtech fw-semibold" href="<?php echo e(route('producto.index')); ?>">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-coldtech fw-semibold" href="<?php echo e(route('contacto.index')); ?>">Contáctanos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo e(route('carrito.index')); ?>" class="nav-link text-light fw-semibold d-flex align-items-center" style="font-size:14px;">
+                            <img src="<?php echo e(asset('images/carrito.png')); ?>" alt="Carrito" style="height:22px; width:22px; margin-right:6px;">
+                            Carrito
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <form class="search-container" role="search">
+                    <input type="text" class="search-input" placeholder="Buscar producto, categoría o marca..." aria-label="Buscar producto">
+                    <button type="submit" class="search-btn">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+
+                <a href="<?php echo e(route('login.index')); ?>" class="btn btn-login-header fw-semibold">Iniciar sesión</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+
+<div class="container my-4">
+    <?php if(session('success')): ?>
+        <div class="alert alert-success"><?php echo e(session('success')); ?></div>
+    <?php endif; ?>
+    <?php echo $__env->yieldContent('contenido'); ?>
+</div>
+<!-- FOOTER -->
+<footer class="footer-coldtech">
+    <div class="footer-container">
+        <div class="footer-left">
+            <p id="texto_footer">
+                © 2025 ColdMarket Inc. | Todos los Derechos Reservados
+            </p>
+        </div>
+
+        <div class="footer-right">
+            <a href="#" class="footer-social">
+                <img src="<?php echo e(asset('images/facebook.png')); ?>" alt="Facebook" height="30">
+                <span>cuenta_facebook</span>
+            </a>
+
+            <a href="#" class="footer-social">
+                <img src="<?php echo e(asset('images/instagram.png')); ?>" alt="Instagram" height="30">
+                <span>cuenta_instagram</span>
+            </a>
+
+            <a href="#" class="footer-social">
+                <img src="<?php echo e(asset('images/X_logo.png')); ?>" alt="X" height="30">
+                <span>cuenta_X</span>
+            </a>
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+<?php /**PATH C:\Users\User\Herd\proyecto_integrador_ecommerce\resources\views/layouts/app.blade.php ENDPATH**/ ?>
