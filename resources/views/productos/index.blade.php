@@ -2,91 +2,72 @@
 @section('titulo', 'Productos')
 
 @section('contenido')
-    <div class="catalog-page">
+<div class="catalog-page">
 
-        {{-- TÍTULO --}}
-        <div class="mb-3">
-            <h1 class="catalog-title mb-3">CATÁLOGO DE PRODUCTOS</h1>
+    {{-- TÍTULO --}}
+    <div class="mb-3">
+        <h1 class="catalog-title mb-3">CATÁLOGO DE PRODUCTOS</h1>
+
+        {{-- BUSCADOR + CATEGORÍAS (para que funcione el filtro) --}}
+        <form method="GET" action="{{ route('producto.index') }}" id="filtrosForm">
 
             {{-- BUSCADOR --}}
-            <form method="GET" action="{{ route('producto.index') }}" class="search-container catalog-search" role="search">
+            <div class="search-container catalog-search" role="search">
                 <input
                     type="text"
                     name="criterio"
-                    value="{{ request('criterio') }}"
-                    class="search-input"
-                    placeholder="Buscar producto, categoría o marca..."
+                    value="{{ $criterio }}"
+                    class="form-control buscador-productos"
+                    placeholder="Buscar producto..."
                     aria-label="Buscar producto"
                 >
                 <button type="submit" class="search-btn" aria-label="Buscar">
                     <i class="bi bi-search"></i>
                 </button>
-            </form>
-
-            <div class="mt-2 text-muted" style="font-size:13px;">
-                Sugerencia: usa palabras clave como ‘alimentos’, ‘ferretería’ o ‘ropa’ para mejores resultados.
             </div>
 
-            {{-- FILTROS --}}
+            {{-- MENSAJE DE BÚSQUEDA ACTIVA --}}
+            @if(!empty($criterio))
+            <div class="mt-2 mb-2">
+                <span class="text-muted">Buscando: <strong>"{{ $criterio }}"</strong></span>
+                <a href="{{ route('producto.index') }}" class="btn btn-sm btn-outline-secondary ms-2">
+                    <i class="bi bi-x-circle"></i> Limpiar búsqueda
+                </a>
+            </div>
+            @else
+            @endif
+
+            {{-- TOPBAR: CATEGORÍAS + PAGINACIÓN --}}
             <div class="mt-3 catalog-topbar">
 
-                {{-- IZQUIERDA: CATEGORÍAS + FILTROS --}}
+                {{-- IZQUIERDA: CATEGORÍAS --}}
                 <div class="filters-row d-flex flex-wrap align-items-center gap-3">
 
                     <div class="d-flex flex-wrap align-items-center">
-                        <span class="me-2" style="font-size:13px;color:#495057;">Categorías Disponibles:</span>
+                        <span class="me-2">Categorías Disponibles:</span>
 
                         @php
-                            $cats = [
-                                ['key'=>'Todos |  .','value'=>'ALL'],
-                                ['key'=>'Alimentos | .','value'=>'ALI'],
-                                ['key'=>'Ropa |  .','value'=>'RPA'],
-                                ['key'=>'Ferretería |  .','value'=>'FRR'],
-                                ['key'=>'Electrodomésticos','value'=>'ELE'],
-                            ];
                             $selectedCats = (array) request('categorias', []);
                         @endphp
 
-                        @foreach($cats as $c)
-                            @php
-                                $checked = $c['value']==='ALL'
-                                    ? (empty($selectedCats) || in_array('ALL',$selectedCats))
-                                    : in_array($c['value'],$selectedCats);
-                            @endphp
+                        {{-- TODOS --}}
+                        <label class="filter-pill mb-0">
+                            <input type="checkbox" id="chk_todos" {{ empty($selectedCats) ? 'checked' : '' }}>
+                            <span>Todos</span>
+                        </label>
+
+                        {{-- CATEGORÍAS REALES DESDE BD --}}
+                        @foreach($categorias as $cat)
                             <label class="filter-pill mb-0">
-                                <input type="checkbox" name="categorias[]" value="{{ $c['value'] }}"
-                                       {{ $checked ? 'checked' : '' }}
-                                       onchange="this.form.submit()">
-                                <span style="font-size:13px;">{{ $c['key'] }}</span>
+                                <input
+                                    type="checkbox"
+                                    name="categorias[]"
+                                    value="{{ $cat->id_categoria }}"
+                                    {{ in_array((string)$cat->id_categoria, array_map('strval', $selectedCats), true) ? 'checked' : '' }}
+                                >
+                                <span>{{ $cat->cat_descripcion }}</span>
                             </label>
                         @endforeach
-                    </div>
-
-                    <div class="d-flex flex-wrap align-items-center">
-                        <span class="me-2" style="font-size:13px;color:#495057;">Filtros Rápidos:</span>
-
-                        @php $quick = request('filtro',''); @endphp
-
-                        <label class="filter-pill mb-0">
-                            <input type="radio" name="filtro" value="mas_vendidos"
-                                   {{ $quick==='mas_vendidos' ? 'checked' : '' }}
-                                   onchange="this.form.submit()">
-                            <span style="font-size:13px;">Más Vendidos  |</span>
-                        </label>
-
-                        <label class="filter-pill mb-0">
-                            <input type="radio" name="filtro" value="novedades"
-                                   {{ $quick==='novedades' ? 'checked' : '' }}
-                                   onchange="this.form.submit()">
-                            <span style="font-size:13px;">Novedades  |</span>
-                        </label>
-
-                        <label class="filter-pill mb-0">
-                            <input type="radio" name="filtro" value=""
-                                   {{ $quick==='' ? 'checked' : '' }}
-                                   onchange="this.form.submit()">
-                            <span style="font-size:13px;">Todos</span>
-                        </label>
                     </div>
                 </div>
 
@@ -97,7 +78,7 @@
                     </a>
 
                     <div class="catalog-pager">
-                        {{ $productos->onEachSide(1)->links() }}
+                        {{ $productos->appends(request()->query())->onEachSide(1)->links() }}
                     </div>
 
                     <div class="mini-note">
@@ -108,27 +89,45 @@
                 </div>
 
             </div>
-        </div>
+        </form>
+    </div>
 
-        {{-- CONTENIDO --}}
-        <div class="row align-items-start">
+    {{-- CONTENIDO --}}
+    <div class="row align-items-start">
 
-            {{-- PRODUCTOS TODO: CAMBIAR LO DE CATEGORIA DESDE LA TABLA DE CATEGORIAS--}}
-            <div class="col-lg-9 col-md-8">
+        {{-- PRODUCTOS --}}
+        <div class="col-lg-9 col-md-8">
+            
+            {{-- MENSAJE SI NO HAY RESULTADOS DE BÚSQUEDA --}}
+            @if($productos->count() == 0 && !empty($criterio))
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    No se encontraron productos que coincidan con "<strong>{{ $criterio }}</strong>".
+                    <a href="{{ route('producto.index') }}" class="alert-link">Ver todos los productos</a>
+                </div>
+            @elseif($productos->count() == 0)
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> 
+                    No hay productos disponibles en este momento.
+                </div>
+            @else
                 <div class="row g-4">
-                    @forelse($productos as $producto)
+                    @foreach($productos as $producto)
                         @php
                             $id = $producto->id_producto ?? $producto->id ?? null;
-                            $categoria = $producto->categoria->cat_nombre
-                                ?? $producto->cat_nombre
+
+                            $categoria = $producto->cat_descripcion
                                 ?? $producto->pro_categoria
-                                ?? 'Alimentos';
+                                ?? 'Sin Categoría';
+
                             $precio = $producto->pro_precio_venta ?? null;
                             $stock = $producto->pro_saldo_final ?? 1;
                             $agotado = is_numeric($stock) && (int)$stock <= 0;
+
                             $img = $producto->pro_imagen
                                 ? asset(ltrim($producto->pro_imagen, '/'))
                                 : asset('images/no-image.png');
+
                             $showUrl = $id ? route('producto.show', $id) : '#';
                         @endphp
 
@@ -141,7 +140,7 @@
                                 </div>
 
                                 <div class="card-body d-flex flex-column text-center">
-                                    <div class="mb-2" style="font-size:18px;font-weight:700;color:#495057;">
+                                    <div class="mb-2">
                                         {{ $producto->pro_descripcion }}
                                     </div>
 
@@ -150,42 +149,57 @@
                                     </div>
 
                                     <a href="{{ $showUrl }}"
-                                       class="btn {{ $agotado ? 'btn-secondary' : 'btn-primary' }} btn-detalle mt-auto"
-                                        {{ $agotado ? 'style=pointer-events:none;opacity:.85;' : '' }}>
+                                       class="btn {{ $agotado ? 'btn-secondary btn-agotado' : 'btn-primary' }} btn-detalle mt-auto">
                                         Ver Detalles
                                     </a>
                                 </div>
                             </div>
                         </div>
-                    @empty
-                        <div class="col-12">
-                            <div class="alert alert-warning mb-0">
-                                No hay productos para mostrar.
-                            </div>
-                        </div>
-                    @endforelse
+                    @endforeach
                 </div>
-            </div>
+            @endif
+        </div>
 
-            {{-- SIDEBAR SOLO CARRITO --}}
-            <div class="col-lg-3 col-md-4">
-                <aside class="card cart-card sticky-cart">
-                    <div class="card-body">
-                        <h5 class="card-title mb-3"><strong>Tu Carrito</strong></h5>
-
-                        <p class="mb-2">Tu carrito está vacío.</p>
-                        <hr>
-
-                        <p class="mb-1"><strong>Subtotal (0 productos):</strong></p>
-                        <p class="fs-5 text-success fw-bold mb-0">$0.00</p>
-
-                        <button class="btn btn-warning w-100 fw-semibold mt-3">
-                            Ver Carrito Completo
-                        </button>
-                    </div>
-                </aside>
-            </div>
-
+        {{-- SIDEBAR CARRITO --}}
+        <div class="col-lg-3 col-md-4">
+            <aside class="card cart-card sticky-cart">
+                <div class="card-body" id="cart-summary">
+                    <p class="mb-0 text-muted">Cargando carrito...</p>
+                </div>
+            </aside>
         </div>
     </div>
+</div>
+
+{{-- JS: autosubmit + lógica de "Todos" --}}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('filtrosForm');
+  if (!form) return;
+
+  const chkTodos = document.getElementById('chk_todos');
+  const catChecks = form.querySelectorAll('input[name="categorias[]"]');
+
+  function syncTodos() {
+    const anyChecked = [...catChecks].some(c => c.checked);
+    chkTodos.checked = !anyChecked; // si no hay ninguna marcada => "Todos"
+  }
+
+  syncTodos();
+
+  chkTodos.addEventListener('change', () => {
+    if (chkTodos.checked) {
+      catChecks.forEach(c => c.checked = false);
+      form.submit();
+    }
+  });
+
+  catChecks.forEach(chk => {
+    chk.addEventListener('change', () => {
+      syncTodos();
+      form.submit();
+    });
+  });
+});
+</script>
 @endsection

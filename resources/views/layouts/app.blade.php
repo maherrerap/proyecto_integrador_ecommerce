@@ -27,12 +27,13 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-coldtech fw-semibold" href="{{ route('producto.index') }}">Productos</a>
-                    </li>
+                    </li> 
+                    <!--             
                     <li class="nav-item">
                         <a class="nav-link nav-link-coldtech fw-semibold" href="{{ route('contacto.index') }}">Contáctanos</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item position-relative">
-                        <a class="nav-link d-flex align-items-center"
+                        <a class="nav-link nav-link-coldtech fw-semibold"
                         href="{{ route('carrito.index') }}">
 
                             <i class="bi bi-cart3 fs-5"></i>
@@ -43,19 +44,13 @@
                                 style="font-size: 0.65rem; display: none;">
                                 0
                             </span>
+                            Carrito
                         </a>
                     </li>
                 </ul>
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <form class="search-container" role="search">
-                    <input type="text" class="search-input" placeholder="Buscar producto, categoría o marca..." aria-label="Buscar producto">
-                    <button type="submit" class="search-btn">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </form>
-
                 <a href="{{ route('login.index') }}" class="btn btn-login-header fw-semibold">Iniciar sesión</a>
             </div>
         </div>
@@ -98,6 +93,7 @@
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/carrito.js') }}"></script>
 </body>
 </html>

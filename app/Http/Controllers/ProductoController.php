@@ -3,15 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
-    public function index() {
-        $productos = Producto::getProductos()->orderBy('id_producto')->paginate(20);
-        return view('productos.index', compact('productos'));
+    public function index(Request $request)
+    {
+        $criterio = trim((string) $request->get('criterio', ''));
+
+        // Para el filtro de categorías seleccionadas
+        $categoriasSeleccionadas = $request->input('categorias', []);
+        if(!is_array($categoriasSeleccionadas)) {
+            $categoriasSeleccionadas = [$categoriasSeleccionadas];
+        }
+
+        $categoriasSeleccionadas = array_values(array_filter(array_map('trim', $categoriasSeleccionadas)));
+
+        $categoriasSeleccionadas = array_values(array_diff($categoriasSeleccionadas, ['ALL']));
+        
+        $query = Producto::getProductos()
+            ->select('productos.*', 'c.cat_descripcion as cat_descripcion')
+            ->leftJoin('categoria as c', 'productos.id_categoria', '=', 'c.id_categoria')
+            ->orderBy('productos.id_producto');
+
+        // Filtro por categoria (si se selecciona)
+        if (!empty($categoriasSeleccionadas)) {
+            $query->whereIn('productos.id_categoria', $categoriasSeleccionadas);
+        }
+
+        // Solo se filtra si hay texto
+        if ($criterio !== '') {
+            $like = '%' . $criterio . '%';
+
+            $query->where(function ($q) use ($like) {
+                $q->whereRaw("unaccent(productos.pro_descripcion) ILIKE unaccent(?)", [$like])
+                ->orWhereRaw("unaccent(productos.id_producto) ILIKE unaccent(?)", [$like])
+                ->orWhereRaw("unaccent(c.cat_descripcion) ILIKE unaccent(?)", [$like]);
+            });
+        }
+
+        $productos = $query->paginate(20)->appends($request->query());
+
+        // Categorias para la vista
+        $categorias = Categoria::orderBy('cat_descripcion')
+    ->get(['id_categoria','cat_descripcion']);
+
+
+        return view('productos.index', compact('productos', 'categorias', 'categoriasSeleccionadas', 'criterio'));
     }
+
 
     public function create() {
         return view('productos.create');

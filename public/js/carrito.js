@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // BOTÓN AÑADIR AL CARRITO
+    // Al cargar cualquier página: badge + resumen (si existe el contenedor)
+    actualizarBadgeCarrito();
+    actualizarResumenCarrito();
+
+    // BOTÓN AÑADIR AL CARRITO (detalle producto)
     const btnAdd = document.getElementById('btn-add-cart');
     if (btnAdd) {
         btnAdd.addEventListener('click', () => {
@@ -23,8 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     if (data.ok) {
                         mostrarAlertaSuperior(data.message);
-                        actualizarBadgeCarrito();
+
+                        // Actualiza navbar + sidebar resumen
+                        onCarritoCambiado();
+
+                    } else {
+                        Swal.fire('Error', data.message || 'No se pudo añadir al carrito', 'error');
                     }
+                })
+                .catch(() => {
+                    Swal.fire('Error', 'Error de conexión al añadir al carrito', 'error');
                 });
         });
     }
@@ -33,27 +45,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAprobar = document.getElementById('btn-aprobar-carrito');
     if (btnAprobar) {
         btnAprobar.addEventListener('click', () => {
-            if (!confirm('¿Deseas confirmar el pago?')) return;
+            Swal.fire({
+                title: 'Confirmar pago',
+                text: '¿Deseas confirmar el pago de este carrito?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, pagar',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#198754'
+            }).then((result) => {
+                if (!result.isConfirmed) return;
 
-            fetch('/carrito/aprobar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({
-                    id_factura: btnAprobar.dataset.factura
+                fetch('/carrito/aprobar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        id_carrito: btnAprobar.dataset.carrito
+                    })
                 })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.ok) {
-                        alert(data.message);
-                        window.location.href = '/carrito';
-                    } else {
-                        alert(data.message);
-                    }
-                });
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Pago realizado',
+                                text: data.message,
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                window.location.href = '/carrito';
+                            });
+                        } else {
+                            Swal.fire('Error', data.message, 'error');
+                        }
+                    })
+                    .catch(() => {
+                        Swal.fire('Error', 'Error de conexión al procesar el pago', 'error');
+                    });
+            });
         });
     }
 
@@ -61,31 +93,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnVaciar = document.getElementById('btn-vaciar-carrito');
     if (btnVaciar) {
         btnVaciar.addEventListener('click', () => {
-            if (!confirm('¿Seguro que deseas vaciar el carrito?')) return;
+            Swal.fire({
+                title: '¿Vaciar carrito?',
+                text: 'Se eliminarán todos los productos del carrito',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, vaciar',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#d33'
+            }).then((result) => {
+                if (!result.isConfirmed) return;
 
-            fetch('/carrito/anular', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({
-                    id_factura: btnVaciar.dataset.factura
+                fetch('/carrito/anular', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        id_carrito: btnVaciar.dataset.carrito
+                    })
                 })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.ok) {
-                        alert(data.message);
-                        window.location.href = '/carrito';
-                    } else {
-                        alert(data.message || 'Error al vaciar el carrito');
-                    }
-                });
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Carrito vacío',
+                                text: data.message,
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                // Actualiza badge y resumen antes de recargar
+                                onCarritoCambiado();
+                                window.location.href = '/carrito';
+                            });
+                        } else {
+                            Swal.fire('Error', data.message || 'Error al vaciar el carrito', 'error');
+                        }
+                    })
+                    .catch(() => {
+                        Swal.fire('Error', 'Error de conexión al vaciar el carrito', 'error');
+                    });
+            });
         });
     }
 
 });
+
+/* ====== Helpers generales ====== */
+
+/* Llamar cuando el carrito cambió: badge + resumen */
+function onCarritoCambiado() {
+    actualizarBadgeCarrito();
+    actualizarResumenCarrito();
+}
 
 /* Actualizar badge del carrito en navbar */
 function actualizarBadgeCarrito() {
@@ -95,12 +157,32 @@ function actualizarBadgeCarrito() {
             const badge = document.getElementById('cart-count');
             if (!badge) return;
 
-            if (data.total > 0) {
+            if (Number(data.total) > 0) {
                 badge.textContent = data.total;
                 badge.style.display = 'inline-block';
             } else {
                 badge.style.display = 'none';
             }
+        })
+        .catch(() => { /* silencioso */ });
+}
+
+/* Actualizar el resumen del carrito (sidebar catálogo) */
+function actualizarResumenCarrito() {
+    const contenedor = document.getElementById('cart-summary');
+    if (!contenedor) return; // si no estás en catálogo, no hace nada
+
+    fetch('/carrito/resumen')
+        .then(res => res.json())
+        .then(data => {
+            if (!data || !data.ok) {
+                contenedor.innerHTML = `<p class="mb-0 text-muted">No se pudo cargar el carrito.</p>`;
+                return;
+            }
+            contenedor.innerHTML = data.html;
+        })
+        .catch(() => {
+            contenedor.innerHTML = `<p class="mb-0 text-muted">No se pudo cargar el carrito.</p>`;
         });
 }
 
@@ -116,7 +198,6 @@ function mostrarAlertaSuperior(mensaje) {
         </div>
     `;
 
-    // Auto ocultar después de 2 segundos
     setTimeout(() => {
         const alerta = contenedor.querySelector('.alert');
         if (alerta) alerta.remove();
@@ -145,10 +226,11 @@ document.addEventListener('click', e => {
 /* Actualizar cantidad de un producto en el carrito */
 function actualizarCantidad(btn, cambio) {
     const idProducto = btn.dataset.producto;
-    const idFactura = btn.dataset.factura;
+    const idCarrito = btn.dataset.carrito;
     const qtySpan = document.getElementById(`qty-${idProducto}`);
-    let cantidad = parseInt(qtySpan.textContent) + cambio;
+    if (!qtySpan) return;
 
+    let cantidad = parseInt(qtySpan.textContent) + cambio;
     if (cantidad < 1) return;
 
     fetch('/carrito/update-cantidad', {
@@ -158,28 +240,60 @@ function actualizarCantidad(btn, cambio) {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
         },
         body: JSON.stringify({
-            id_factura: idFactura,
+            id_carrito: idCarrito,
             id_producto: idProducto,
             cantidad: cantidad
         })
     })
-        .then(() => location.reload());
+        .then(res => res.json())
+        .then(data => {
+            // Si estás en /carrito, recarga porque se recalculan totales visuales
+            // Si no, solo refresca resumen/badge
+            if (window.location.pathname === '/carrito') {
+                location.reload();
+            } else {
+                onCarritoCambiado();
+            }
+        })
+        .catch(() => {
+            Swal.fire('Error', 'Error al actualizar cantidad', 'error');
+        });
 }
 
 /* Eliminar un producto individual del carrito */
 function eliminarProducto(btn) {
-    if (!confirm('¿Eliminar este producto del carrito?')) return;
+    Swal.fire({
+        title: 'Eliminar producto',
+        text: '¿Deseas eliminar este producto del carrito?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33'
+    }).then((result) => {
+        if (!result.isConfirmed) return;
 
-    fetch('/carrito/remove-producto', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            id_factura: btn.dataset.factura,
-            id_producto: btn.dataset.producto
+        fetch('/carrito/remove-producto', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                id_carrito: btn.dataset.carrito,
+                id_producto: btn.dataset.producto
+            })
         })
-    })
-        .then(() => location.reload());
+            .then(res => res.json())
+            .then(data => {
+                if (window.location.pathname === '/carrito') {
+                    location.reload();
+                } else {
+                    onCarritoCambiado();
+                }
+            })
+            .catch(() => {
+                Swal.fire('Error', 'Error al eliminar producto', 'error');
+            });
+    });
 }

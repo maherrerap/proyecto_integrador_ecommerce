@@ -26,7 +26,7 @@ Route::post('/carrito/remove-producto', [CarritoController::class, 'removeProduc
 Route::post('/carrito/anular', [CarritoController::class, 'anular'])->name('carrito.anular');
 Route::get('/carrito/count', [CarritoController::class, 'count'])->name('carrito.count');
 Route::post('/carrito/aprobar', [CarritoController::class, 'aprobar'])->name('carrito.aprobar');
-
+Route::get('/carrito/resumen', [CarritoController::class, 'resumen'])->name('carrito.resumen');
 
 
 /* RUTAS DE LOGIN */

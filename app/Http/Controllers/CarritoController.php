@@ -3,56 +3,49 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\Factura;
-use App\Models\ProxFac;
+use App\Models\Carrito;
+use App\Models\ProxCar;
 
 class CarritoController extends Controller
 {
-    public function index() {
-
-        // TODO: LOGIN CARRITO MATHEO (sesión temporal)
+    /**
+     * Muestra el carrito de compras
+     */
+    public function index(Request $request) {
+        // Obtener cliente de la sesión
         $idCliente = session('idCliente', 'CLI0001');
 
-        // 1. Obtener o crear carrito en estado ABI (con procedure)
-        $idrow = DB::selectOne("SELECT fn_get_or_create_carrito(?) AS id_factura", [$idCliente]);
-        $idFactura = $idrow?->id_factura;
+        // Obtener criterio de búsqueda
+        $criterio = trim((string) $request->get('criterio', ''));
 
+        // Obtener o crear carrito
+        $idCarrito = Carrito::obtenerOCrearCarrito($idCliente);
 
+        // Obtener productos del carrito (con búsqueda si aplica)
+        $items = ProxCar::obtenerProductosDelCarrito($idCarrito, $criterio);
 
-        // 2. Obtener productos del carrito (Eloquent)
-        $items = ProxFac::join('productos', 'productos.id_producto', '=', 'pro_x_fac.id_producto')
-        ->where('pro_x_fac.id_factura', $idFactura)
-        ->where('pro_x_fac.estado_pxf', 'ABI')
-        ->select('productos.id_producto', 
-            'productos.pro_descripcion', 
-            'productos.pro_imagen',
-            'pro_x_fac.pxf_cantidad', 
-            'pro_x_fac.pxf_precio', 
-            'pro_x_fac.pxf_subtotal')
-        ->get();
-
-        // 3. Totales del carrito
-        $factura = Factura::where('id_factura', $idFactura) -> first();
-
-        // E RETORNA VISTA
-        return view('carrito.index', compact('items', 'factura', 'idFactura'));
+        // Obtener totales del carrito
+        $Carrito = Carrito::obtenerPorId($idCarrito);
+        
+        return view('carrito.index', compact('items', 'Carrito', 'idCarrito', 'criterio'));
     }
 
-    // F7.1. REGISTRAR VENTA
+    /**
+     * Agrega un producto al carrito
+     */
     public function add(Request $request) {
-        $request -> validate([
+        $request->validate([
             "id_producto" => "required",
             "cantidad" => "required|integer|min:1",
         ]);
 
         $idCliente = session('idCliente', 'CLI0001');
 
-        // Obtener Carrito
-        $idFactura = DB::selectOne("SELECT fn_get_or_create_carrito(?) AS id_factura", [$idCliente]) -> id_factura;
+        // Obtener carrito del cliente
+        $idCarrito = Carrito::obtenerOCrearCarrito($idCliente);
 
-        // Llama al sp_carrito_add_item()
-        DB::selectOne("CALL sp_carrito_add_item(?, ?, ?)", [$idFactura, $request -> id_producto, $request -> cantidad]);
+        // Agregar producto al carrito
+        Carrito::agregarProducto($idCarrito, $request->id_producto, $request->cantidad);
 
         return response()->json([
             "ok" => true,
@@ -60,36 +53,48 @@ class CarritoController extends Controller
         ]);
     }
 
-    // F7.2. MODIFICACIÓN DE VENTA
+    /**
+     * Actualiza la cantidad de un producto en el carrito
+     */
     public function updateCantidad(Request $request) {
-        $request -> validate([
-            "id_factura" => "required",
+        $request->validate([
+            "id_carrito" => "required",
             "id_producto" => "required",
             "cantidad" => "required|integer|min:1",
         ]);
 
-        DB::statement("CALL sp_carrito_update_qty(?, ?, ?)",
-        [$request -> id_factura, 
-            $request -> id_producto, 
-            $request -> cantidad
-        ]
+        Carrito::actualizarCantidadProducto(
+            $request->id_carrito, 
+            $request->id_producto, 
+            $request->cantidad
         );
 
         return response()->json(["ok" => true]);
     }
 
-    // F7.2. MODIFICACIÓN DE VENTA (ELIMINAR PRODUCTO DEL CARRITO)
+    /**
+     * Elimina un producto del carrito
+     */
     public function removeProducto(Request $request) {
-        DB::statement("CALL sp_carrito_remove_item(?, ?)", [$request -> id_factura, $request -> id_producto]);
+        $request->validate([
+            "id_carrito" => "required",
+            "id_producto" => "required",
+        ]);
+
+        Carrito::eliminarProducto($request->id_carrito, $request->id_producto);
 
         return response()->json(["ok" => true]);
     }
 
-    // F7.3. INHABILITAR VENTA
+    /**
+     * Anula/vacía el carrito completo
+     */
     public function anular(Request $request) {
-        DB::statement("CALL anular_factura(?)", 
-        [$request -> id_factura]
-        );
+        $request->validate([
+            "id_carrito" => "required",
+        ]);
+
+        Carrito::anularCarrito($request->id_carrito);
 
         return response()->json([
             "ok" => true, 
@@ -97,37 +102,60 @@ class CarritoController extends Controller
         ]);
     }
 
-    // CONTADOR DE PRODUCTOS EN NAVBAR
+    /**
+     * Retorna el contador de productos en el carrito (para navbar)
+     */
     public function count() {
         $idCliente = session('idCliente', 'CLI0001');
 
-        $row = DB::selectOne(" 
-            SELECT COUNT(*) AS total
-            FROM pro_x_fac pxf
-            JOIN facturas f ON f.id_factura = pxf.id_factura
-            WHERE f.id_cliente = ?
-              AND f.estado_fac = 'ABI'
-              AND pxf.estado_pxf = 'ABI'
-        ", [$idCliente]);
+        $total = Carrito::contarProductos($idCliente);
 
-        return response()->json([
-            'total' => $row->total ?? 0
-        ]);
+        return response()->json(['total' => $total]);
     }
 
-    // APROBAR CARRITO DE COMPRAS (GENERA FACTURA EN APR Y ACTUALIZA EL STOCK)
+    /**
+     * Aprueba el carrito y genera la factura (realiza el pago)
+     */
     public function aprobar(Request $request) {
-        $request -> validate([
-            "id_factura" => "required",
+        $request->validate([
+            "id_carrito" => "required",
         ]);
 
         try {
-            DB::statement("CALL aprobar_factura(?)", [$request -> id_factura]);
-            return response()->json(["ok" => true, "message" => "Pago realizado correctamente"]); 
+            Carrito::aprobarYPagar($request->id_carrito);
+            
+            return response()->json([
+                "ok" => true, 
+                "message" => "Pago realizado correctamente"
+            ]); 
         } catch (\Exception $e) {
-            return response()->json(["ok" => false, "message" => "Error al realizar el pago"]); 
+            return response()->json([
+                "ok" => false, 
+                "message" => "Error al realizar el pago"
+            ], 500); 
         }
     }
+
+    /**
+     * Retorna el resumen del carrito en HTML (para sidebar Ajax)
+     */
+    public function resumen() {
+        $idCliente = session('idCliente', 'CLI0001');
+
+        // Obtener resumen completo del carrito
+        $resumen = Carrito::obtenerResumen($idCliente);
+
+        // Renderizar vista parcial
+        $html = view('carrito.resumen', [
+            'items' => $resumen['items'],
+            'Carrito' => $resumen['carrito'],
+            'totalUnidades' => $resumen['totalUnidades']
+        ])->render();
+
+        return response()->json([
+            'ok' => true,
+            'html' => $html,
+            'totalUnidades' => $resumen['totalUnidades'],
+        ]);
+    }
 }
-
-
