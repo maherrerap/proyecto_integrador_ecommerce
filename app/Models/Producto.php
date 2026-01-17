@@ -45,6 +45,6 @@ class Producto extends Model
     }
 
     public function detallesCarrito() {
-        return $this -> hasMany(ProxFac::class, 'id_producto', 'id_producto');
+        return $this -> hasMany(ProxCar::class, 'id_producto', 'id_producto');
     }
 }
