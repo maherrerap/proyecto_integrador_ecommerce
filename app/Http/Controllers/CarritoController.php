@@ -3,67 +3,49 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Carrito;
 use App\Models\ProxCar;
 
 class CarritoController extends Controller
 {
+    /**
+     * Muestra el carrito de compras
+     */
     public function index(Request $request) {
-
-        // TODO: LOGIN CARRITO MATHEO (sesión temporal)
+        // Obtener cliente de la sesión
         $idCliente = session('idCliente', 'CLI0001');
 
         // Obtener criterio de búsqueda
         $criterio = trim((string) $request->get('criterio', ''));
 
-        // 1. Obtener o crear carrito en estado ABI (con procedure)
-        $idrow = DB::selectOne("SELECT ecommerce.fn_get_or_create_carrito_ecom(?) AS id_carrito", [$idCliente]);
-        $idCarrito = $idrow?->id_carrito;
+        // Obtener o crear carrito
+        $idCarrito = Carrito::obtenerOCrearCarrito($idCliente);
 
-        // 2. Obtener productos del carrito (Eloquent) con búsqueda
-        $query = ProxCar::join('public.productos', 'public.productos.id_producto', '=', 'ecommerce.pro_x_car.id_producto')
-            ->where('ecommerce.pro_x_car.id_carrito', $idCarrito)
-            ->where('ecommerce.pro_x_car.estado_pxf', 'ABI')
-            ->select('public.productos.id_producto', 
-                'public.productos.pro_descripcion', 
-                'public.productos.pro_imagen',
-                'ecommerce.pro_x_car.pxf_cantidad', 
-                'ecommerce.pro_x_car.pxf_precio', 
-                'ecommerce.pro_x_car.pxf_subtotal');
+        // Obtener productos del carrito (con búsqueda si aplica)
+        $items = ProxCar::obtenerProductosDelCarrito($idCarrito, $criterio);
 
-        // Aplicar filtro de búsqueda si hay criterio
-        if ($criterio !== '') {
-            $like = '%' . $criterio . '%';
-            
-            $query->where(function ($q) use ($like) {
-                $q->whereRaw("unaccent(public.productos.pro_descripcion) ILIKE unaccent(?)", [$like])
-                ->orWhereRaw("unaccent(public.productos.id_producto) ILIKE unaccent(?)", [$like]);
-            });
-        }
-
-        $items = $query->orderBy('public.productos.id_producto', 'asc')->get();
-
-        // 3. Totales del carrito
-        $Carrito = Carrito::where('id_carrito', $idCarrito)->first();
+        // Obtener totales del carrito
+        $Carrito = Carrito::obtenerPorId($idCarrito);
         
         return view('carrito.index', compact('items', 'Carrito', 'idCarrito', 'criterio'));
     }
 
-    // F7.1. REGISTRAR VENTA
+    /**
+     * Agrega un producto al carrito
+     */
     public function add(Request $request) {
-        $request -> validate([
+        $request->validate([
             "id_producto" => "required",
             "cantidad" => "required|integer|min:1",
         ]);
 
         $idCliente = session('idCliente', 'CLI0001');
 
-        // Obtener Carrito
-        $idCarrito = DB::selectOne("SELECT ecommerce.fn_get_or_create_carrito_ecom(?) AS id_carrito", [$idCliente]) -> id_carrito;
+        // Obtener carrito del cliente
+        $idCarrito = Carrito::obtenerOCrearCarrito($idCliente);
 
-        // Llama al sp_carrito_add_item()
-        DB::selectOne("CALL ecommerce.sp_carrito_add_item_ecom(?, ?, ?)", [$idCarrito, $request -> id_producto, $request -> cantidad]);
+        // Agregar producto al carrito
+        Carrito::agregarProducto($idCarrito, $request->id_producto, $request->cantidad);
 
         return response()->json([
             "ok" => true,
@@ -71,36 +53,48 @@ class CarritoController extends Controller
         ]);
     }
 
-    // F7.2. MODIFICACIÓN DE VENTA
+    /**
+     * Actualiza la cantidad de un producto en el carrito
+     */
     public function updateCantidad(Request $request) {
-        $request -> validate([
+        $request->validate([
             "id_carrito" => "required",
             "id_producto" => "required",
             "cantidad" => "required|integer|min:1",
         ]);
 
-        DB::statement("CALL ecommerce.sp_carrito_update_qty_ecom(?, ?, ?)",
-        [$request -> id_carrito, 
-            $request -> id_producto, 
-            $request -> cantidad
-        ]
+        Carrito::actualizarCantidadProducto(
+            $request->id_carrito, 
+            $request->id_producto, 
+            $request->cantidad
         );
 
         return response()->json(["ok" => true]);
     }
 
-    // F7.2. MODIFICACIÓN DE VENTA (ELIMINAR PRODUCTO DEL CARRITO)
+    /**
+     * Elimina un producto del carrito
+     */
     public function removeProducto(Request $request) {
-        DB::statement("CALL ecommerce.sp_carrito_remove_item_ecom(?, ?)", [$request -> id_carrito, $request -> id_producto]);
+        $request->validate([
+            "id_carrito" => "required",
+            "id_producto" => "required",
+        ]);
+
+        Carrito::eliminarProducto($request->id_carrito, $request->id_producto);
 
         return response()->json(["ok" => true]);
     }
 
-    // F7.3. INHABILITAR VENTA
+    /**
+     * Anula/vacía el carrito completo
+     */
     public function anular(Request $request) {
-        DB::statement("CALL ecommerce.sp_anular_carrito_ecom(?)", 
-        [$request -> id_carrito]
-        );
+        $request->validate([
+            "id_carrito" => "required",
+        ]);
+
+        Carrito::anularCarrito($request->id_carrito);
 
         return response()->json([
             "ok" => true, 
@@ -108,73 +102,60 @@ class CarritoController extends Controller
         ]);
     }
 
-    // CONTADOR DE PRODUCTOS EN NAVBAR
+    /**
+     * Retorna el contador de productos en el carrito (para navbar)
+     */
     public function count() {
         $idCliente = session('idCliente', 'CLI0001');
 
-        $row = DB::selectOne(" 
-            SELECT COUNT(*) AS total
-            FROM ecommerce.pro_x_car pxc
-            JOIN ecommerce.carrito c ON c.id_carrito = pxc.id_carrito
-            WHERE c.id_cliente = ?
-              AND c.estado_fac = 'ABI'
-              AND pxc.estado_pxf = 'ABI'
-        ", [$idCliente]);
+        $total = Carrito::contarProductos($idCliente);
 
-        return response()->json([
-            'total' => $row->total ?? 0
-        ]);
+        return response()->json(['total' => $total]);
     }
 
-    // APROBAR CARRITO DE COMPRAS (GENERA FACTURA EN PAG Y ACTUALIZA EL STOCK)
+    /**
+     * Aprueba el carrito y genera la factura (realiza el pago)
+     */
     public function aprobar(Request $request) {
-        $request -> validate([
+        $request->validate([
             "id_carrito" => "required",
         ]);
 
         try {
-            DB::statement("CALL ecommerce.pagar_carrito_ecom(?)", [$request -> id_carrito]);
-            return response()->json(["ok" => true, "message" => "Pago realizado correctamente"]); 
+            Carrito::aprobarYPagar($request->id_carrito);
+            
+            return response()->json([
+                "ok" => true, 
+                "message" => "Pago realizado correctamente"
+            ]); 
         } catch (\Exception $e) {
-            return response()->json(["ok" => false, "message" => "Error al realizar el pago"]); 
+            return response()->json([
+                "ok" => false, 
+                "message" => "Error al realizar el pago"
+            ], 500); 
         }
     }
 
-    // PARA MOSTRAR RESUMEN DEL CARRITO EN EL CATÁLOGO POR AJAX
+    /**
+     * Retorna el resumen del carrito en HTML (para sidebar Ajax)
+     */
     public function resumen() {
         $idCliente = session('idCliente', 'CLI0001');
 
-        // Obtener o crear carrito en ABI
-        $idrow = DB::selectOne("SELECT ecommerce.fn_get_or_create_carrito_ecom(?) AS id_carrito", [$idCliente]);
-        $idCarrito = $idrow?->id_carrito;
+        // Obtener resumen completo del carrito
+        $resumen = Carrito::obtenerResumen($idCliente);
 
-        // Obtener productos del carrito
-        $items = ProxCar::join('public.productos', 'public.productos.id_producto', '=', 'ecommerce.pro_x_car.id_producto')
-        ->where('ecommerce.pro_x_car.id_carrito', $idCarrito)
-        ->where('ecommerce.pro_x_car.estado_pxf', 'ABI')
-        ->select('public.productos.id_producto', 
-            'public.productos.pro_descripcion', 
-            'public.productos.pro_imagen',
-            'ecommerce.pro_x_car.pxf_cantidad', 
-            'ecommerce.pro_x_car.pxf_precio', 
-            'ecommerce.pro_x_car.pxf_subtotal')
-        ->orderBy('public.productos.id_producto', 'asc')
-        ->get();
-
-        $Carrito = Carrito::where('id_carrito', $idCarrito) -> first();
-
-        // Cantidad total de unidades (sumatoria de cantidades)
-        $totalUnidades = $items -> sum('pxf_cantidad');
-
-        // Renderizar un partial (HTML) para inyectarlo en el sidebar
-        $html = view('carrito.resumen', compact('items', 'Carrito', 'totalUnidades'))->render();
+        // Renderizar vista parcial
+        $html = view('carrito.resumen', [
+            'items' => $resumen['items'],
+            'Carrito' => $resumen['carrito'],
+            'totalUnidades' => $resumen['totalUnidades']
+        ])->render();
 
         return response()->json([
             'ok' => true,
             'html' => $html,
-            'totalUnidades' => $totalUnidades,
+            'totalUnidades' => $resumen['totalUnidades'],
         ]);
     }
 }
-
-
