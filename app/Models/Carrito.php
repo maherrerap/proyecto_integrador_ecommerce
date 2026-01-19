@@ -103,17 +103,22 @@ class Carrito extends Model
     /**
      * Aprueba el carrito y genera la factura (realiza el pago)
      */
-    public static function aprobarYPagar($idCarrito) {
+    public static function aprobarYPagar($idCarrito)
+    {
         try {
-            DB::statement(
-                "CALL ecommerce.pagar_carrito_ecom(?)", 
+            $result = DB::select(
+                "SELECT ecommerce.pagar_carrito_ecom_fn(?) AS id_factura",
                 [$idCarrito]
             );
-            return true;
-        } catch (\Exception $e) {
-            throw $e;
+
+            return $result[0]->id_factura;
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Error controlado (stock insuficiente, carrito inválido, etc.)
+            throw new \Exception($e->getMessage());
         }
     }
+
 
     /**
      * Obtiene el resumen completo del carrito con productos y totales
