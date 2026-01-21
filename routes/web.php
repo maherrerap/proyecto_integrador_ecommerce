@@ -11,8 +11,16 @@ use App\Http\Controllers\ClienteController;
 /* RUTA DE INICIO (PORTADA) */
 Route::get('/', [PortadaController::class, 'index'])->name('portada.index');
 
-/* RUTAS DE PRODUCTOS */
-Route::resource('producto', ProductoController::class);
+/* RUTAS DE PRODUCTOS - ÁREA PÚBLICA (nombres en singular) */
+Route::resource('productos', ProductoController::class)->names([
+    'index' => 'producto.index',
+    'create' => 'producto.create',
+    'store' => 'producto.store',
+    'show' => 'producto.show',
+    'edit' => 'producto.edit',
+    'update' => 'producto.update',
+    'destroy' => 'producto.destroy',
+]);
 
 
 /* RUTAS DE CONTACTO */
@@ -41,10 +49,9 @@ Route::resource('login', LoginController::class);
     y dependientes. Esta sección se la trabaja en IS.
 */
 
-Route::prefix('admin') -> name('admin.')->group(function() {
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', fn() => view('admin.dashboard'))->name('dashboard');
 
-    Route::resource('clientes',ClienteController::class);
+    Route::resource('clientes', ClienteController::class);
     Route::resource('productos', ProductoController::class);
 });
-

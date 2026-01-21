@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    protected $table='productos';
-    protected $primaryKey='id_producto';
+    protected $table = 'productos';
+    protected $primaryKey = 'id_producto';
     protected $keyType = 'string';
     public $timestamps = false;
     public $incrementing = false;
@@ -29,22 +29,32 @@ class Producto extends Model
 
     ];
 
-    public function getRouteKeyName() {
+    public function getRouteKeyName()
+    {
         return 'id_producto';
     }
 
     // CAMBIAR A QUE SEAN TODOS LOS ESTADOS
-    static public function getProductos() {
-        return Producto::where('estado_prod','ACT');
+    static public function getProductos()
+    {
+        return Producto::where('estado_prod', 'ACT');
     }
-    static public function getProductoById(array $request) {
+    static public function getProductoById(array $request)
+    {
         return self::create($request);
     }
-    static public function updateProducto(Producto $producto, array $data) {
+    static public function updateProducto(Producto $producto, array $data)
+    {
         return $producto->update($data);
     }
 
-    public function detallesCarrito() {
-        return $this -> hasMany(ProxCar::class, 'id_producto', 'id_producto');
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
+    }
+
+    public function detallesCarrito()
+    {
+        return $this->hasMany(ProxCar::class, 'id_producto', 'id_producto');
     }
 }

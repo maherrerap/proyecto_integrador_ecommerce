@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ asset('css/coldtech.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
 </head>
 
 <body>
@@ -32,16 +31,9 @@
                             <a class="nav-link nav-link-coldtech fw-semibold"
                                 href="{{ route('producto.index') }}">Productos</a>
                         </li>
-                        <!--             
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-coldtech fw-semibold" href="{{ route('contacto.index') }}">Contáctanos</a>
-                    </li> -->
                         <li class="nav-item position-relative">
                             <a class="nav-link nav-link-coldtech fw-semibold" href="{{ route('carrito.index') }}">
-
                                 <i class="bi bi-cart3 fs-5"></i>
-
-                                {{-- Badge cantidad --}}
                                 <span id="cart-count"
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                     style="font-size: 0.65rem; display: none;">
@@ -60,13 +52,12 @@
         </nav>
     </header>
 
+    {{-- Full-width content for landing page --}}
+    @if(session('success'))
+        <div class="alert alert-success container mt-4">{{session('success')}}</div>
+    @endif
+    @yield('contenido')
 
-    <div class="container my-4">
-        @if(session('success'))
-            <div class="alert alert-success">{{session('success')}}</div>
-        @endif
-        @yield('contenido')
-    </div>
     <!-- FOOTER -->
     <footer class="footer-coldtech">
         <div class="footer-container">
