@@ -24,10 +24,19 @@ Route::prefix('auth')->name('auth.')->group(function () {
     // Procesar login
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-    // Mostrar formulario de registro
+    // NUEVO: Mostrar formulario de verificación inicial (email y cédula)
+    Route::get('/register/verify', [AuthController::class, 'showRegisterVerify'])->name('showRegisterVerify');
+
+    // NUEVO: Procesar verificación de cliente
+    Route::post('/register/verify', [AuthController::class, 'verifyClient'])->name('verifyClient');
+
+    // NUEVO: Procesar registro de contraseña para cliente existente
+    Route::post('/register/password', [AuthController::class, 'registerPassword'])->name('registerPassword');
+
+    // Mostrar formulario de registro completo
     Route::get('/register', [AuthController::class, 'showRegister'])->name('showRegister');
 
-    // Procesar registro
+    // Procesar registro completo
     Route::post('/register', [AuthController::class, 'register'])->name('register');
 
     // Cerrar sesión

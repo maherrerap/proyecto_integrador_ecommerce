@@ -241,4 +241,87 @@ class User extends Model
             LIMIT 1
         ", [$idCliente]);
     }
+
+    /**
+     * Verifica si un cliente existe en public.clientes con email y cédula
+     * 
+     * @param string $email
+     * @param string $cedula
+     * @return array ['existe' => bool, 'cliente' => object|null, 'tiene_auth' => bool]
+     */
+    public static function verificarClienteExistente($email, $cedula)
+    {
+        $cliente = DB::selectOne("
+            SELECT 
+                id_cliente,
+                cli_nombre,
+                cli_ruc_ced,
+                cli_mail
+            FROM public.clientes
+            WHERE cli_mail = ?
+              AND cli_ruc_ced = ?
+              AND estado_cli = 'ACT'
+            LIMIT 1
+        ", [$email, $cedula]);
+
+        if ($cliente) {
+            // Verificar si ya tiene cuenta web
+            $tieneAuth = DB::selectOne("
+                SELECT id_auth
+                FROM ecommerce.web_clientes_auth
+                WHERE id_cliente = ?
+                LIMIT 1
+            ", [$cliente->id_cliente]);
+
+            return [
+                'existe' => true,
+                'cliente' => $cliente,
+                'tiene_auth' => $tieneAuth ? true : false
+            ];
+        }
+
+        return [
+            'existe' => false,
+            'cliente' => null,
+            'tiene_auth' => false
+        ];
+    }
+
+    /**
+     * Registra solo la autenticación web de un cliente existente
+     * 
+     * @param string $idCliente
+     * @param string $email
+     * @param string $password
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public static function registrarAuthCliente($idCliente, $email, $password)
+    {
+        try {
+            DB::statement("
+                INSERT INTO ecommerce.web_clientes_auth (
+                    id_cliente,
+                    email_login,
+                    password_hash,
+                    estado,
+                    created_at
+                ) VALUES (?, ?, ?, 'ACT', NOW())
+            ", [
+                $idCliente,
+                $email,
+                Hash::make($password)
+            ]);
+
+            return [
+                'success' => true,
+                'message' => 'Cuenta web creada correctamente'
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Error al crear cuenta web: ' . $e->getMessage()
+            ];
+        }
+    }
 }

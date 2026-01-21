@@ -63,7 +63,68 @@ class AuthController extends Controller
     }
 
     /**
-     * Muestra el formulario de registro
+     * Muestra la vista inicial de verificación (email y cédula)
+     */
+    public function showRegisterVerify()
+    {
+        // Si ya está autenticado, redirigir al catálogo
+        if (session()->has('idCliente')) {
+            return redirect()->route('producto.index');
+        }
+
+        return view('auth.register-verify');
+    }
+
+    /**
+     * Procesa la verificación de email y cédula
+     */
+    public function verifyClient(Request $request)
+    {
+        // Validar datos de entrada
+        $request->validate([
+            'cli_mail' => 'required|email|max:60',
+            'cli_ruc_ced' => [
+                'required',
+                'string',
+                'regex:/^[0-9]{10}$|^[0-9]{13}$/',
+            ],
+        ], [
+            'cli_mail.required' => 'El correo electrónico es obligatorio',
+            'cli_mail.email' => 'Ingrese un correo electrónico válido',
+            'cli_mail.max' => 'El correo electrónico no puede exceder 60 caracteres',
+            'cli_ruc_ced.required' => 'La cédula/RUC es obligatoria',
+            'cli_ruc_ced.regex' => 'La cédula debe tener 10 dígitos o el RUC 13 dígitos',
+        ]);
+
+        // Verificar si el cliente existe en public.clientes
+        $verificacion = User::verificarClienteExistente(
+            $request->cli_mail,
+            $request->cli_ruc_ced
+        );
+
+        if ($verificacion['existe']) {
+            // Verificar si ya tiene cuenta web
+            if ($verificacion['tiene_auth']) {
+                return back()->withErrors([
+                    'verify_error' => 'Este cliente ya tiene una cuenta web registrada. Por favor inicie sesión.'
+                ])->withInput();
+            }
+
+            // Cliente existe pero no tiene cuenta web - mostrar formulario de contraseña
+            return view('auth.register-password', [
+                'cliente' => $verificacion['cliente']
+            ]);
+        } else {
+            // Cliente NO existe - redirigir a registro completo
+            return redirect()->route('auth.showRegister')->with([
+                'pre_email' => $request->cli_mail,
+                'pre_cedula' => $request->cli_ruc_ced
+            ]);
+        }
+    }
+
+    /**
+     * Muestra el formulario de registro completo
      */
     public function showRegister()
     {
@@ -76,7 +137,57 @@ class AuthController extends Controller
     }
 
     /**
-     * Procesa el registro de un nuevo usuario
+     * Procesa el registro de contraseña para cliente existente
+     */
+    public function registerPassword(Request $request)
+    {
+        // Validar datos de entrada
+        $request->validate([
+            'id_cliente' => 'required|string',
+            'cli_mail' => 'required|email|max:60',
+            'password' => [
+                'required',
+                'string',
+                'min:10',
+                'regex:/^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+                'confirmed',
+            ],
+        ], [
+            'password.required' => 'La contraseña es obligatoria',
+            'password.min' => 'La contraseña debe tener al menos 10 caracteres',
+            'password.regex' => 'La contraseña debe contener al menos una mayúscula, un número y un carácter especial (@$!%*?&)',
+            'password.confirmed' => 'Las contraseñas no coinciden',
+        ]);
+
+        // Registrar autenticación web
+        $resultado = User::registrarAuthCliente(
+            $request->id_cliente,
+            $request->cli_mail,
+            $request->password
+        );
+
+        if (!$resultado['success']) {
+            return back()->withErrors([
+                'register_error' => $resultado['message']
+            ])->withInput();
+        }
+
+        // Iniciar sesión automáticamente
+        $usuarioRegistrado = User::obtenerPorIdCliente($request->id_cliente);
+
+        session([
+            'idCliente' => $usuarioRegistrado->id_cliente,
+            'nombreCliente' => $usuarioRegistrado->cli_nombre,
+            'emailCliente' => $usuarioRegistrado->email_login,
+            'autenticado' => true
+        ]);
+
+        // Redirigir al catálogo
+        return redirect()->route('producto.index')->with('success', '¡Cuenta creada exitosamente! Bienvenido ' . $usuarioRegistrado->cli_nombre);
+    }
+
+    /**
+     * Procesa el registro de un nuevo usuario completo
      */
     public function register(Request $request)
     {

@@ -91,7 +91,7 @@
 
                     <!-- Link a Registro -->
                     <div class="login-footer-center">
-                        <p>¿No tienes cuenta? <a href="{{ route('auth.showRegister') }}">Regístrate aquí</a></p>
+                        <p>¿No tienes cuenta? <a href="{{ route('auth.showRegisterVerify') }}">Regístrate aquí</a></p>
                     </div>
                 </div>
 

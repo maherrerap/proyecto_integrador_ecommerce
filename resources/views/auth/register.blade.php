@@ -7,7 +7,7 @@
             <!-- Header -->
             <div class="register-header-minimal">
                 <h2>Crear Cuenta</h2>
-                <p>Únete a ColdMarket y disfruta de nuestros productos</p>
+                <p>Completa todos los campos para registrarte</p>
             </div>
 
             <!-- Mensajes de Error General -->
@@ -43,7 +43,8 @@
                         <i class="bi bi-card-text"></i>
                         <input type="text" class="form-control-center @error('cli_ruc_ced') is-invalid @enderror"
                             id="cli_ruc_ced" name="cli_ruc_ced" placeholder="1234567890 o 1234567890001"
-                            value="{{ old('cli_ruc_ced') }}" pattern="[0-9]{10}|[0-9]{13}" maxlength="13" required>
+                            value="{{ old('cli_ruc_ced', session('pre_cedula', '')) }}" pattern="[0-9]{10}|[0-9]{13}"
+                            maxlength="13" required>
                     </div>
                     <span class="form-text-minimal">Ingrese 10 dígitos para cédula o 13 para RUC</span>
                     @error('cli_ruc_ced')
@@ -57,8 +58,8 @@
                     <div class="input-with-icon">
                         <i class="bi bi-envelope"></i>
                         <input type="email" class="form-control-center @error('cli_mail') is-invalid @enderror"
-                            id="cli_mail" name="cli_mail" placeholder="ejemplo@correo.com" value="{{ old('cli_mail') }}"
-                            maxlength="60" required>
+                            id="cli_mail" name="cli_mail" placeholder="ejemplo@correo.com"
+                            value="{{ old('cli_mail', session('pre_email', '')) }}" maxlength="60" required>
                     </div>
                     @error('cli_mail')
                         <span class="error-message">{{ $message }}</span>
