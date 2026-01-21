@@ -131,7 +131,7 @@ header,
     transform: translateY(-1px);
 }
 
-/* Animación de subrayado */
+/* Animación de subrayado de navbar */
 .nav-link-coldmarket::after {
     content: "";
     display: block;
