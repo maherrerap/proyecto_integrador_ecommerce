@@ -9,7 +9,7 @@ class Carrito extends Model
 {
     protected $table = 'ecommerce.carrito';
     protected $primaryKey = 'id_carrito';
-    
+
     public $incrementing = false;
     protected $keyType = 'string';
     public $timestamps = false;
@@ -31,15 +31,17 @@ class Carrito extends Model
      * Relación con los detalles del carito
      */
 
-    public function detalles() {
-        return $this -> hasMany(ProxCar::class, 'id_carrito', 'id_carrito');
+    public function detalles()
+    {
+        return $this->hasMany(ProxCar::class, 'id_carrito', 'id_carrito');
     }
 
     /**
      * Se obtiene o crea un carrito en estado ABI para un cliente
      */
 
-    public static function obtenerOCrearCarrito($idCliente) {
+    public static function obtenerOCrearCarrito($idCliente)
+    {
         $resultado = DB::selectOne("SELECT ecommerce.fn_get_or_create_carrito_ecom(?) AS id_carrito", [$idCliente]);
         return $resultado->id_carrito;
     }
@@ -48,7 +50,8 @@ class Carrito extends Model
      * Obtiene el carrito activo de un cliente con sus totales
      */
 
-    public static function obtenerPorId($idCarrito) {
+    public static function obtenerPorId($idCarrito)
+    {
         return self::where('id_carrito', $idCarrito)->first();
     }
 
@@ -56,7 +59,8 @@ class Carrito extends Model
      * Agrega un producto al carrito
      */
 
-    public static function agregarProducto($idCarrito, $idProducto, $cantidad) {
+    public static function agregarProducto($idCarrito, $idProducto, $cantidad)
+    {
         DB::selectOne("CALL ecommerce.sp_carrito_add_item_ecom(?, ?, ?)", [$idCarrito, $idProducto, $cantidad]);
     }
 
@@ -64,7 +68,8 @@ class Carrito extends Model
      * Actualiza la cantidad de un producto en el carrito
      */
 
-    public static function actualizarCantidadProducto($idCarrito, $idProducto, $cantidad) {
+    public static function actualizarCantidadProducto($idCarrito, $idProducto, $cantidad)
+    {
         DB::statement("CALL ecommerce.sp_carrito_update_qty_ecom(?, ?, ?)", [$idCarrito, $idProducto, $cantidad]);
     }
 
@@ -72,7 +77,8 @@ class Carrito extends Model
      * Elimina un producto del carrito
      */
 
-    public static function eliminarProducto($idCarrito, $idProducto) {
+    public static function eliminarProducto($idCarrito, $idProducto)
+    {
         DB::statement("CALL ecommerce.sp_carrito_remove_item_ecom(?, ?)", [$idCarrito, $idProducto]);
     }
 
@@ -80,14 +86,16 @@ class Carrito extends Model
      * Anula el carrito / Vaciar el Carrito
      */
 
-    public static function anularCarrito($idCarrito) {
+    public static function anularCarrito($idCarrito)
+    {
         DB::statement("CALL ecommerce.sp_anular_carrito_ecom(?)", [$idCarrito]);
     }
 
     /**
      * Cuenta el total de productos en el carrito activo de un cliente
      */
-    public static function contarProductos($idCliente) {
+    public static function contarProductos($idCliente)
+    {
         $resultado = DB::selectOne(" 
             SELECT COUNT(*) AS total
             FROM ecommerce.pro_x_car pxc
@@ -103,24 +111,30 @@ class Carrito extends Model
     /**
      * Aprueba el carrito y genera la factura (realiza el pago)
      */
-    public static function aprobarYPagar($idCarrito) {
+    public static function aprobarYPagar($idCarrito)
+    {
         try {
-            DB::statement(
-                "CALL ecommerce.pagar_carrito_ecom(?)", 
+            $result = DB::select(
+                "SELECT ecommerce.pagar_carrito_ecom_fn(?) AS id_factura",
                 [$idCarrito]
             );
-            return true;
-        } catch (\Exception $e) {
-            throw $e;
+
+            return $result[0]->id_factura;
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Error controlado (stock insuficiente, carrito inválido, etc.)
+            throw new \Exception($e->getMessage());
         }
     }
+
 
     /**
      * Obtiene el resumen completo del carrito con productos y totales
      */
-    public static function obtenerResumen($idCliente) {
+    public static function obtenerResumen($idCliente)
+    {
         $idCarrito = self::obtenerOCrearCarrito($idCliente);
-        
+
         $items = ProxCar::obtenerProductosDelCarrito($idCarrito);
         $carrito = self::obtenerPorId($idCarrito);
         $totalUnidades = $items->sum('pxf_cantidad');

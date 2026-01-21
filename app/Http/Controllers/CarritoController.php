@@ -11,9 +11,15 @@ class CarritoController extends Controller
     /**
      * Muestra el carrito de compras
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         // Obtener cliente de la sesión
-        $idCliente = session('idCliente', 'CLI0001');
+        if (!session()->has('idCliente')) {
+            return redirect()->route('auth.login')
+                ->with('warning', 'Debes iniciar sesión para acceder a esta función');
+        }
+
+        $idCliente = session('idCliente');
 
         // Obtener criterio de búsqueda
         $criterio = trim((string) $request->get('criterio', ''));
@@ -26,25 +32,30 @@ class CarritoController extends Controller
 
         // Obtener totales del carrito
         $Carrito = Carrito::obtenerPorId($idCarrito);
-        
+
         return view('carrito.index', compact('items', 'Carrito', 'idCarrito', 'criterio'));
     }
 
     /**
      * Agrega un producto al carrito
      */
-    public function add(Request $request) {
+    public function add(Request $request)
+    {
+        // Validar que el usuario esté autenticado
+        if (!session()->has('idCliente')) {
+            return response()->json([
+                "ok" => false,
+                "message" => "Debes iniciar sesión para agregar productos al carrito",
+            ], 401);
+        }
+
         $request->validate([
             "id_producto" => "required",
             "cantidad" => "required|integer|min:1",
         ]);
 
-        $idCliente = session('idCliente', 'CLI0001');
-
-        // Obtener carrito del cliente
+        $idCliente = session('idCliente');
         $idCarrito = Carrito::obtenerOCrearCarrito($idCliente);
-
-        // Agregar producto al carrito
         Carrito::agregarProducto($idCarrito, $request->id_producto, $request->cantidad);
 
         return response()->json([
@@ -56,7 +67,8 @@ class CarritoController extends Controller
     /**
      * Actualiza la cantidad de un producto en el carrito
      */
-    public function updateCantidad(Request $request) {
+    public function updateCantidad(Request $request)
+    {
         $request->validate([
             "id_carrito" => "required",
             "id_producto" => "required",
@@ -64,8 +76,8 @@ class CarritoController extends Controller
         ]);
 
         Carrito::actualizarCantidadProducto(
-            $request->id_carrito, 
-            $request->id_producto, 
+            $request->id_carrito,
+            $request->id_producto,
             $request->cantidad
         );
 
@@ -75,7 +87,8 @@ class CarritoController extends Controller
     /**
      * Elimina un producto del carrito
      */
-    public function removeProducto(Request $request) {
+    public function removeProducto(Request $request)
+    {
         $request->validate([
             "id_carrito" => "required",
             "id_producto" => "required",
@@ -89,7 +102,8 @@ class CarritoController extends Controller
     /**
      * Anula/vacía el carrito completo
      */
-    public function anular(Request $request) {
+    public function anular(Request $request)
+    {
         $request->validate([
             "id_carrito" => "required",
         ]);
@@ -97,50 +111,58 @@ class CarritoController extends Controller
         Carrito::anularCarrito($request->id_carrito);
 
         return response()->json([
-            "ok" => true, 
+            "ok" => true,
             "message" => "Carrito anulado correctamente"
         ]);
     }
 
-    /**
-     * Retorna el contador de productos en el carrito (para navbar)
-     */
-    public function count() {
-        $idCliente = session('idCliente', 'CLI0001');
+    public function count()
+    {
+        if (!session()->has('idCliente')) {
+            return response()->json(['total' => 0]);
+        }
+
+        $idCliente = session('idCliente');
 
         $total = Carrito::contarProductos($idCliente);
 
         return response()->json(['total' => $total]);
     }
 
-    /**
-     * Aprueba el carrito y genera la factura (realiza el pago)
-     */
-    public function aprobar(Request $request) {
+    public function aprobar(Request $request)
+    {
         $request->validate([
             "id_carrito" => "required",
         ]);
 
         try {
             Carrito::aprobarYPagar($request->id_carrito);
-            
+
             return response()->json([
-                "ok" => true, 
+                "ok" => true,
                 "message" => "Pago realizado correctamente"
-            ]); 
+            ]);
         } catch (\Exception $e) {
             return response()->json([
-                "ok" => false, 
+                "ok" => false,
                 "message" => "Error al realizar el pago"
-            ], 500); 
+            ], 500);
         }
     }
 
     /**
      * Retorna el resumen del carrito en HTML (para sidebar Ajax)
      */
-    public function resumen() {
-        $idCliente = session('idCliente', 'CLI0001');
+    public function resumen()
+    {
+        if (!session()->has('idCliente')) {
+            return response()->json([
+                'ok' => false,
+                'message' => 'No autenticado'
+            ], 401);
+        }
+
+        $idCliente = session('idCliente');
 
         // Obtener resumen completo del carrito
         $resumen = Carrito::obtenerResumen($idCliente);

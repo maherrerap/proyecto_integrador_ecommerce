@@ -1,0 +1,1847 @@
+/* ================
+   Coldmarket CSS
+   ================ */
+
+/* -------- RESET Y VARIABLES GLOBALES -------- */
+:root {
+    --coldmarket-bg: #0A1A2F;
+    --coldmarket-bg-hover: #102542;
+    --coldmarket-border: rgba(255, 255, 255, 0.08);
+    --coldmarket-text: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: #F8FAFB;
+    color: #0A1A2F;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 100px;
+}
+
+/* -------- TIPOGRAFÍA -------- */
+h1,
+h2,
+h3 {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    font-weight: 700;
+    color: #0A1A2F;
+    margin: 1rem;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #1E2024 !important;
+    letter-spacing: 11px;
+    text-transform: uppercase;
+    border-left: 6px solid #0037ba;
+    padding-left: 12px;
+    transition: all 0.3s ease;
+}
+
+h1:hover {
+    color: #00E0FF;
+    border-left-color: #007BFF;
+}
+
+nav a {
+    text-decoration: none;
+    color: #0A1A2F;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    max-width: 900px;
+    text-align: left;
+    margin: 0.1rem 0 0.1rem 1rem;
+}
+
+/* -------- HEADER / NAVBAR -------- */
+header,
+.header-coldmarket {
+    background: linear-gradient(135deg, #0A1A2F 0%, #0d2137 100%);
+    border-bottom: 1px solid rgba(0, 224, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.header-coldmarket,
+.header-coldmarket .navbar,
+.header-coldmarket .container-fluid {
+    overflow: visible;
+}
+
+.header-coldmarket .navbar {
+    min-height: 64px;
+    padding: 0.5rem 0;
+}
+
+.header-coldmarket .navbar-nav .nav-link {
+    line-height: 1;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+/* Logo */
+.header-logo {
+    height: 42px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 224, 255, 0.2));
+}
+
+.header-logo:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 4px 8px rgba(0, 224, 255, 0.4));
+}
+
+/* Links del navbar con efecto */
+.nav-link-coldmarket {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 8px 16px;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+}
+
+.nav-link-coldmarket:hover {
+    color: #ffffff !important;
+    background: rgba(0, 224, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+/* Animación de subrayado */
+.nav-link-coldmarket::after {
+    content: "";
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, #00E0FF 0%, #0099cc 100%);
+    width: 0;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.nav-link-coldmarket:hover::after {
+    width: 70%;
+}
+
+/* Icono del carrito */
+.nav-link-coldmarket i.bi-cart3 {
+    font-size: 1.1rem;
+    margin-right: 6px;
+    transition: transform 0.3s ease;
+}
+
+.nav-link-coldmarket:hover i.bi-cart3 {
+    transform: scale(1.1);
+}
+
+/* Badge del carrito */
+#cart-count {
+    font-size: 0.65rem;
+    padding: 0.25em 0.5em;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.4);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* Dropdown del usuario */
+.dropdown {
+    position: relative;
+}
+
+.dropdown .nav-link-coldmarket {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.dropdown .nav-link-coldmarket:hover {
+    background: rgba(0, 224, 255, 0.1);
+    border-color: rgba(0, 224, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.dropdown .nav-link-coldmarket::after {
+    display: none !important;
+}
+
+.dropdown .nav-link-coldmarket i.bi-person-circle {
+    font-size: 1.3rem;
+    color: #00E0FF;
+    transition: transform 0.3s ease;
+}
+
+.dropdown .nav-link-coldmarket:hover i.bi-person-circle {
+    transform: rotate(10deg);
+}
+
+/* Dropdown menu mejorado - VERSIÓN FINAL */
+.header-coldmarket .dropdown-menu.admin-dropdown {
+    background: linear-gradient(135deg, #0d2137 0%, #0A1A2F 100%) !important;
+    border: 1px solid rgba(0, 224, 255, 0.2) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+    border-radius: 12px !important;
+    padding: 0.5rem !important;
+    width: auto !important;
+    min-width: 180px !important;
+    max-width: 220px !important;
+    margin-top: 0.5rem !important;
+    left: auto !important;
+    right: 0 !important;
+    top: 100% !important;
+    transform: none !important;
+}
+
+.header-coldmarket .admin-dropdown .dropdown-item {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+    transition: all 0.3s ease !important;
+    border-radius: 8px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    white-space: nowrap !important;
+}
+
+.header-coldmarket .admin-dropdown .dropdown-item:hover,
+.header-coldmarket .admin-dropdown .dropdown-item:focus {
+    background: rgba(0, 224, 255, 0.1) !important;
+    color: #ffffff !important;
+    transform: translateX(4px);
+}
+
+.header-coldmarket .admin-dropdown .dropdown-item.text-danger {
+    color: #ff6b6b !important;
+}
+
+.header-coldmarket .admin-dropdown .dropdown-item.text-danger:hover {
+    background: rgba(255, 107, 107, 0.1) !important;
+    color: #ff5252 !important;
+}
+
+.header-coldmarket .admin-dropdown .dropdown-item i {
+    transition: transform 0.3s ease;
+    margin-right: 8px !important;
+}
+
+.header-coldmarket .admin-dropdown .dropdown-item:hover i {
+    transform: translateX(2px);
+}
+
+/* Botón de login */
+.btn-login-header {
+    font-size: 14px;
+    padding: 8px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 224, 255, 0.5);
+    background: rgba(0, 224, 255, 0.08);
+    color: #ffffff;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 224, 255, 0.15);
+}
+
+.btn-login-header:hover {
+    background: linear-gradient(135deg, #00E0FF 0%, #0099cc 100%);
+    color: #0A1A2F;
+    border-color: #00E0FF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 224, 255, 0.3);
+}
+
+.btn-login-header i {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-login-header:hover i {
+    transform: translateX(3px);
+}
+
+/* Navbar utilities */
+.navbar {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    box-shadow: none !important;
+}
+
+.container-fluid {
+    padding: 0 2rem !important;
+}
+
+.navbar-nav {
+    gap: 0.5rem !important;
+    align-items: center !important;
+}
+
+.navbar .dropdown-menu {
+    position: absolute;
+    z-index: 2000;
+}
+
+/* Responsivo */
+@media (max-width: 992px) {
+    .header-coldmarket .navbar {
+        min-height: 56px;
+    }
+
+    .header-logo {
+        height: 36px;
+    }
+
+    .container-fluid {
+        padding: 0 1rem !important;
+    }
+
+    .navbar-nav {
+        gap: 0.25rem !important;
+    }
+
+    .nav-link-coldmarket {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+}
+
+/* -------- BUSCADOR -------- */
+.search-container {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    background: #fff;
+    border-radius: 22px;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 13px;
+    padding: 0 0.5rem;
+}
+
+.search-btn {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+.catalog-search {
+    width: 100%;
+    max-width: 500px;
+}
+
+/* -------- PRODUCTOS GRID -------- */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: start;
+    padding: 1rem 0;
+}
+
+/* -------- TARJETAS DE PRODUCTO -------- */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 320px;
+    height: 420px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 2px solid #E0E6ED;
+    border-radius: 14px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.25);
+    border-color: #0A1A2F;
+}
+
+.product-card img,
+.product-img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    object-position: center;
+    background-color: #F8FAFB;
+    border-radius: 10px;
+    border: 1px solid #E1E5EA;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.product-img-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0A1A2F;
+    margin: 0.5rem 0;
+}
+
+.product-card p,
+.price {
+    color: #007BFF;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.product-card a {
+    margin-top: auto;
+}
+
+.product-card .card-body>div:first-child {
+    font-size: 18px;
+    font-weight: 700;
+    color: #495057;
+}
+
+.tag-categoria {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #0A1A2F;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+.btn-detalle[style*="pointer-events:none"] {
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+/* -------- CARDS BOOTSTRAP -------- */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-text {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.card .btn {
+    align-self: center;
+    margin-top: auto;
+}
+
+.card .card-title {
+    text-align: center;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    padding: 10px;
+}
+
+/* -------- BOTONES -------- */
+.btn-primary {
+    background-color: #0A1A2F;
+    color: white;
+    font-weight: 600;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.25);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0A1A2F;
+    box-shadow: 0 6px 14px rgba(0, 224, 255, 0.3);
+}
+
+/* -------- ENLACES ALTERNATIVOS -------- */
+.alt-action {
+    margin-top: 1.5rem;
+}
+
+.alt-action a {
+    color: #1F6FEB;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.alt-action a:hover {
+    color: #33B7FF;
+    text-decoration: underline;
+}
+
+/* -------- CARRITO STICKY -------- */
+.sticky-cart {
+    position: sticky;
+    top: 120px;
+    z-index: 10;
+}
+
+.cart-card {
+    border: 1px solid #E0E6ED;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.cart-card .card-title {
+    color: #0A1A2F;
+    font-size: 1.2rem;
+}
+
+/* -------- PÁGINA DEL CARRITO DE COMPRAS -------- */
+.carrito-vacio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 75vh;
+}
+
+.carrito-vacio-img {
+    max-width: 300px;
+    margin-bottom: 1.5rem;
+}
+
+/* Item del carrito */
+.carrito-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: #ffffff;
+    border: 2px solid #d1d5db;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.carrito-item-imagen-wrapper {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
+    min-height: 120px;
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e5e7eb;
+    padding: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.carrito-item-imagen {
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    min-height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+}
+
+.carrito-item-detalles {
+    flex-grow: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.carrito-item-titulo {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #111827;
+    line-height: 1.4;
+}
+
+.carrito-item-precio {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.carrito-item-controles {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-minus,
+.btn-plus {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: #e5e7eb;
+    border-radius: 8px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #374151;
+    line-height: 1;
+    transition: background 0.2s ease;
+}
+
+.btn-minus:hover,
+.btn-plus:hover {
+    background: #d1d5db;
+}
+
+.carrito-item-cantidad {
+    min-width: 40px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #111827;
+}
+
+.btn-remove {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: #f3f4f6;
+    color: #6b7280;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: all 0.2s ease;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.btn-remove:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.btn-remove i {
+    pointer-events: none;
+}
+
+/* Card de totales */
+.carrito-totales-card {
+    max-height: 280px;
+    height: fit-content;
+}
+
+.carrito-totales-body {
+    padding: 1.5rem;
+}
+
+.carrito-subtotal {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.carrito-iva {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.carrito-totales-hr {
+    margin: 1rem 0;
+    border-color: #e5e7eb;
+}
+
+.carrito-total {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+/* -------- CATÁLOGO: BUSCADOR -------- */
+.buscador-productos {
+    border: none;
+    outline: none;
+}
+
+.catalog-search .text-muted {
+    font-size: 13px;
+}
+
+/* -------- CATÁLOGO: TOPBAR Y FILTROS -------- */
+.catalog-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: nowrap;
+}
+
+.catalog-topbar .filters-row {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.filters-row .me-2 {
+    font-size: 13px;
+    color: #495057;
+}
+
+.catalog-page .catalog-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.catalog-page .filters-block {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.catalog-page .filters-label {
+    font-size: 13px;
+    color: #495057;
+    min-width: 160px;
+}
+
+.catalog-page .filters-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+}
+
+.catalog-page .filter-pill,
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 13px;
+}
+
+.filter-pill span {
+    font-size: 13px;
+}
+
+/* -------- CATÁLOGO: NAVEGACIÓN DERECHA -------- */
+.catalog-page .catalog-right-top,
+.catalog-right-top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 18px;
+    width: fit-content;
+    margin-left: auto;
+    text-align: right;
+    font-size: 13px;
+    line-height: 1.3;
+    position: relative;
+    top: -65px;
+}
+
+.catalog-right-top .back-home,
+.catalog-right-top .mini-note {
+    display: block;
+    width: 100%;
+    text-align: right;
+}
+
+.catalog-page .back-home,
+.back-home {
+    font-style: italic;
+    color: #0A1A2F;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.mini-note {
+    font-size: 12px;
+    line-height: 1.25;
+    margin-top: 6px;
+}
+
+/* -------- PAGINACIÓN -------- */
+.catalog-page .catalog-pager .pagination,
+.catalog-pager .pagination {
+    margin: 0;
+    gap: 4px;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+}
+
+.catalog-page .catalog-pager .page-link,
+.catalog-pager .page-link {
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 12px;
+}
+
+.catalog-page .catalog-pager .page-item.active .page-link,
+.catalog-pager .page-item.active .page-link {
+    background: #0A1A2F;
+    border-color: #0A1A2F;
+}
+
+.catalog-page .catalog-pager p,
+.catalog-page .catalog-pager .small,
+.catalog-page .catalog-pager .text-sm {
+    display: none;
+}
+
+/* -------- AJUSTES CATÁLOGO -------- */
+.catalog-page .row.align-items-start {
+    margin-top: -80px;
+}
+
+/* -------- PÁGINA DE DETALLE DEL PRODUCTO -------- */
+.producto-detalle-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.producto-detalle-back {
+    margin-bottom: 14px;
+}
+
+.producto-detalle-back a {
+    text-decoration: none;
+    color: #0A1A2F;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.producto-detalle-back a:hover {
+    color: #007BFF;
+}
+
+.producto-detalle-grid {
+    display: grid;
+    grid-template-columns: 560px 1fr;
+    gap: 48px;
+}
+
+.producto-imagen-section {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.producto-imagen-wrapper {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.producto-imagen-principal {
+    width: 100%;
+    max-width: 480px;
+    height: 380px;
+    object-fit: contain;
+    margin: auto;
+    display: block;
+}
+
+.producto-titulo {
+    font-size: 28px;
+    margin: 0 0 8px;
+    color: #0A1A2F;
+    font-weight: 700;
+}
+
+.producto-precio {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 14px;
+    color: #007BFF;
+}
+
+.producto-stock-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0 18px;
+}
+
+/* Badges y textos de stock */
+.badge-stock {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+.texto-stock {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.stock-ok {
+    color: #0f7a3a;
+}
+
+.badge-stock.stock-ok {
+    background: #e9f8ef;
+    border-color: #bce9cb;
+}
+
+.stock-bajo {
+    color: #9a6b00;
+}
+
+.badge-stock.stock-bajo {
+    background: #fff6dd;
+    border-color: #ffe2a3;
+}
+
+.stock-agotado {
+    color: #b42318;
+}
+
+.badge-stock.stock-agotado {
+    background: #ffebe9;
+    border-color: #ffc7c2;
+}
+
+.btn-accion {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 0;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-accion:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    filter: grayscale(35%);
+}
+
+.btn-agotado {
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+/* -------- FOOTER -------- */
+.footer-coldmarket {
+    background: linear-gradient(180deg, #0A1A2F 0%, #1E2024 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid #A7B1BC;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 1rem;
+}
+
+.footer-left p {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    text-align: left;
+}
+
+.footer-right {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.footer-social img {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.footer-social:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+}
+
+.footer-social:hover {
+    color: #00E0FF;
+}
+
+#texto_footer {
+    color: white;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Resumen de Carrito de Compras en Catálogo ===== */
+
+/* Asegura que la columna del resumen no se haga micro */
+.sticky-cart {
+    width: 100%;
+    min-width: 320px;
+}
+
+/* Si el card se estaba encogiendo por un flex raro */
+.cart-card {
+    width: 100%;
+}
+
+/* Resumen sticky sin afectar el ancho*/
+.sticky-cart {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 120px);
+    overflow: auto;
+}
+
+/* Items del mini carrito */
+.cart-mini-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cart-mini-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.cart-mini-img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex: 0 0 auto;
+}
+
+.cart-mini-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.cart-mini-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    word-break: normal;
+    overflow-wrap: anywhere;
+}
+
+.cart-mini-qty {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+/* ========================================
+   LOGIN
+   ======================================== */
+
+/* Container del split layout */
+.login-split-container {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: #F8FAFB;
+    padding: 2rem;
+}
+
+/* Wrapper para ambos lados */
+.login-split-wrapper {
+    display: flex;
+    max-width: 1100px;
+    width: 100%;
+    max-height: 650px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Lado IZQUIERDO - Imagen decorativa */
+.login-split-image {
+    flex: 0 0 auto;
+    width: 50%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+}
+
+.login-split-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px 0 0 16px;
+}
+
+/* Lado DERECHO - Formulario */
+.login-split-form {
+    flex: 0 0 auto;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 3rem;
+    background-color: #FFFFFF;
+    position: relative;
+}
+
+/* Card del formulario de login */
+.login-card-center {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+}
+
+/* Header del login */
+.login-header-center {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header-center h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #1E2024;
+    margin: 0 0 0.25rem;
+    border: none;
+    padding: 0;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.login-header-center h3 {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #102542;
+    margin: 0;
+    border: none;
+    padding: 0;
+    letter-spacing: normal;
+}
+
+/* Micro-mensaje de valor */
+.login-value-prop {
+    font-size: 0.9rem;
+    color: #6B7280;
+    margin: 0.75rem 0 0 0;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+/* Form groups específicos para login */
+.login-card-center .form-group-center {
+    margin-bottom: 1.5rem;
+}
+
+.login-card-center .form-group-center label {
+    display: block;
+    font-weight: 600;
+    color: #1E2024;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+}
+
+/* Input con icono - específico para login */
+.login-card-center .input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.login-card-center .input-icon-left {
+    position: absolute;
+    left: 1rem;
+    color: #9CA3AF;
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Icono de validación (check verde) */
+.login-card-center .input-validation-icon {
+    position: absolute;
+    right: 1rem;
+    color: #059669;
+    font-size: 1rem;
+    pointer-events: none;
+    display: none;
+    z-index: 1;
+}
+
+/* Form controls específicos para login */
+.login-card-center .form-control-center {
+    width: 100%;
+    padding: 0.9rem 3rem 0.9rem 3rem;
+    border: 1px solid #D1D5DB;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: #1E2024;
+    background: #FFFFFF;
+    transition: all 0.3s ease;
+}
+
+.login-card-center .form-control-center::placeholder {
+    color: #9CA3AF;
+}
+
+/* Estado focus */
+.login-card-center .form-control-center:focus {
+    outline: none;
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Estado válido */
+.login-card-center .form-control-center.valid-input,
+.login-card-center .form-control-center.is-valid {
+    border-color: #059669;
+}
+
+/* Estado inválido */
+.login-card-center .form-control-center.invalid-input,
+.login-card-center .form-control-center.is-invalid {
+    border-color: #DC2626;
+}
+
+/* Toggle password */
+.login-card-center .toggle-password-center {
+    position: absolute;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: #9CA3AF;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+.login-card-center .toggle-password-center:hover {
+    color: #1E2024;
+}
+
+.login-card-center .toggle-password-center i {
+    pointer-events: none;
+}
+
+/* Mensajes de error inline pequeños */
+.login-card-center .inline-error-message {
+    display: block;
+    font-size: 0.75rem;
+    color: #EF4444;
+    margin-top: 0.3rem;
+    min-height: 1rem;
+}
+
+/* Mensajes de error estándar */
+.login-card-center .error-message {
+    display: block;
+    font-size: 0.85rem;
+    color: #DC2626;
+    margin-top: 0.4rem;
+}
+
+/* Botón Entrar */
+.btn-entrar {
+    width: 100%;
+    background: #0A1A2F;
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.btn-entrar:hover {
+    background: #102542;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10, 26, 47, 0.2);
+}
+
+/* Footer del login */
+.login-footer-center {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+}
+
+.login-footer-center p {
+    color: #6B7280;
+    margin: 0;
+}
+
+.login-footer-center a {
+    color: #102542;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.login-footer-center a:hover {
+    color: #102542;
+    text-decoration: underline;
+}
+
+/* Indicador de seguridad */
+.security-badge {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    color: #6B7280;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.security-badge i {
+    font-size: 0.85rem;
+    color: #059669;
+}
+
+/* Alertas en login */
+.login-card-center .alert {
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    border: none;
+}
+
+.login-card-center .alert-danger {
+    background: #FEE2E2;
+    color: #DC2626;
+}
+
+.login-card-center .alert-success {
+    background: #D1FAE5;
+    color: #059669;
+}
+
+.login-card-center .alert-warning {
+    background: #FEF3C7;
+    color: #D97706;
+}
+
+/* Responsive LOGIN */
+@media (max-width: 992px) {
+    .login-split-wrapper {
+        flex-direction: column;
+        max-width: 600px;
+        max-height: none;
+    }
+
+    .login-split-image {
+        width: 100%;
+        min-height: 250px;
+    }
+
+    .login-split-image img {
+        border-radius: 16px 16px 0 0;
+    }
+
+    .login-split-form {
+        width: 100%;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-split-image {
+        display: none;
+    }
+
+    .login-split-wrapper {
+        box-shadow: none;
+    }
+
+    .login-split-form .login-card-center {
+        padding: 1.5rem;
+    }
+
+    .login-header-center h2 {
+        font-size: 1.25rem;
+    }
+
+    .login-header-center h3 {
+        font-size: 1.5rem;
+    }
+
+    .security-badge {
+        bottom: 1rem;
+        right: 1.5rem;
+        font-size: 0.65rem;
+    }
+
+    .login-card-center .form-control-center {
+        padding: 0.8rem 2.5rem 0.8rem 2.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* ========================================
+   REGISTRO
+   ======================================== */
+
+/* Container principal del registro */
+.login-page-container {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: #F8FAFB;
+    padding: 2rem 1rem;
+}
+
+/* Card del registro */
+.register-card-minimal {
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    padding: 3rem 3.5rem;
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+/* Header del registro */
+.register-header-minimal {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.register-header-minimal h2 {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #102542;
+    margin: 0 0 0.75rem;
+    border: none;
+    padding: 0;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.register-header-minimal p {
+    font-size: 0.9rem;
+    color: #6B7280;
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+/* Form groups específicos para registro */
+.register-card-minimal .form-group-center {
+    margin-bottom: 1.5rem;
+}
+
+.register-card-minimal .form-group-center label {
+    display: block;
+    font-weight: 600;
+    color: #1E2024;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Input con icono - específico para registro */
+.register-card-minimal .input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.register-card-minimal .input-with-icon i {
+    position: absolute;
+    left: 1rem;
+    color: #9CA3AF;
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Form controls específicos para registro */
+.register-card-minimal .form-control-center {
+    width: 100%;
+    padding: 0.9rem 3rem 0.9rem 3rem;
+    border: 1px solid #D1D5DB;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: #1E2024;
+    background: #FFFFFF;
+    transition: all 0.3s ease;
+}
+
+.register-card-minimal .form-control-center::placeholder {
+    color: #9CA3AF;
+}
+
+/* Estado focus */
+.register-card-minimal .form-control-center:focus {
+    outline: none;
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Estado válido */
+.register-card-minimal .form-control-center.is-valid {
+    border-color: #059669;
+}
+
+/* Estado inválido */
+.register-card-minimal .form-control-center.is-invalid {
+    border-color: #DC2626;
+}
+
+/* Toggle password */
+.register-card-minimal .toggle-password-center {
+    position: absolute;
+    right: 1.5rem;
+    background: transparent;
+    border: none;
+    color: #9CA3AF;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+    z-index: 2;
+}
+
+.register-card-minimal .toggle-password-center:hover {
+    color: #1E2024;
+}
+
+.register-card-minimal .toggle-password-center i {
+    pointer-events: none;
+}
+
+/* Required asterisk */
+.required-minimal {
+    color: #DC2626;
+    font-weight: 700;
+}
+
+/* Form text hints */
+.form-text-minimal {
+    font-size: 0.75rem;
+    color: #6B7280;
+    margin-top: 0.3rem;
+    display: block;
+    font-weight: 400;
+}
+
+/* Mensajes de error estándar */
+.register-card-minimal .error-message {
+    display: block;
+    font-size: 0.85rem;
+    color: #DC2626;
+    margin-top: 0.4rem;
+}
+
+/* Password requirements list */
+.password-requirements-minimal {
+    font-size: 0.8rem;
+    color: #6B7280;
+    margin-top: 0.75rem;
+    padding-left: 0;
+    list-style: none;
+}
+
+.password-requirements-minimal li {
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.password-requirements-minimal .check {
+    color: #059669;
+}
+
+.password-requirements-minimal .uncheck {
+    color: #9CA3AF;
+}
+
+/* Botón de registro */
+.btn-register-minimal {
+    width: 100%;
+    background: #0A1A2F;
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-register-minimal:hover {
+    background: #102542;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10, 26, 47, 0.2);
+}
+
+.btn-register-minimal:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Footer del registro */
+.register-footer-minimal {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #E5E7EB;
+}
+
+.register-footer-minimal p {
+    font-size: 0.9rem;
+    color: #6B7280;
+    margin: 0;
+}
+
+.register-footer-minimal a {
+    color: #102542;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.register-footer-minimal a:hover {
+    color: #102542;
+    text-decoration: underline;
+}
+
+/* Alertas en registro */
+.register-card-minimal .alert {
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    border: none;
+}
+
+.register-card-minimal .alert-danger {
+    background: #FEE2E2;
+    color: #DC2626;
+}
+
+.register-card-minimal .alert-success {
+    background: #D1FAE5;
+    color: #059669;
+}
+
+/* Row para campos lado a lado - solo en registro */
+.register-card-minimal .row {
+    display: flex;
+    gap: 1.5rem;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.register-card-minimal .col-md-6 {
+    flex: 1;
+    padding: 0;
+}
+
+/* Responsive REGISTRO */
+@media (max-width: 768px) {
+    .register-card-minimal {
+        padding: 2.5rem 2rem;
+        max-width: 100%;
+    }
+
+    .register-header-minimal h2 {
+        font-size: 1.6rem;
+    }
+
+    .register-card-minimal .row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .register-card-minimal .col-md-6 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-page-container {
+        padding: 1rem 0.5rem;
+    }
+
+    .register-card-minimal {
+        padding: 2rem 1.5rem;
+        border-radius: 12px;
+    }
+
+    .register-header-minimal h2 {
+        font-size: 1.5rem;
+    }
+
+    .register-card-minimal .form-control-center {
+        padding: 0.8rem 2.5rem 0.8rem 2.5rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-register-minimal {
+        padding: 0.9rem;
+        font-size: 0.95rem;
+    }
+}

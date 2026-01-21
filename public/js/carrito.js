@@ -66,7 +66,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         id_carrito: btnAprobar.dataset.carrito
                     })
                 })
-                    .then(res => res.json())
+                    .then(res => {
+                        // Si la respuesta es 401 (no autenticado)
+                        if (res.status === 401) {
+                            return res.json().then(data => {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Sesión expirada',
+                                    text: data.message,
+                                    confirmButtonText: 'Ir a login'
+                                }).then(() => {
+                                    window.location.href = data.redirect;
+                                });
+                                throw new Error('No autenticado');
+                            });
+                        }
+                        return res.json();
+                    })
                     .then(data => {
                         if (data.ok) {
                             Swal.fire({
@@ -82,8 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             Swal.fire('Error', data.message, 'error');
                         }
                     })
-                    .catch(() => {
-                        Swal.fire('Error', 'Error de conexión al procesar el pago', 'error');
+                    .catch((err) => {
+                        if (err.message !== 'No autenticado') {
+                            Swal.fire('Error', 'Error de conexión al procesar el pago', 'error');
+                        }
                     });
             });
         });

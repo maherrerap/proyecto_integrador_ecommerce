@@ -1,30 +1,40 @@
 <?php $__env->startSection('titulo', 'Productos'); ?>
 
 <?php $__env->startSection('contenido'); ?>
-    <div class="catalog-page">
+<div class="catalog-page">
+
+    
+    <div class="mb-3">
+        <h1 class="catalog-title mb-3">CATÁLOGO DE PRODUCTOS</h1>
 
         
-        <div class="mb-3">
-            <h1 class="catalog-title mb-3">CATÁLOGO DE PRODUCTOS</h1>
+        <form method="GET" action="<?php echo e(route('producto.index')); ?>" id="filtrosForm">
 
             
-            <form method="GET" action="<?php echo e(route('producto.index')); ?>" class="search-container catalog-search" role="search">
+            <div class="search-container catalog-search" role="search">
                 <input
                     type="text"
                     name="criterio"
-                    value="<?php echo e(request('criterio')); ?>"
-                    class="search-input"
-                    placeholder="Buscar producto, categoría o marca..."
+                    value="<?php echo e($criterio); ?>"
+                    class="form-control buscador-productos"
+                    placeholder="Buscar producto..."
                     aria-label="Buscar producto"
                 >
                 <button type="submit" class="search-btn" aria-label="Buscar">
                     <i class="bi bi-search"></i>
                 </button>
-            </form>
-
-            <div class="mt-2 text-muted" style="font-size:13px;">
-                Sugerencia: usa palabras clave como ‘alimentos’, ‘ferretería’ o ‘ropa’ para mejores resultados.
             </div>
+
+            
+            <?php if(!empty($criterio)): ?>
+            <div class="mt-2 mb-2">
+                <span class="text-muted">Buscando: <strong>"<?php echo e($criterio); ?>"</strong></span>
+                <a href="<?php echo e(route('producto.index')); ?>" class="btn btn-sm btn-outline-secondary ms-2">
+                    <i class="bi bi-x-circle"></i> Limpiar búsqueda
+                </a>
+            </div>
+            <?php else: ?>
+            <?php endif; ?>
 
             
             <div class="mt-3 catalog-topbar">
@@ -33,63 +43,31 @@
                 <div class="filters-row d-flex flex-wrap align-items-center gap-3">
 
                     <div class="d-flex flex-wrap align-items-center">
-                        <span class="me-2" style="font-size:13px;color:#495057;">Categorías Disponibles:</span>
+                        <span class="me-2">Categorías Disponibles:</span>
 
                         <?php
-                            $cats = [
-                                ['key'=>'Todos |  .','value'=>'ALL'],
-                                ['key'=>'Alimentos | .','value'=>'ALI'],
-                                ['key'=>'Ropa |  .','value'=>'RPA'],
-                                ['key'=>'Ferretería |  .','value'=>'FRR'],
-                                ['key'=>'Electrodomésticos','value'=>'ELE'],
-                            ];
                             $selectedCats = (array) request('categorias', []);
                         ?>
 
-                        <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <?php
-                                $checked = $c['value']==='ALL'
-                                    ? (empty($selectedCats) || in_array('ALL',$selectedCats))
-                                    : in_array($c['value'],$selectedCats);
-                            ?>
-                            <label class="filter-pill mb-0">
-                                <input type="checkbox" name="categorias[]" value="<?php echo e($c['value']); ?>"
-                                       <?php echo e($checked ? 'checked' : ''); ?>
+                        
+                        <label class="filter-pill mb-0">
+                            <input type="checkbox" id="chk_todos" <?php echo e(empty($selectedCats) ? 'checked' : ''); ?>>
+                            <span>Todos</span>
+                        </label>
 
-                                       onchange="this.form.submit()">
-                                <span style="font-size:13px;"><?php echo e($c['key']); ?></span>
+                        
+                        <?php $__currentLoopData = $categorias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <label class="filter-pill mb-0">
+                                <input
+                                    type="checkbox"
+                                    name="categorias[]"
+                                    value="<?php echo e($cat->id_categoria); ?>"
+                                    <?php echo e(in_array((string)$cat->id_categoria, array_map('strval', $selectedCats), true) ? 'checked' : ''); ?>
+
+                                >
+                                <span><?php echo e($cat->cat_descripcion); ?></span>
                             </label>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </div>
-
-                    <div class="d-flex flex-wrap align-items-center">
-                        <span class="me-2" style="font-size:13px;color:#495057;">Filtros Rápidos:</span>
-
-                        <?php $quick = request('filtro',''); ?>
-
-                        <label class="filter-pill mb-0">
-                            <input type="radio" name="filtro" value="mas_vendidos"
-                                   <?php echo e($quick==='mas_vendidos' ? 'checked' : ''); ?>
-
-                                   onchange="this.form.submit()">
-                            <span style="font-size:13px;">Más Vendidos  |</span>
-                        </label>
-
-                        <label class="filter-pill mb-0">
-                            <input type="radio" name="filtro" value="novedades"
-                                   <?php echo e($quick==='novedades' ? 'checked' : ''); ?>
-
-                                   onchange="this.form.submit()">
-                            <span style="font-size:13px;">Novedades  |</span>
-                        </label>
-
-                        <label class="filter-pill mb-0">
-                            <input type="radio" name="filtro" value=""
-                                   <?php echo e($quick==='' ? 'checked' : ''); ?>
-
-                                   onchange="this.form.submit()">
-                            <span style="font-size:13px;">Todos</span>
-                        </label>
                     </div>
                 </div>
 
@@ -100,7 +78,7 @@
                     </a>
 
                     <div class="catalog-pager">
-                        <?php echo e($productos->onEachSide(1)->links()); ?>
+                        <?php echo e($productos->appends(request()->query())->onEachSide(1)->links()); ?>
 
                     </div>
 
@@ -112,27 +90,45 @@
                 </div>
 
             </div>
-        </div>
+        </form>
+    </div>
+
+    
+    <div class="row align-items-start">
 
         
-        <div class="row align-items-start">
-
+        <div class="col-lg-9 col-md-8">
             
-            <div class="col-lg-9 col-md-8">
+            
+            <?php if($productos->count() == 0 && !empty($criterio)): ?>
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    No se encontraron productos que coincidan con "<strong><?php echo e($criterio); ?></strong>".
+                    <a href="<?php echo e(route('producto.index')); ?>" class="alert-link">Ver todos los productos</a>
+                </div>
+            <?php elseif($productos->count() == 0): ?>
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> 
+                    No hay productos disponibles en este momento.
+                </div>
+            <?php else: ?>
                 <div class="row g-4">
-                    <?php $__empty_1 = true; $__currentLoopData = $productos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $producto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <?php $__currentLoopData = $productos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $producto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php
                             $id = $producto->id_producto ?? $producto->id ?? null;
-                            $categoria = $producto->categoria->cat_nombre
-                                ?? $producto->cat_nombre
+
+                            $categoria = $producto->cat_descripcion
                                 ?? $producto->pro_categoria
-                                ?? 'Alimentos';
+                                ?? 'Sin Categoría';
+
                             $precio = $producto->pro_precio_venta ?? null;
                             $stock = $producto->pro_saldo_final ?? 1;
                             $agotado = is_numeric($stock) && (int)$stock <= 0;
+
                             $img = $producto->pro_imagen
                                 ? asset(ltrim($producto->pro_imagen, '/'))
                                 : asset('images/no-image.png');
+
                             $showUrl = $id ? route('producto.show', $id) : '#';
                         ?>
 
@@ -145,7 +141,7 @@
                                 </div>
 
                                 <div class="card-body d-flex flex-column text-center">
-                                    <div class="mb-2" style="font-size:18px;font-weight:700;color:#495057;">
+                                    <div class="mb-2">
                                         <?php echo e($producto->pro_descripcion); ?>
 
                                     </div>
@@ -156,44 +152,58 @@
                                     </div>
 
                                     <a href="<?php echo e($showUrl); ?>"
-                                       class="btn <?php echo e($agotado ? 'btn-secondary' : 'btn-primary'); ?> btn-detalle mt-auto"
-                                        <?php echo e($agotado ? 'style=pointer-events:none;opacity:.85;' : ''); ?>>
+                                       class="btn <?php echo e($agotado ? 'btn-secondary btn-agotado' : 'btn-primary'); ?> btn-detalle mt-auto">
                                         Ver Detalles
                                     </a>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                        <div class="col-12">
-                            <div class="alert alert-warning mb-0">
-                                No hay productos para mostrar.
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
-            </div>
+            <?php endif; ?>
+        </div>
 
-            
-            <div class="col-lg-3 col-md-4">
-                <aside class="card cart-card sticky-cart">
-                    <div class="card-body">
-                        <h5 class="card-title mb-3"><strong>Tu Carrito</strong></h5>
-
-                        <p class="mb-2">Tu carrito está vacío.</p>
-                        <hr>
-
-                        <p class="mb-1"><strong>Subtotal (0 productos):</strong></p>
-                        <p class="fs-5 text-success fw-bold mb-0">$0.00</p>
-
-                        <button class="btn btn-warning w-100 fw-semibold mt-3">
-                            Ver Carrito Completo
-                        </button>
-                    </div>
-                </aside>
-            </div>
-
+        
+        <div class="col-lg-3 col-md-4">
+            <aside class="card cart-card sticky-cart">
+                <div class="card-body" id="cart-summary">
+                    <p class="mb-0 text-muted">Cargando carrito...</p>
+                </div>
+            </aside>
         </div>
     </div>
-<?php $__env->stopSection(); ?>
+</div>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('filtrosForm');
+  if (!form) return;
+
+  const chkTodos = document.getElementById('chk_todos');
+  const catChecks = form.querySelectorAll('input[name="categorias[]"]');
+
+  function syncTodos() {
+    const anyChecked = [...catChecks].some(c => c.checked);
+    chkTodos.checked = !anyChecked; // si no hay ninguna marcada => "Todos"
+  }
+
+  syncTodos();
+
+  chkTodos.addEventListener('change', () => {
+    if (chkTodos.checked) {
+      catChecks.forEach(c => c.checked = false);
+      form.submit();
+    }
+  });
+
+  catChecks.forEach(chk => {
+    chk.addEventListener('change', () => {
+      syncTodos();
+      form.submit();
+    });
+  });
+});
+</script>
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\User\Herd\proyecto_integrador_ecommerce\resources\views/productos/index.blade.php ENDPATH**/ ?>
