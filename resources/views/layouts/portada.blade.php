@@ -95,7 +95,7 @@
         <div class="footer-container">
             <div class="footer-left">
                 <p id="texto_footer">
-                    © 2025 ColdMarket Inc. | Todos los Derechos Reservados
+                    © 2026 ColdMarket Inc. | Todos los Derechos Reservados
                 </p>
             </div>
 
