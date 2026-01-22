@@ -45,7 +45,8 @@
                     <h2 class="section-title">Quiénes Somos</h2>
                     <p class="section-lead">
                         En <strong class="brand-highlight">Cold Market</strong>, nos dedicamos a ofrecerte los mejores
-                        productos de consumo diario, ropa, ferreteria y electr. Somos tu aliado confiable para mantener tu
+                        productos de consumo diario, ropa, ferreteria y electronicos. Somos tu aliado confiable para
+                        mantener tu
                         hogar
                         abastecido con alimentos, productos de calidad, garantizando frescura y los mejores precios del
                         mercado.

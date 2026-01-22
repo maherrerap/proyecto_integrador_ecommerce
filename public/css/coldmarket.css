@@ -1,12 +1,8 @@
-/* ================================================================================
-   COLDMARKET CSS - VERSIÓN OPTIMIZADA Y LIMPIA
-   Última actualización: 2026
-   ================================================================================ */
+/* ================
+   COLDMARKET CSS - VERSIÓN UNIFICADA COMPLETA
+   ================ */
 
-/* ================================================================================
-   1. RESET Y VARIABLES GLOBALES
-   ================================================================================ */
-
+/* -------- RESET Y VARIABLES GLOBALES -------- */
 :root {
     --coldmarket-bg: #0A1A2F;
     --coldmarket-bg-hover: #102542;
@@ -38,10 +34,12 @@ body {
     padding-bottom: 100px;
 }
 
-/* ================================================================================
-   2. TIPOGRAFÍA
-   ================================================================================ */
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
 
+/* -------- TIPOGRAFÍA -------- */
 h1,
 h2,
 h3 {
@@ -77,11 +75,9 @@ nav a {
     margin: 0.1rem 0 0.1rem 1rem;
 }
 
-/* ================================================================================
-   3. HEADER / NAVBAR
-   ================================================================================ */
-
+/* -------- HEADER / NAVBAR -------- */
 header,
+.header-coldmarket,
 .header-coldmarket {
     background: linear-gradient(135deg, #0A1A2F 0%, #0d2137 100%);
     border-bottom: 1px solid rgba(0, 224, 255, 0.1);
@@ -96,16 +92,21 @@ header,
 }
 
 .header-coldmarket,
+.header-coldmarket,
 .header-coldmarket .navbar,
+.header-coldmarket .navbar,
+.header-coldmarket .container-fluid,
 .header-coldmarket .container-fluid {
     overflow: visible;
 }
 
+.header-coldmarket .navbar,
 .header-coldmarket .navbar {
     min-height: 64px;
     padding: 0.5rem 0;
 }
 
+.header-coldmarket .navbar-nav .nav-link,
 .header-coldmarket .navbar-nav .nav-link {
     line-height: 1;
     padding-top: 0.75rem;
@@ -124,7 +125,8 @@ header,
     filter: drop-shadow(0 4px 8px rgba(0, 224, 255, 0.4));
 }
 
-/* Links del navbar */
+/* Links del navbar con efecto */
+.nav-link-coldmarket,
 .nav-link-coldmarket {
     font-size: 15px;
     color: rgba(255, 255, 255, 0.9) !important;
@@ -136,13 +138,15 @@ header,
     letter-spacing: 0.3px;
 }
 
+.nav-link-coldmarket:hover,
 .nav-link-coldmarket:hover {
     color: #ffffff !important;
     background: rgba(0, 224, 255, 0.08);
     transform: translateY(-1px);
 }
 
-/* Animación de subrayado del navbar */
+/* Animación de subrayado de navbar */
+.nav-link-coldmarket::after,
 .nav-link-coldmarket::after {
     content: "";
     display: block;
@@ -157,17 +161,20 @@ header,
     border-radius: 2px;
 }
 
+.nav-link-coldmarket:hover::after,
 .nav-link-coldmarket:hover::after {
     width: 70%;
 }
 
 /* Icono del carrito */
+.nav-link-coldmarket i.bi-cart3,
 .nav-link-coldmarket i.bi-cart3 {
     font-size: 1.1rem;
     margin-right: 6px;
     transition: transform 0.3s ease;
 }
 
+.nav-link-coldmarket:hover i.bi-cart3,
 .nav-link-coldmarket:hover i.bi-cart3 {
     transform: scale(1.1);
 }
@@ -197,6 +204,7 @@ header,
     position: relative;
 }
 
+.dropdown .nav-link-coldmarket,
 .dropdown .nav-link-coldmarket {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -205,27 +213,32 @@ header,
     transition: all 0.3s ease;
 }
 
+.dropdown .nav-link-coldmarket:hover,
 .dropdown .nav-link-coldmarket:hover {
     background: rgba(0, 224, 255, 0.1);
     border-color: rgba(0, 224, 255, 0.3);
     transform: translateY(-1px);
 }
 
+.dropdown .nav-link-coldmarket::after,
 .dropdown .nav-link-coldmarket::after {
     display: none !important;
 }
 
+.dropdown .nav-link-coldmarket i.bi-person-circle,
 .dropdown .nav-link-coldmarket i.bi-person-circle {
     font-size: 1.3rem;
     color: #00E0FF;
     transition: transform 0.3s ease;
 }
 
+.dropdown .nav-link-coldmarket:hover i.bi-person-circle,
 .dropdown .nav-link-coldmarket:hover i.bi-person-circle {
     transform: rotate(10deg);
 }
 
-/* Dropdown menu */
+/* Dropdown menu mejorado - VERSIÓN FINAL */
+.header-coldmarket .dropdown-menu.admin-dropdown,
 .header-coldmarket .dropdown-menu.admin-dropdown {
     background: linear-gradient(135deg, #0d2137 0%, #0A1A2F 100%) !important;
     border: 1px solid rgba(0, 224, 255, 0.2) !important;
@@ -242,6 +255,7 @@ header,
     transform: none !important;
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item,
 .header-coldmarket .admin-dropdown .dropdown-item {
     color: rgba(255, 255, 255, 0.9) !important;
     font-size: 14px !important;
@@ -255,26 +269,32 @@ header,
 }
 
 .header-coldmarket .admin-dropdown .dropdown-item:hover,
+.header-coldmarket .admin-dropdown .dropdown-item:hover,
+.header-coldmarket .admin-dropdown .dropdown-item:focus,
 .header-coldmarket .admin-dropdown .dropdown-item:focus {
     background: rgba(0, 224, 255, 0.1) !important;
     color: #ffffff !important;
     transform: translateX(4px);
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item.text-danger,
 .header-coldmarket .admin-dropdown .dropdown-item.text-danger {
     color: #ff6b6b !important;
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item.text-danger:hover,
 .header-coldmarket .admin-dropdown .dropdown-item.text-danger:hover {
     background: rgba(255, 107, 107, 0.1) !important;
     color: #ff5252 !important;
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item i,
 .header-coldmarket .admin-dropdown .dropdown-item i {
     transition: transform 0.3s ease;
     margin-right: 8px !important;
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item:hover i,
 .header-coldmarket .admin-dropdown .dropdown-item:hover i {
     transform: translateX(2px);
 }
@@ -334,8 +354,10 @@ header,
     z-index: 2000;
 }
 
-/* Responsive header/navbar */
+/* Responsivo header/navbar */
 @media (max-width: 992px) {
+
+    .header-coldmarket .navbar,
     .header-coldmarket .navbar {
         min-height: 56px;
     }
@@ -352,16 +374,14 @@ header,
         gap: 0.25rem !important;
     }
 
+    .nav-link-coldmarket,
     .nav-link-coldmarket {
         font-size: 13px;
         padding: 6px 12px;
     }
 }
 
-/* ================================================================================
-   4. BUSCADOR
-   ================================================================================ */
-
+/* -------- BUSCADOR -------- */
 .search-container {
     display: flex;
     align-items: center;
@@ -398,19 +418,151 @@ header,
     max-width: 500px;
 }
 
-.buscador-productos {
+/* ========================================
+   ESTILOS PARA PORTADA
+   ======================================== */
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #F8FAFB 0%, #E8EEF2 100%);
+    padding: 4rem 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    border-bottom: 2px solid #E0E6ED;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    color: #0A1A2F;
+    margin-bottom: 1rem;
+    font-weight: 700;
     border: none;
-    outline: none;
+    padding: 0;
+    letter-spacing: normal;
+    text-transform: none;
 }
 
-.catalog-search .text-muted {
-    font-size: 13px;
+.hero-content p {
+    font-size: 1.2rem;
+    color: #6B7280;
+    margin: 0;
+    line-height: 1.6;
 }
 
-/* ================================================================================
-   5. PRODUCTOS GRID Y TARJETAS
-   ================================================================================ */
+/* About Us Section */
+.about-us {
+    padding: 3rem 2rem;
+    background: #FFFFFF;
+    margin-bottom: 3rem;
+}
 
+.about-us .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #0A1A2F;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    border: none;
+    padding: 0;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.about-text {
+    font-size: 1.1rem;
+    color: #495057;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.about-card {
+    background: #F8FAFB;
+    border: 2px solid #E0E6ED;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.15);
+    border-color: #0A1A2F;
+}
+
+.about-card h3 {
+    font-size: 1.5rem;
+    color: #0A1A2F;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    border: none;
+    padding: 0;
+}
+
+.about-card p {
+    font-size: 1rem;
+    color: #6B7280;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.about-card.mission {
+    border-left: 4px solid #007BFF;
+}
+
+.about-card.vision {
+    border-left: 4px solid #00E0FF;
+}
+
+.about-card.values {
+    border-left: 4px solid #0A1A2F;
+}
+
+/* Productos Section (para portada) */
+.productos {
+    padding: 3rem 2rem;
+    background: #F8FAFB;
+}
+
+.productos .section-title {
+    margin-bottom: 2rem;
+}
+
+/* Responsivo portada */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* -------- PRODUCTOS GRID -------- */
 .productos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -420,6 +572,7 @@ header,
     padding: 1rem 0;
 }
 
+/* -------- TARJETAS DE PRODUCTO -------- */
 .product-card {
     display: flex;
     flex-direction: column;
@@ -506,7 +659,7 @@ header,
     opacity: 0.85;
 }
 
-/* Cards Bootstrap */
+/* -------- CARDS BOOTSTRAP -------- */
 .card {
     display: flex;
     flex-direction: column;
@@ -541,10 +694,7 @@ header,
     padding: 10px;
 }
 
-/* ================================================================================
-   6. BOTONES
-   ================================================================================ */
-
+/* -------- BOTONES -------- */
 .btn-primary {
     background-color: #0A1A2F;
     color: white;
@@ -562,7 +712,14 @@ header,
     box-shadow: 0 6px 14px rgba(0, 224, 255, 0.3);
 }
 
-/* Enlaces alternativos */
+/* Button Hover Effects Generales */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+/* -------- ENLACES ALTERNATIVOS -------- */
 .alt-action {
     margin-top: 1.5rem;
 }
@@ -579,10 +736,25 @@ header,
     text-decoration: underline;
 }
 
-/* ================================================================================
-   7. CARRITO DE COMPRAS - PÁGINA COMPLETA
-   ================================================================================ */
+/* -------- CARRITO STICKY -------- */
+.sticky-cart {
+    position: sticky;
+    top: 120px;
+    z-index: 10;
+}
 
+.cart-card {
+    border: 1px solid #E0E6ED;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.cart-card .card-title {
+    color: #0A1A2F;
+    font-size: 1.2rem;
+}
+
+/* -------- PÁGINA DEL CARRITO DE COMPRAS -------- */
 .carrito-vacio-container {
     display: flex;
     flex-direction: column;
@@ -770,75 +942,17 @@ header,
     margin-bottom: 1rem;
 }
 
-/* Resumen de carrito en catálogo (mini carrito) */
-.sticky-cart {
-    position: sticky;
-    top: 90px;
-    z-index: 10;
-    width: 100%;
-    min-width: 320px;
-    max-height: calc(100vh - 120px);
-    overflow: auto;
+/* -------- CATÁLOGO: BUSCADOR -------- */
+.buscador-productos {
+    border: none;
+    outline: none;
 }
 
-.cart-card {
-    width: 100%;
-    border: 1px solid #E0E6ED;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+.catalog-search .text-muted {
+    font-size: 13px;
 }
 
-.cart-card .card-title {
-    color: #0A1A2F;
-    font-size: 1.2rem;
-}
-
-.cart-mini-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.cart-mini-item {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    background: #fff;
-}
-
-.cart-mini-img {
-    width: 56px;
-    height: 56px;
-    object-fit: cover;
-    border-radius: 10px;
-    flex: 0 0 auto;
-}
-
-.cart-mini-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.cart-mini-name {
-    font-weight: 700;
-    font-size: 0.95rem;
-    line-height: 1.2;
-    word-break: normal;
-    overflow-wrap: anywhere;
-}
-
-.cart-mini-qty {
-    font-size: 0.85rem;
-    color: #6b7280;
-}
-
-/* ================================================================================
-   8. CATÁLOGO - TOPBAR, FILTROS Y PAGINACIÓN
-   ================================================================================ */
-
+/* -------- CATÁLOGO: TOPBAR Y FILTROS -------- */
 .catalog-topbar {
     display: flex;
     justify-content: space-between;
@@ -897,7 +1011,7 @@ header,
     font-size: 13px;
 }
 
-/* Navegación derecha del catálogo */
+/* -------- CATÁLOGO: NAVEGACIÓN DERECHA -------- */
 .catalog-page .catalog-right-top,
 .catalog-right-top {
     display: flex;
@@ -936,7 +1050,7 @@ header,
     margin-top: 6px;
 }
 
-/* Paginación */
+/* -------- PAGINACIÓN -------- */
 .catalog-page .catalog-pager .pagination,
 .catalog-pager .pagination {
     margin: 0;
@@ -964,15 +1078,12 @@ header,
     display: none;
 }
 
-/* Ajustes catálogo */
+/* -------- AJUSTES CATÁLOGO -------- */
 .catalog-page .row.align-items-start {
     margin-top: -80px;
 }
 
-/* ================================================================================
-   9. PÁGINA DE DETALLE DEL PRODUCTO
-   ================================================================================ */
-
+/* -------- PÁGINA DE DETALLE DEL PRODUCTO -------- */
 .producto-detalle-container {
     max-width: 1100px;
     margin: 0 auto;
@@ -1104,10 +1215,8 @@ header,
     opacity: 0.85;
 }
 
-/* ================================================================================
-   10. FOOTER
-   ================================================================================ */
-
+/* -------- FOOTER -------- */
+.footer-coldmarket,
 .footer-coldmarket {
     background: linear-gradient(180deg, #0A1A2F 0%, #1E2024 100%);
     color: white;
@@ -1174,10 +1283,89 @@ header,
     letter-spacing: 0.5px;
 }
 
-/* ================================================================================
-   11. LOGIN
-   ================================================================================ */
+/* Footer Links Hover */
+.footer-link:hover {
+    color: #00E0FF !important;
+    padding-left: 5px;
+    transition: all 0.3s ease;
+}
 
+/* Social Icons Hover */
+.social-icon:hover {
+    color: #00E0FF !important;
+    transform: translateY(-3px);
+    transition: all 0.3s ease;
+}
+
+/* ===== Resumen de Carrito de Compras en Catálogo ===== */
+
+/* Asegura que la columna del resumen no se haga micro */
+.sticky-cart {
+    width: 100%;
+    min-width: 320px;
+}
+
+/* Si el card se estaba encogiendo por un flex raro */
+.cart-card {
+    width: 100%;
+}
+
+/* Resumen sticky sin afectar el ancho*/
+.sticky-cart {
+    position: sticky;
+    top: 90px;
+    max-height: calc(100vh - 120px);
+    overflow: auto;
+}
+
+/* Items del mini carrito */
+.cart-mini-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cart-mini-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.cart-mini-img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex: 0 0 auto;
+}
+
+.cart-mini-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.cart-mini-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    word-break: normal;
+    overflow-wrap: anywhere;
+}
+
+.cart-mini-qty {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+/* ========================================
+   LOGIN
+   ======================================== */
+
+/* Container del split layout */
 .login-split-container {
     display: flex;
     min-height: 100vh;
@@ -1187,6 +1375,7 @@ header,
     padding: 2rem;
 }
 
+/* Wrapper para ambos lados */
 .login-split-wrapper {
     display: flex;
     max-width: 1100px;
@@ -1197,6 +1386,7 @@ header,
     overflow: hidden;
 }
 
+/* Lado IZQUIERDO - Imagen decorativa */
 .login-split-image {
     flex: 0 0 auto;
     width: 50%;
@@ -1215,6 +1405,7 @@ header,
     border-radius: 16px 0 0 16px;
 }
 
+/* Lado DERECHO - Formulario */
 .login-split-form {
     flex: 0 0 auto;
     width: 50%;
@@ -1226,6 +1417,7 @@ header,
     position: relative;
 }
 
+/* Card del formulario de login */
 .login-card-center {
     background: transparent;
     border-radius: 0;
@@ -1236,6 +1428,7 @@ header,
     position: relative;
 }
 
+/* Header del login */
 .login-header-center {
     text-align: center;
     margin-bottom: 2rem;
@@ -1262,6 +1455,7 @@ header,
     letter-spacing: normal;
 }
 
+/* Micro-mensaje de valor */
 .login-value-prop {
     font-size: 0.9rem;
     color: #6B7280;
@@ -1270,6 +1464,7 @@ header,
     line-height: 1.4;
 }
 
+/* Form groups específicos para login */
 .login-card-center .form-group-center {
     margin-bottom: 1.5rem;
 }
@@ -1282,6 +1477,7 @@ header,
     font-size: 0.9rem;
 }
 
+/* Input con icono - específico para login */
 .login-card-center .input-with-icon {
     position: relative;
     display: flex;
@@ -1297,6 +1493,7 @@ header,
     z-index: 1;
 }
 
+/* Icono de validación (check verde) */
 .login-card-center .input-validation-icon {
     position: absolute;
     right: 1rem;
@@ -1307,6 +1504,7 @@ header,
     z-index: 1;
 }
 
+/* Form controls específicos para login */
 .login-card-center .form-control-center {
     width: 100%;
     padding: 0.9rem 3rem 0.9rem 3rem;
@@ -1322,22 +1520,26 @@ header,
     color: #9CA3AF;
 }
 
+/* Estado focus */
 .login-card-center .form-control-center:focus {
     outline: none;
     border-color: #3B82F6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+/* Estado válido */
 .login-card-center .form-control-center.valid-input,
 .login-card-center .form-control-center.is-valid {
     border-color: #059669;
 }
 
+/* Estado inválido */
 .login-card-center .form-control-center.invalid-input,
 .login-card-center .form-control-center.is-invalid {
     border-color: #DC2626;
 }
 
+/* Toggle password */
 .login-card-center .toggle-password-center {
     position: absolute;
     right: 1rem;
@@ -1363,6 +1565,7 @@ header,
     pointer-events: none;
 }
 
+/* Mensajes de error inline pequeños */
 .login-card-center .inline-error-message {
     display: block;
     font-size: 0.75rem;
@@ -1371,6 +1574,7 @@ header,
     min-height: 1rem;
 }
 
+/* Mensajes de error estándar */
 .login-card-center .error-message {
     display: block;
     font-size: 0.85rem;
@@ -1378,6 +1582,7 @@ header,
     margin-top: 0.4rem;
 }
 
+/* Botón Entrar */
 .btn-entrar {
     width: 100%;
     background: #0A1A2F;
@@ -1398,6 +1603,7 @@ header,
     box-shadow: 0 4px 12px rgba(10, 26, 47, 0.2);
 }
 
+/* Footer del login */
 .login-footer-center {
     text-align: center;
     margin-top: 1.25rem;
@@ -1421,6 +1627,7 @@ header,
     text-decoration: underline;
 }
 
+/* Indicador de seguridad */
 .security-badge {
     position: absolute;
     bottom: 1.5rem;
@@ -1440,6 +1647,7 @@ header,
     color: #059669;
 }
 
+/* Alertas en login */
 .login-card-center .alert {
     border-radius: 10px;
     padding: 0.7rem 0.9rem;
@@ -1519,10 +1727,11 @@ header,
     }
 }
 
-/* ================================================================================
-   12. REGISTRO
-   ================================================================================ */
+/* ========================================
+   REGISTRO
+   ======================================== */
 
+/* Container principal del registro */
 .login-page-container {
     display: flex;
     min-height: 100vh;
@@ -1532,6 +1741,7 @@ header,
     padding: 2rem 1rem;
 }
 
+/* Card del registro */
 .register-card-minimal {
     background: #FFFFFF;
     border-radius: 16px;
@@ -1542,6 +1752,7 @@ header,
     margin: 0 auto;
 }
 
+/* Header del registro */
 .register-header-minimal {
     text-align: center;
     margin-bottom: 2.5rem;
@@ -1566,6 +1777,7 @@ header,
     line-height: 1.4;
 }
 
+/* Form groups específicos para registro */
 .register-card-minimal .form-group-center {
     margin-bottom: 1.5rem;
 }
@@ -1578,6 +1790,7 @@ header,
     font-size: 0.95rem;
 }
 
+/* Input con icono - específico para registro */
 .register-card-minimal .input-with-icon {
     position: relative;
     display: flex;
@@ -1593,6 +1806,7 @@ header,
     z-index: 1;
 }
 
+/* Form controls específicos para registro */
 .register-card-minimal .form-control-center {
     width: 100%;
     padding: 0.9rem 3rem 0.9rem 3rem;
@@ -1608,20 +1822,24 @@ header,
     color: #9CA3AF;
 }
 
+/* Estado focus */
 .register-card-minimal .form-control-center:focus {
     outline: none;
     border-color: #3B82F6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+/* Estado válido */
 .register-card-minimal .form-control-center.is-valid {
     border-color: #059669;
 }
 
+/* Estado inválido */
 .register-card-minimal .form-control-center.is-invalid {
     border-color: #DC2626;
 }
 
+/* Toggle password */
 .register-card-minimal .toggle-password-center {
     position: absolute;
     right: 1.5rem;
@@ -1646,11 +1864,13 @@ header,
     pointer-events: none;
 }
 
+/* Required asterisk */
 .required-minimal {
     color: #DC2626;
     font-weight: 700;
 }
 
+/* Form text hints */
 .form-text-minimal {
     font-size: 0.75rem;
     color: #6B7280;
@@ -1659,6 +1879,7 @@ header,
     font-weight: 400;
 }
 
+/* Mensajes de error estándar */
 .register-card-minimal .error-message {
     display: block;
     font-size: 0.85rem;
@@ -1666,6 +1887,7 @@ header,
     margin-top: 0.4rem;
 }
 
+/* Password requirements list */
 .password-requirements-minimal {
     font-size: 0.8rem;
     color: #6B7280;
@@ -1689,6 +1911,7 @@ header,
     color: #9CA3AF;
 }
 
+/* Botón de registro */
 .btn-register-minimal {
     width: 100%;
     background: #0A1A2F;
@@ -1719,6 +1942,7 @@ header,
     transform: none;
 }
 
+/* Footer del registro */
 .register-footer-minimal {
     text-align: center;
     margin-top: 2rem;
@@ -1744,6 +1968,7 @@ header,
     text-decoration: underline;
 }
 
+/* Alertas en registro */
 .register-card-minimal .alert {
     border-radius: 10px;
     padding: 0.85rem 1rem;
@@ -1762,6 +1987,7 @@ header,
     color: #059669;
 }
 
+/* Row para campos lado a lado - solo en registro */
 .register-card-minimal .row {
     display: flex;
     gap: 1.5rem;
@@ -1821,10 +2047,13 @@ header,
 }
 
 /* ================================================================================
-   13. PORTADA (LANDING PAGE)
+   ESTILOS ESPECÍFICOS DE LA PORTADA - COLDMARKET
    ================================================================================ */
 
-/* Hero Section */
+/* ========================================
+   HERO SECTION
+   ======================================== */
+
 .hero-section {
     height: 90vh;
     overflow: hidden;
@@ -1834,6 +2063,7 @@ header,
     position: relative;
 }
 
+/* Imagen de fondo del hero */
 .hero-image {
     background-image: url('../images/hero-background.jpg');
     background-size: cover;
@@ -1855,6 +2085,7 @@ header,
     }
 }
 
+/* Overlay oscuro del hero */
 .hero-overlay {
     background: linear-gradient(135deg, rgba(10, 26, 47, 0.85) 0%, rgba(0, 61, 130, 0.75) 100%);
     position: absolute;
@@ -1863,6 +2094,7 @@ header,
     z-index: 1;
 }
 
+/* Marca de agua del logo */
 .hero-watermark {
     position: absolute;
     top: 50%;
@@ -1880,6 +2112,7 @@ header,
     width: 100%;
 }
 
+/* Logo principal del hero */
 .hero-logo-container {
     position: absolute;
     top: 3rem;
@@ -1906,6 +2139,7 @@ header,
     }
 }
 
+/* Contenedor del contenido del hero */
 .hero-content-wrapper {
     position: relative;
     height: 100%;
@@ -1916,6 +2150,7 @@ header,
     z-index: 2;
 }
 
+/* Glass card (efecto glassmorfismo) */
 .glass-card {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
@@ -1939,6 +2174,7 @@ header,
     }
 }
 
+/* Título del hero */
 .hero-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
     letter-spacing: -1px;
@@ -1957,6 +2193,7 @@ header,
     text-shadow: 0 0 20px rgba(0, 224, 255, 0.3);
 }
 
+/* Subtítulo del hero */
 .hero-subtitle {
     font-weight: 300;
     line-height: 1.8;
@@ -1966,6 +2203,7 @@ header,
     color: rgba(255, 255, 255, 0.75);
 }
 
+/* Contenedor de CTA del hero */
 .hero-cta-container {
     display: flex;
     gap: 1rem;
@@ -1979,6 +2217,7 @@ header,
     }
 }
 
+/* Botón principal del hero */
 .btn-hero {
     background: linear-gradient(90deg, #00C6FF 0%, #0072FF 100%);
     color: white;
@@ -1997,7 +2236,10 @@ header,
     color: white;
 }
 
-/* About Section */
+/* ========================================
+   ABOUT SECTION (Quiénes Somos)
+   ======================================== */
+
 .about-section {
     padding: 3rem 2rem;
     background: #FFFFFF;
@@ -2042,7 +2284,10 @@ header,
     border-radius: 50rem;
 }
 
-/* Why Choose Us Section */
+/* ========================================
+   WHY CHOOSE US SECTION
+   ======================================== */
+
 .why-choose-section {
     padding: 3rem 2rem;
     background: #F8FAFB;
@@ -2076,7 +2321,10 @@ header,
     margin-bottom: 1rem;
 }
 
-/* Categories Section */
+/* ========================================
+   CATEGORIES SECTION
+   ======================================== */
+
 .categories-section {
     padding: 3rem 2rem;
     background: #FFFFFF;
@@ -2154,7 +2402,10 @@ header,
     box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
 }
 
-/* Featured Products Section */
+/* ========================================
+   FEATURED PRODUCTS SECTION
+   ======================================== */
+
 .featured-products-section {
     padding: 3rem 2rem;
     background: #F8FAFB;
@@ -2243,7 +2494,10 @@ header,
     border-radius: 50rem;
 }
 
-/* Testimonial Section */
+/* ========================================
+   TESTIMONIAL SECTION
+   ======================================== */
+
 .testimonial-section {
     padding: 3rem 2rem;
     background-color: #f8f9fa;
@@ -2282,7 +2536,10 @@ header,
     color: #6c757d;
 }
 
-/* Team Section */
+/* ========================================
+   TEAM SECTION
+   ======================================== */
+
 .team-section {
     padding: 3rem 2rem;
     background: #F8FAFB;
@@ -2351,7 +2608,10 @@ header,
     margin: 0;
 }
 
-/* Principles Section */
+/* ========================================
+   PRINCIPLES SECTION
+   ======================================== */
+
 .principles-section {
     padding: 3rem 2rem 10rem;
     background: #FFFFFF;
@@ -2426,16 +2686,52 @@ header,
     margin: 0;
 }
 
-/* Responsive - Portada */
+/* ========================================
+   ANIMACIONES Y EFECTOS HOVER ADICIONALES
+   ======================================== */
+
+/* Category Cards Hover Effects */
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.2) !important;
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Product Cards Hover */
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Principle Cards Hover */
+.principle-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 123, 255, 0.2) !important;
+}
+
+/* Team Cards Hover */
+.team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 123, 255, 0.25) !important;
+}
+
+/* ========================================
+   RESPONSIVE - HERO Y EFECTOS
+   ======================================== */
+
 @media (max-width: 992px) {
     .glass-card {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(8px) !important;
         padding: 2rem;
     }
 
     .hero-logo {
-        height: 50px;
+        height: 50px !important;
     }
 
     .hero-logo-container {
@@ -2446,7 +2742,7 @@ header,
 
 @media (max-width: 768px) {
     .hero-section {
-        height: 70vh;
+        height: 70vh !important;
     }
 
     .glass-card {
@@ -2461,7 +2757,7 @@ header,
 
 @media (max-width: 576px) {
     .hero-section {
-        height: 60vh;
+        height: 60vh !important;
     }
 
     .hero-logo-container {
@@ -2469,7 +2765,3 @@ header,
         left: 1.5rem;
     }
 }
-
-/* ================================================================================
-   FIN DEL ARCHIVO - COLDMARKET CSS OPTIMIZADO
-   ================================================================================ */

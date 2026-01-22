@@ -15,38 +15,70 @@
 
     <header class="header-coldmarket">
         <nav class="navbar navbar-dark">
-            <div class="container-fluid d-flex align-items-center justify-content-between px-4">
+            <div class="container-fluid d-flex align-items-center justify-content-between">
 
-                <div class="d-flex align-items-center gap-4">
+                <!-- Logo y navegación principal -->
+                <div class="d-flex align-items-center gap-3">
                     <a href="{{ route('portada.index') }}" class="d-flex align-items-center">
                         <img src="{{ asset('images/cold_tech_logo.png') }}" alt="coldmarket Logo" class="header-logo">
                     </a>
 
-                    <ul class="navbar-nav flex-row align-items-center mb-0 gap-4">
+                    <ul class="navbar-nav flex-row align-items-center mb-0">
                         <li class="nav-item">
-                            <a class="nav-link nav-link-coldmarket fw-semibold"
-                                href="{{ route('portada.index') }}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-coldmarket fw-semibold"
-                                href="{{ route('producto.index') }}">Productos</a>
-                        </li>
-                        <li class="nav-item position-relative">
-                            <a class="nav-link nav-link-coldmarket fw-semibold" href="{{ route('carrito.index') }}">
-                                <i class="bi bi-cart3 fs-5"></i>
-                                <span id="cart-count"
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                    style="font-size: 0.65rem; display: none;">
-                                    0
-                                </span>
-                                Carrito
+                            <a class="nav-link nav-link-coldmarket" href="{{ route('portada.index') }}">
+                                Inicio
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-coldmarket" href="{{ route('producto.index') }}">
+                                Productos
+                            </a>
+                        </li>
+
+                        @if(session('autenticado'))
+                            <li class="nav-item position-relative">
+                                <a class="nav-link nav-link-coldmarket" href="{{ route('carrito.index') }}">
+                                    <i class="bi bi-cart3"></i>
+                                    <span id="cart-count"
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        style="display: none;">
+                                        0
+                                    </span>
+                                    Carrito
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
 
-                <div class="d-flex align-items-center gap-3">
-                    <a href="{{ route('auth.login') }}" class="btn btn-login-header fw-semibold">Iniciar sesión</a>
+                <!-- Usuario / Login -->
+                <div class="d-flex align-items-center">
+                    @if(session('autenticado'))
+                        <!-- Usuario autenticado -->
+                        <div class="dropdown">
+                            <a class="nav-link nav-link-coldmarket dropdown-toggle d-flex align-items-center gap-2" href="#"
+                                role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                                <span>{{ session('nombreCliente') }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end admin-dropdown" aria-labelledby="userDropdown">
+                                <li>
+                                    <form action="{{ route('auth.logout') }}" method="POST" id="logoutForm">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <!-- Usuario NO autenticado -->
+                        <a href="{{ route('auth.login') }}" class="btn btn-login-header">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            <span>Iniciar sesión</span>
+                        </a>
+                    @endif
                 </div>
             </div>
         </nav>
