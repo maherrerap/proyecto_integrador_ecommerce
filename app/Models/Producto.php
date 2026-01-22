@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
+    // MEDIUM FIX #16: Constantes de estado
+    const STATUS_ACTIVE = 'ACT';
+    const STATUS_INACTIVE = 'INA';
+
     protected $table = 'productos';
     protected $primaryKey = 'id_producto';
     protected $keyType = 'string';
@@ -34,10 +38,16 @@ class Producto extends Model
         return 'id_producto';
     }
 
-    // CAMBIAR A QUE SEAN TODOS LOS ESTADOS
-    static public function getProductos()
+    // CRITICAL FIX #8: Resolver TODO - método configurable para diferentes estados
+    /**
+     * Obtiene productos filtrados por estado(s)
+     * 
+     * @param array $estados Estados a filtrar (default: solo 'ACT')
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    static public function getProductos(array $estados = ['ACT'])
     {
-        return Producto::where('estado_prod', 'ACT');
+        return Producto::whereIn('estado_prod', $estados);
     }
     static public function getProductoById(array $request)
     {

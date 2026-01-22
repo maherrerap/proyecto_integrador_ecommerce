@@ -1,59 +1,170 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Cold Market - Tienda en Línea
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Bienvenido a **Cold Market**, una plataforma de comercio electrónico moderna y fácil de usar para la venta de productos de ferretería y construcción.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ¿Qué es Cold Market?
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Cold Market es una tienda en línea donde los clientes pueden:
+- Buscar y explorar productos por categorías
+- Agregar productos al carrito de compras
+- Realizar compras de forma segura
+- Crear y gestionar su cuenta personal
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Características Principales
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- **Diseño Moderno** - Interfaz atractiva y fácil de navegar
+- **100% Seguro** - Protección de datos y transacciones seguras
+- **Carrito Inteligente** - Gestiona tus compras antes de pagar
+- **Búsqueda Rápida** - Encuentra lo que necesitas en segundos
+- **Responsive** - Funciona en celular, tablet y computadora
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Requisitos Previos
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Para usar este proyecto necesitas tener instalado:
 
-### Premium Partners
+- PHP 8.4 o superior
+- PostgreSQL 14 o superior
+- Composer (gestor de paquetes PHP)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## Instalación Rápida
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Descarga el Proyecto
+```bash
+git clone [url-del-repositorio]
+cd proyecto_integrador_ecommerce
+```
 
-## Code of Conduct
+### 2. Instala las Dependencias
+```bash
+composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Configura el Proyecto
+```bash
+# Copia el archivo de configuración
+cp .env.example .env
 
-## Security Vulnerabilities
+# Genera la clave de seguridad
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 4. Configura la Base de Datos
+Abre el archivo `.env` y edita estas líneas con tus datos:
+```
+DB_DATABASE=nombre_de_tu_base_de_datos
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_contraseña
+```
 
-## License
+### 5. Inicia el Servidor
+```bash
+php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Listo. Abre tu navegador en `http://localhost:8000`
+
+---
+
+## Usuarios de Prueba
+
+Puedes registrarte como nuevo usuario o usar estos datos de prueba:
+
+**Usuario de Ejemplo:**
+- Email: crear nuevo usuario en el sistema
+- Contraseña: mínimo 10 caracteres, incluye mayúscula, número y símbolo
+
+---
+
+## Cómo Usar la Plataforma
+
+### Como Cliente:
+
+1. **Registro/Login**
+   - Crea tu cuenta con email y cédula
+   - O inicia sesión si ya tienes cuenta
+
+2. **Explorar Productos**
+   - Usa el buscador o navega por categorías
+   - Haz clic en cualquier producto para ver detalles
+
+3. **Agregar al Carrito**
+   - Pulsa "Ver Detalles" en el producto
+   - Agrega los productos que necesites
+
+4. **Realizar Compra**
+   - Revisa tu carrito en el ícono del carrito
+   - Confirma tu pedido y procede al pago
+
+---
+
+## Tecnologías Utilizadas
+
+- **Laravel 12** - Framework PHP moderno
+- **PostgreSQL** - Base de datos robusta
+- **Bootstrap 5** - Diseño responsive
+- **SweetAlert2** - Notificaciones elegantes
+
+---
+
+## Seguridad
+
+Este proyecto incluye:
+- Protección contra ataques de fuerza bruta
+- Validación de todos los datos ingresados
+- Encriptación de contraseñas
+- Protección CSRF en formularios
+
+---
+
+## Características de UX
+
+- Indicadores de carga en todas las acciones
+- Mensajes claros de éxito o error
+- Feedback visual inmediato
+- Diseño adaptable a cualquier dispositivo
+
+---
+
+## Contacto y Soporte
+
+Si tienes preguntas o encuentras algún problema:
+
+- Email: [tu-email]
+- Reportar problema: [link a issues]
+
+---
+
+## Licencia
+
+Este proyecto es de uso académico. Desarrollado para el curso de Ingeniería de Software.
+
+---
+
+## Autores
+
+- **Equipo Cold Market**
+- Proyecto integrador - Ingeniería de Software
+- [Año académico]
+
+---
+
+## Agradecimientos
+
+Agradecemos a todos los que han contribuido al desarrollo y mejora de este proyecto.
+
+---
+
+**Versión:** 1.0.0  
+**Última actualización:** Enero 2026
+
+---
+
+> **Tip**: Para obtener la mejor experiencia, usa navegadores modernos como Chrome, Firefox o Edge.

@@ -206,12 +206,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // UX FIX #7: Loading state en búsqueda/filtrado
+  // CRITICAL FIX #5: Loading state en búsqueda/filtrado con timeout de seguridad
   form.addEventListener('submit', function() {
     const loadingOverlay = document.createElement('div');
     loadingOverlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:9999;';
     loadingOverlay.innerHTML = '<div class="spinner-border text-light" role="status"><span class="visually-hidden">Cargando...</span></div>';
     document.body.appendChild(loadingOverlay);
+    
+    // CRITICAL FIX #5: Timeout de seguridad para remover overlay si no redirige
+    setTimeout(() => {
+      if (loadingOverlay.parentNode) {
+        loadingOverlay.remove();
+        console.warn('Loading overlay removido por timeout');
+      }
+    }, 10000); // 10 segundos máximo
   });
 });
 </script>

@@ -35,12 +35,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         Swal.fire('Error', data.message || 'No se pudo añadir al carrito', 'error');
                     }
                 })
-                .catch(() => {
-                    // UX FIX #4: Mensaje de error más útil y específico
+                .catch((err) => {
+                    // CRITICAL FIX #3: Diferenciar tipos de error
+                    let title = 'No pudimos añadir el producto';
+                    let text = 'Ocurrió un error inesperado';
+
+                    if (err.name === 'TypeError' || !navigator.onLine) {
+                        title = 'Sin conexión';
+                        text = 'Verifica tu conexión a internet e intenta nuevamente.';
+                    } else if (err.status === 500) {
+                        title = 'Error del servidor';
+                        text = 'Nuestro servidor está experimentando problemas. Intenta nuevamente en unos minutos.';
+                    } else if (err.status === 401) {
+                        title = 'Sesión expirada';
+                        text = 'Tu sesión ha expirado. Por favor inicia sesión nuevamente.';
+                    }
+
                     Swal.fire({
                         icon: 'error',
-                        title: 'No pudimos añadir el producto',
-                        text: 'Verifica tu conexión a internet e intenta nuevamente. Si el problema persiste, recarga la página.',
+                        title: title,
+                        text: text,
                         confirmButtonText: 'Entendido'
                     });
                 });
@@ -81,6 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Si la respuesta es 401 (no autenticado)
                         if (res.status === 401) {
                             return res.json().then(data => {
+                                // MEDIUM FIX #9: Restaurar botón antes de redirigir
+                                btnAprobar.disabled = false;
+                                btnAprobar.innerHTML = originalText;
+
                                 Swal.fire({
                                     icon: 'warning',
                                     title: 'Sesión expirada',
@@ -106,12 +124,26 @@ document.addEventListener('DOMContentLoaded', () => {
                                 window.location.href = '/carrito';
                             });
                         } else {
+                            // MEDIUM FIX #9: Restaurar botón en error
+                            btnAprobar.disabled = false;
+                            btnAprobar.innerHTML = originalText;
                             Swal.fire('Error', data.message, 'error');
                         }
                     })
                     .catch((err) => {
+                        // CRITICAL FIX #3: Especificar tipo de error en pago
                         if (err.message !== 'No autenticado') {
-                            Swal.fire('Error', 'Error de conexión al procesar el pago', 'error');
+                            let errorMsg = 'Error de conexión al procesar el pago';
+
+                            if (!navigator.onLine) {
+                                errorMsg = 'Sin conexión a internet. Verifica tu red.';
+                            } else if (err.status === 500) {
+                                errorMsg = 'Error en el servidor. Tu pago no fue procesado. Intenta nuevamente.';
+                            } else if (err.status === 400) {
+                                errorMsg = 'Hubo un problema con tu solicitud. Verifica los datos del carrito.';
+                            }
+
+                            Swal.fire('Error en el pago', errorMsg, 'error');
                         }
                     });
             });

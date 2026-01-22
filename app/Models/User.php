@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Hash;
 
 class User extends Model
 {
+    // MEDIUM FIX #16: Constantes de estado para evitar magic strings
+    const STATUS_ACTIVE = 'ACT';
+    const STATUS_INACTIVE = 'INA';
+
     protected $table = 'ecommerce.web_clientes_auth';
     protected $primaryKey = 'id_auth';
 
@@ -100,11 +104,41 @@ class User extends Model
                 'id_cliente' => $idCliente
             ];
 
-        } catch (\Exception $e) {
+        } catch (\Illuminate\Database\QueryException $e) {
+            // CRITICAL FIX #4: Especificar excepción de base de datos
             DB::rollBack();
+
+            \Log::error('Error DB en registro usuario', [
+                'error' => $e->getMessage(),
+                'sql' => $e->getSql(),
+                'code' => $e->getCode()
+            ]);
+
+            // Mensajes específicos según código de error PostgreSQL
+            $userMessage = match ($e->getCode()) {
+                '23505' => 'Este email o cédula ya está registrado en el sistema.',
+                '23503' => 'La ciudad seleccionada no es válida.',
+                default => 'Error al guardar en la base de datos. Intenta nuevamente.'
+            };
+
             return [
                 'success' => false,
-                'message' => 'Error al registrar usuario: ' . $e->getMessage(),
+                'message' => $userMessage,
+                'id_cliente' => null
+            ];
+
+        } catch (\Exception $e) {
+            // Otros errores no relacionados con BD
+            DB::rollBack();
+
+            \Log::error('Error general en registro usuario', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Ocurrió un error inesperado. Por favor contacta a soporte.',
                 'id_cliente' => null
             ];
         }
@@ -159,10 +193,27 @@ class User extends Model
                 'user' => $usuario
             ];
 
-        } catch (\Exception $e) {
+        } catch (\Illuminate\Database\QueryException $e) {
+            // CRITICAL FIX #4: Especificar excepción de BD en login
+            \Log::error('Error DB en validación credenciales', [
+                'error' => $e->getMessage(),
+                'sql' => $e->getSql()
+            ]);
+
             return [
                 'success' => false,
-                'message' => 'Error al validar credenciales: ' . $e->getMessage(),
+                'message' => 'Error de conexión con la base de datos. Intenta nuevamente.',
+                'user' => null
+            ];
+
+        } catch (\Exception $e) {
+            \Log::error('Error general en validación credenciales', [
+                'error' => $e->getMessage()
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Ocurrió un error al validar tus credenciales. Intenta nuevamente.',
                 'user' => null
             ];
         }
@@ -266,10 +317,33 @@ class User extends Model
                 'message' => 'Cuenta web creada correctamente'
             ];
 
-        } catch (\Exception $e) {
+        } catch (\Illuminate\Database\QueryException $e) {
+            // CRITICAL FIX #4: Especificar excepción en creación de auth
+            \Log::error('Error DB al crear cuenta web', [
+                'error' => $e->getMessage(),
+                'sql' => $e->getSql(),
+                'id_cliente' => $idCliente
+            ]);
+
+            $userMessage = match ($e->getCode()) {
+                '23505' => 'Ya existe una cuenta web para este cliente.',
+                default => 'Error al crear tu cuenta. Intenta nuevamente.'
+            };
+
             return [
                 'success' => false,
-                'message' => 'Error al crear cuenta web: ' . $e->getMessage()
+                'message' => $userMessage
+            ];
+
+        } catch (\Exception $e) {
+            \Log::error('Error general al crear cuenta web', [
+                'error' => $e->getMessage(),
+                'id_cliente' => $idCliente
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Ocurrió un error al crear tu cuenta web. Por favor contacta a soporte.'
             ];
         }
     }

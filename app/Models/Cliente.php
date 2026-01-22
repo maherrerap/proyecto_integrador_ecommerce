@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
+    // MEDIUM FIX #16: Constantes de estado
+    const STATUS_ACTIVE = 'ACT';
+    const STATUS_INACTIVE = 'INA';
+
     protected $table = 'clientes';
     protected $primaryKey = 'id_cliente';
     protected $keyType = 'string';
@@ -23,27 +27,32 @@ class Cliente extends Model
         'id_ciudad'
     ];
 
-    public function getRouteKeyName(){
+    public function getRouteKeyName()
+    {
         return 'id_cliente';
     }
 
     /* 1. CONSULTA GENERAL DE CLIENTES*/
-    static public function getClientes(){
-        return Cliente::where('estado_cli','ACT');
+    static public function getClientes()
+    {
+        return Cliente::where('estado_cli', 'ACT');
     }
 
     /*2. CONSULTA POR ID*/
-    static public function getClienteByID($id) {
+    static public function getClienteByID($id)
+    {
         return self::find($id);
     }
 
     /* 3. REGISTRAR CLIENTE */
-    static public function createCliente(array $request) {
+    static public function createCliente(array $request)
+    {
         return self::create($request);
     }
 
     /*4. ACTUALIZAR CLIENTE*/
-    static public function updateCliente(Cliente $cliente, array $data) {
+    static public function updateCliente(Cliente $cliente, array $data)
+    {
         return $cliente->update($data);
     }
 
