@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('titulo', 'Administracion')</title>
+    {{-- SECOND AUDIT FIX #1: Eliminar título duplicado --}}
     <title>@yield('titulo', 'Administracion')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -41,6 +41,7 @@
                                 Administración
                             </a>
 
+                            {{-- SECOND AUDIT FIX #2 & #3: Eliminar estructura duplicada y corregir HTML --}}
                             <ul class="dropdown-menu admin-dropdown">
                                 <li class="dropdown-submenu dropend">
                                     <a class="dropdown-item dropdown-toggle" href="#">Bodega</a>
@@ -50,69 +51,37 @@
                                         <li><a class="dropdown-item" href="#">Recepciones</a></li>
                                     </ul>
                                 </li>
-                                <ul class="dropdown-menu admin-dropdown">
-                                    <li class="dropdown-submenu dropend">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Bodega</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('admin.productos.index') }}">Productos</a></li>
-                                            <li><a class="dropdown-item" href="#">Recepciones</a></li>
-                                        </ul>
-                                    </li>
 
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
 
-                                    <li class="dropdown-submenu dropend">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Facturación</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('admin.clientes.index') }}">Clientes</a></li>
-                                            <li><a class="dropdown-item" href="#">Facturas</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-submenu dropend">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Facturación</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('admin.clientes.index') }}">Clientes</a></li>
-                                            <li><a class="dropdown-item" href="#">Facturas</a></li>
-                                        </ul>
-                                    </li>
+                                <li class="dropdown-submenu dropend">
+                                    <a class="dropdown-item dropdown-toggle" href="#">Facturación</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                                href="{{ route('admin.clientes.index') }}">Clientes</a></li>
+                                        <li><a class="dropdown-item" href="#">Facturas</a></li>
+                                    </ul>
+                                </li>
 
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
 
-                                    <li class="dropdown-submenu dropend">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Compras</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Proveedores</a></li>
-                                            <li><a class="dropdown-item" href="#">Órdenes de Compra</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                        </li>
-                        <li class="dropdown-submenu dropend">
-                            <a class="dropdown-item dropdown-toggle" href="#">Compras</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Proveedores</a></li>
-                                <li><a class="dropdown-item" href="#">Órdenes de Compra</a></li>
+                                <li class="dropdown-submenu dropend">
+                                    <a class="dropdown-item dropdown-toggle" href="#">Compras</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Proveedores</a></li>
+                                        <li><a class="dropdown-item" href="#">Órdenes de Compra</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
-                    </ul>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-coldmarket fw-semibold" href="#">Contáctanos</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-coldmarket fw-semibold" href="#">Contáctanos</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -136,20 +105,18 @@
                 </p>
             </div>
 
+            {{-- SECOND AUDIT FIX #4: Remover placeholders técnicos --}}
             <div class="footer-right">
-                <a href="#" class="footer-social">
+                <a href="#" class="footer-social" aria-label="Facebook">
                     <img src="{{ asset('images/facebook.png') }}" alt="Facebook" height="30">
-                    <span>cuenta_facebook</span>
                 </a>
 
-                <a href="#" class="footer-social">
+                <a href="#" class="footer-social" aria-label="Instagram">
                     <img src="{{ asset('images/instagram.png') }}" alt="Instagram" height="30">
-                    <span>cuenta_instagram</span>
                 </a>
 
-                <a href="#" class="footer-social">
+                <a href="#" class="footer-social" aria-label="Twitter/X">
                     <img src="{{ asset('images/X_logo.png') }}" alt="X" height="30">
-                    <span>cuenta_X</span>
                 </a>
             </div>
         </div>

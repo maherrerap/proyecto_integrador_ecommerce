@@ -1,7 +1,11 @@
 <h5 class="card-title mb-3"><strong>Tu Carrito</strong></h5>
 
 @if($items->count() == 0)
+    {{-- SECOND AUDIT FIX #10: Agregar CTA en carrito vacío --}}
     <p class="mb-2">Tu carrito está vacío.</p>
+    <a href="{{ route('producto.index') }}" class="btn btn-sm btn-outline-primary">
+        <i class="bi bi-shop"></i> Explorar productos
+    </a>
     <hr>
     <p class="mb-1"><strong>Subtotal (0 productos):</strong></p>
     <p class="fs-5 text-success fw-bold mb-0">$0.00</p>
@@ -26,11 +30,12 @@
 
     <hr>
 
+    {{-- SECOND AUDIT FIX #7: Corregir pluralización --}}
     <p class="mb-1">
-        <strong>Subtotal ({{ $totalUnidades }} productos):</strong>
+        <strong>Subtotal ({{ $totalUnidades }} {{ $totalUnidades == 1 ? 'producto' : 'productos' }}):</strong>
     </p>
     <p class="fs-5 text-success fw-bold mb-0">
-        ${{ number_format((float)($Carrito->fac_subtotal ?? 0), 2) }}
+        ${{ number_format((float) ($Carrito->fac_subtotal ?? 0), 2) }}
     </p>
 @endif
 

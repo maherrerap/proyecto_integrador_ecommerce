@@ -143,9 +143,16 @@ class CarritoController extends Controller
                 "message" => "Pago realizado correctamente"
             ]);
         } catch (\Exception $e) {
+            // UX FIX #4: Mejorar manejo de errores con mensajes útiles
+            \Log::error('Error al procesar pago', [
+                'carrito_id' => $request->id_carrito,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return response()->json([
                 "ok" => false,
-                "message" => "Error al realizar el pago"
+                "message" => "No pudimos procesar tu pago. Por favor verifica tu conexión e intenta nuevamente. Si el problema persiste, contacta a soporte."
             ], 500);
         }
     }

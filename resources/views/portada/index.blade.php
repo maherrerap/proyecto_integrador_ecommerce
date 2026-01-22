@@ -29,7 +29,7 @@
 
                         <div class="hero-cta-container">
                             <a href="{{ route('producto.index') }}" class="btn btn-lg btn-hero">
-                                Explorar Catálogo
+                                Ver Catálogo Completo
                             </a>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
 
             <div class="text-center">
                 <a href="{{ route('producto.index') }}" class="btn btn-lg btn-primary-custom">
-                    Ver todos los productos
+                    Ver Catálogo Completo
                 </a>
             </div>
         </div>
@@ -181,15 +181,22 @@
                         </div>
                     </div>
                 @empty
-                    <div class="col-12 text-center">
-                        <p class="text-muted">No hay productos disponibles en este momento.</p>
+                    {{-- THIRD AUDIT FIX #3: Mejorar mensaje de productos vacíos --}}
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-box-seam" style="font-size: 3rem; color: #6c757d;"></i>
+                        <p class="text-muted mb-3 mt-3">
+                            Estamos preparando productos destacados para ti.
+                        </p>
+                        <a href="{{ route('producto.index') }}" class="btn btn-primary">
+                            <i class="bi bi-grid"></i> Ver Catálogo Completo
+                        </a>
                     </div>
                 @endforelse
             </div>
 
             <div class="text-center">
                 <a href="{{ route('producto.index') }}" class="btn btn-outline-primary btn-lg btn-explore-more">
-                    Explorar más productos
+                    Ver Catálogo Completo
                 </a>
             </div>
         </div>

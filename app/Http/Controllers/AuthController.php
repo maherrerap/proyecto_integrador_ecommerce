@@ -105,8 +105,9 @@ class AuthController extends Controller
         if ($verificacion['existe']) {
             // Verificar si ya tiene cuenta web
             if ($verificacion['tiene_auth']) {
+                // UX FIX MEDIO #5: Simplificar mensaje técnico
                 return back()->withErrors([
-                    'verify_error' => 'Este cliente ya tiene una cuenta web registrada. Por favor inicie sesión.'
+                    'verify_error' => 'Ya tienes una cuenta registrada. Por favor inicia sesión.'
                 ])->withInput();
             }
 

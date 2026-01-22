@@ -28,7 +28,7 @@
                     <div class="input-with-icon">
                         <i class="bi bi-person"></i>
                         <input type="text" class="form-control-center @error('cli_nombre') is-invalid @enderror"
-                            id="cli_nombre" name="cli_nombre" placeholder="Juan Pérez" value="{{ old('cli_nombre') }}"
+                            id="cli_nombre" name="cli_nombre" placeholder="Tu nombre completo" value="{{ old('cli_nombre') }}"
                             maxlength="40" required>
                     </div>
                     @error('cli_nombre')
@@ -42,7 +42,7 @@
                     <div class="input-with-icon">
                         <i class="bi bi-card-text"></i>
                         <input type="text" class="form-control-center @error('cli_ruc_ced') is-invalid @enderror"
-                            id="cli_ruc_ced" name="cli_ruc_ced" placeholder="1234567890 o 1234567890001"
+                            id="cli_ruc_ced" name="cli_ruc_ced" placeholder="10 o 13 dígitos"
                             value="{{ old('cli_ruc_ced', session('pre_cedula', '')) }}" pattern="[0-9]{10}|[0-9]{13}"
                             maxlength="13" required>
                     </div>
@@ -58,7 +58,7 @@
                     <div class="input-with-icon">
                         <i class="bi bi-envelope"></i>
                         <input type="email" class="form-control-center @error('cli_mail') is-invalid @enderror"
-                            id="cli_mail" name="cli_mail" placeholder="ejemplo@correo.com"
+                            id="cli_mail" name="cli_mail" placeholder="tu@email.com"
                             value="{{ old('cli_mail', session('pre_email', '')) }}" maxlength="60" required>
                     </div>
                     @error('cli_mail')
@@ -74,7 +74,7 @@
                             <div class="input-with-icon">
                                 <i class="bi bi-telephone"></i>
                                 <input type="text" class="form-control-center @error('cli_telefono') is-invalid @enderror"
-                                    id="cli_telefono" name="cli_telefono" placeholder="022345678"
+                                    id="cli_telefono" name="cli_telefono" placeholder="Número de teléfono"
                                     value="{{ old('cli_telefono') }}" pattern="0[2-3][0-9]{7}" maxlength="9">
                             </div>
                             <span class="form-text-minimal">Ej: 022345678</span>
@@ -90,7 +90,7 @@
                             <div class="input-with-icon">
                                 <i class="bi bi-phone"></i>
                                 <input type="text" class="form-control-center @error('cli_celular') is-invalid @enderror"
-                                    id="cli_celular" name="cli_celular" placeholder="0991234567"
+                                    id="cli_celular" name="cli_celular" placeholder="Número de celular"
                                     value="{{ old('cli_celular') }}" pattern="09[0-9]{8}" maxlength="10" required>
                             </div>
                             <span class="form-text-minimal">Ej: 0991234567</span>
@@ -107,7 +107,7 @@
                     <div class="input-with-icon">
                         <i class="bi bi-geo-alt"></i>
                         <input type="text" class="form-control-center @error('cli_direccion') is-invalid @enderror"
-                            id="cli_direccion" name="cli_direccion" placeholder="Av. Principal y Calle Secundaria"
+                            id="cli_direccion" name="cli_direccion" placeholder="Tu dirección de residencia"
                             value="{{ old('cli_direccion') }}" maxlength="60" required>
                     </div>
                     @error('cli_direccion')
@@ -306,6 +306,22 @@
             if (celularInput) {
                 celularInput.addEventListener('input', function () {
                     this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            }
+
+            // UX FIX MEDIO #8: Prevenir doble submit en registro
+            const registerForm = document.getElementById('registerForm');
+            const btnSubmit = document.getElementById('btnSubmit');
+
+            if (registerForm && btnSubmit) {
+                registerForm.addEventListener('submit', function (e) {
+                    if (btnSubmit.disabled) {
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    btnSubmit.disabled = true;
+                    btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Registrando...';
                 });
             }
         });

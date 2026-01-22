@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('titulo', 'ColdMarket')</title>
+    {{-- UX FIX #8: Eliminar título duplicado --}}
     <title>@yield('titulo', 'ColdMarket')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/coldmarket.css') }}?v={{ time() }}">
@@ -125,19 +125,17 @@
             </div>
 
             <div class="footer-right">
-                <a href="#" class="footer-social">
+                {{-- UX FIX #11: Remover texto técnico de placeholder --}}
+                <a href="#" class="footer-social" aria-label="Facebook">
                     <img src="{{ asset('images/facebook.png') }}" alt="Facebook" height="30">
-                    <span>cuenta_facebook</span>
                 </a>
 
-                <a href="#" class="footer-social">
+                <a href="#" class="footer-social" aria-label="Instagram">
                     <img src="{{ asset('images/instagram.png') }}" alt="Instagram" height="30">
-                    <span>cuenta_instagram</span>
                 </a>
 
-                <a href="#" class="footer-social">
+                <a href="#" class="footer-social" aria-label="Twitter/X">
                     <img src="{{ asset('images/X_logo.png') }}" alt="X" height="30">
-                    <span>cuenta_X</span>
                 </a>
             </div>
         </div>

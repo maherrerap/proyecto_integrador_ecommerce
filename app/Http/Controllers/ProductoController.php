@@ -15,14 +15,14 @@ class ProductoController extends Controller
 
         // Para el filtro de categorías seleccionadas
         $categoriasSeleccionadas = $request->input('categorias', []);
-        if(!is_array($categoriasSeleccionadas)) {
+        if (!is_array($categoriasSeleccionadas)) {
             $categoriasSeleccionadas = [$categoriasSeleccionadas];
         }
 
         $categoriasSeleccionadas = array_values(array_filter(array_map('trim', $categoriasSeleccionadas)));
 
         $categoriasSeleccionadas = array_values(array_diff($categoriasSeleccionadas, ['ALL']));
-        
+
         $query = Producto::getProductos()
             ->select('productos.*', 'c.cat_descripcion as cat_descripcion')
             ->leftJoin('categoria as c', 'productos.id_categoria', '=', 'c.id_categoria')
@@ -39,8 +39,8 @@ class ProductoController extends Controller
 
             $query->where(function ($q) use ($like) {
                 $q->whereRaw("unaccent(productos.pro_descripcion) ILIKE unaccent(?)", [$like])
-                ->orWhereRaw("unaccent(productos.id_producto) ILIKE unaccent(?)", [$like])
-                ->orWhereRaw("unaccent(c.cat_descripcion) ILIKE unaccent(?)", [$like]);
+                    ->orWhereRaw("unaccent(productos.id_producto) ILIKE unaccent(?)", [$like])
+                    ->orWhereRaw("unaccent(c.cat_descripcion) ILIKE unaccent(?)", [$like]);
             });
         }
 
@@ -48,66 +48,70 @@ class ProductoController extends Controller
 
         // Categorias para la vista
         $categorias = Categoria::orderBy('cat_descripcion')
-    ->get(['id_categoria','cat_descripcion']);
+            ->get(['id_categoria', 'cat_descripcion']);
 
 
         return view('productos.index', compact('productos', 'categorias', 'categoriasSeleccionadas', 'criterio'));
     }
 
 
-    public function create() {
+    public function create()
+    {
         return view('productos.create');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validated = $request->validate([
-            'id_producto'       => 'required|string|max:7',
-            'pro_descripcion'   => 'required|string|max:50',
-            'pro_um_compra'     => 'required|string|max:3',
-            'pro_um_venta'      => 'required|string|max:3',
-            'pro_valor_compra'  => 'required|numeric|min:0',
-            'pro_precio_venta'  => 'required|numeric|min:0',
+            'id_producto' => 'required|string|max:7',
+            'pro_descripcion' => 'required|string|max:50',
+            'pro_um_compra' => 'required|string|max:3',
+            'pro_um_venta' => 'required|string|max:3',
+            'pro_valor_compra' => 'required|numeric|min:0',
+            'pro_precio_venta' => 'required|numeric|min:0',
             'pro_saldo_inicial' => 'required|integer|min:0',
-            'id_categoria'      => 'required|string|max:7',
+            'id_categoria' => 'required|string|max:7',
         ]);
 
 
         $data = [
-            'id_producto'       => $validated['id_producto'],
-            'pro_descripcion'   => $validated['pro_descripcion'],
-            'pro_um_compra'     => $validated['pro_um_compra'],
-            'pro_um_venta'      => $validated['pro_um_venta'],
-            'pro_valor_compra'  => $validated['pro_valor_compra'],
-            'pro_precio_venta'  => $validated['pro_precio_venta'],
+            'id_producto' => $validated['id_producto'],
+            'pro_descripcion' => $validated['pro_descripcion'],
+            'pro_um_compra' => $validated['pro_um_compra'],
+            'pro_um_venta' => $validated['pro_um_venta'],
+            'pro_valor_compra' => $validated['pro_valor_compra'],
+            'pro_precio_venta' => $validated['pro_precio_venta'],
             'pro_saldo_inicial' => $validated['pro_saldo_inicial'],
-            'pro_qty_ingresos'  => 0,
-            'pro_qty_egresos'   => 0,
-            'pro_qty_ajustes'   => 0,
-            'pro_saldo_final'   => $validated['pro_saldo_inicial'],
-            'estado_prod'       => 'ACT',
-            'id_categoria'      => $validated['id_categoria'],
+            'pro_qty_ingresos' => 0,
+            'pro_qty_egresos' => 0,
+            'pro_qty_ajustes' => 0,
+            'pro_saldo_final' => $validated['pro_saldo_inicial'],
+            'estado_prod' => 'ACT',
+            'id_categoria' => $validated['id_categoria'],
         ];
 
         Producto::createProducto($data);
 
+        // SECOND AUDIT FIX #8: Mejorar mensaje con acción sugerida
         return redirect()
             ->route('productos.index')
-            ->with('success', 'Producto Registrado Exitosamente!');
+            ->with('success', 'Producto registrado exitosamente. Ahora puedes verlo en el catálogo.');
     }
 
-    public function update(Request $request, Producto $producto) {
+    public function update(Request $request, Producto $producto)
+    {
         $validated = $request->validate([
-            'pro_descripcion'   => 'required|string|max:50',
-            'pro_um_compra'     => 'required|string|max:3',
-            'pro_um_venta'      => 'required|string|max:3',
-            'id_categoria'      => 'required|string|max:7',
+            'pro_descripcion' => 'required|string|max:50',
+            'pro_um_compra' => 'required|string|max:3',
+            'pro_um_venta' => 'required|string|max:3',
+            'id_categoria' => 'required|string|max:7',
         ]);
 
         $data = [
-            'pro_descripcion'   => $validated['pro_descripcion'],
-            'pro_um_compra'     => $validated['pro_um_compra'],
-            'pro_um_venta'      => $validated['pro_um_venta'],
-            'id_categoria'      => $validated['id_categoria'],
+            'pro_descripcion' => $validated['pro_descripcion'],
+            'pro_um_compra' => $validated['pro_um_compra'],
+            'pro_um_venta' => $validated['pro_um_venta'],
+            'id_categoria' => $validated['id_categoria'],
         ];
 
         Producto::updateProducto($producto, $data);
@@ -117,17 +121,19 @@ class ProductoController extends Controller
             ->with('success', 'Producto actualizado Exitosamente!');
     }
 
-    public function destroy(Producto $producto) {
+    public function destroy(Producto $producto)
+    {
         return redirect()
             ->route('productos.index')
             ->with('success', 'Producto Inhabilitado Exitosamente!');
     }
 
 
-    public function show (Producto $producto) {
+    public function show(Producto $producto)
+    {
 
         // Para traer solo los productos activos
-        if ($producto -> estado_prod !== 'ACT') {
+        if ($producto->estado_prod !== 'ACT') {
             abort(404);
         }
 

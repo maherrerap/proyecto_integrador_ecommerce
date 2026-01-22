@@ -73,18 +73,20 @@
 
                 {{-- DERECHA: NAVEGACIÓN --}}
                 <div class="catalog-right-top">
+                    {{-- UX FIX BAJO #2: Simplificar texto sin puntos suspensivos --}}
                     <a href="{{ route('portada.index') }}" class="back-home">
-                        Volver al Inicio...
+                        Volver al Inicio
                     </a>
 
                     <div class="catalog-pager">
                         {{ $productos->appends(request()->query())->onEachSide(1)->links() }}
                     </div>
 
+
+                    {{-- UX FIX MEDIO #6: Remover texto de favoritos sin funcionalidad --}}
                     <div class="mini-note">
                         Mostrando: <strong>{{ $productos->count() }}</strong>
-                        de <strong>{{ $productos->total() }}</strong> Productos<br>
-                        Marca tus productos como preferidos en la casilla.
+                        de <strong>{{ $productos->total() }}</strong> Productos
                     </div>
                 </div>
 
@@ -98,12 +100,15 @@
         {{-- PRODUCTOS --}}
         <div class="col-lg-9 col-md-8">
             
-            {{-- MENSAJE SI NO HAY RESULTADOS DE BÚSQUEDA --}}
+            {{-- UX FIX MEDIO #1: Mensaje más empático y útil --}}
             @if($productos->count() == 0 && !empty($criterio))
-                <div class="alert alert-warning">
-                    <i class="bi bi-exclamation-triangle"></i> 
-                    No se encontraron productos que coincidan con "<strong>{{ $criterio }}</strong>".
-                    <a href="{{ route('producto.index') }}" class="alert-link">Ver todos los productos</a>
+                <div class="alert alert-warning text-center">
+                    <i class="bi bi-search" style="font-size: 2rem;"></i>
+                    <h5 class="mt-2">No encontramos "{{ $criterio }}"</h5>
+                    <p class="mb-2">Intenta con otras palabras o explora nuestro catálogo completo</p>
+                    <a href="{{ route('producto.index') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-grid"></i> Ver todos los productos
+                    </a>
                 </div>
             @elseif($productos->count() == 0)
                 <div class="alert alert-info">
@@ -199,6 +204,14 @@ document.addEventListener('DOMContentLoaded', () => {
       syncTodos();
       form.submit();
     });
+  });
+
+  // UX FIX #7: Loading state en búsqueda/filtrado
+  form.addEventListener('submit', function() {
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:9999;';
+    loadingOverlay.innerHTML = '<div class="spinner-border text-light" role="status"><span class="visually-hidden">Cargando...</span></div>';
+    document.body.appendChild(loadingOverlay);
   });
 });
 </script>

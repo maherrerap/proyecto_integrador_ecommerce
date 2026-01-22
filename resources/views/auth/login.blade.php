@@ -50,9 +50,9 @@
                             <label for="email">Usuario o correo</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-envelope input-icon-left"></i>
-                                <input type="email" class="form-control-center @error('email') is-invalid @enderror" id="email"
-                                    name="email" placeholder="Ingresa tu usuario o correo" value="{{ old('email') }}" required
-                                    autocomplete="email">
+                                <input type="email" class="form-control-center @error('email') is-invalid @enderror"
+                                    id="email" name="email" placeholder="Ingresa tu usuario o correo"
+                                    value="{{ old('email') }}" required autocomplete="email">
                                 <i class="bi bi-check-circle input-validation-icon" id="emailValidIcon"></i>
                             </div>
                             <span class="inline-error-message" id="emailError"></span>
@@ -79,15 +79,17 @@
                         </div>
 
                         <!-- Botón Entrar -->
-                        <button type="submit" class="btn-entrar">
-                            Entrar
+                        <button type="submit" id="btnLogin" class="btn-entrar">
+                            <span class="btn-text">Entrar</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status" id="loginSpinner"></span>
                         </button>
                     </form>
 
                     <!-- Link Olvidaste tu contraseña -->
-                    <div class="login-footer-center">
+                    {{-- UX FIX MEDIO #3: Comentar enlace no funcional --}}
+                    {{-- <div class="login-footer-center">
                         <p><a href="#">¿Olvidaste tu contraseña?</a></p>
-                    </div>
+                    </div> --}}
 
                     <!-- Link a Registro -->
                     <div class="login-footer-center">
@@ -155,5 +157,24 @@
         if (emailInput.value.length > 0) {
             emailInput.dispatchEvent(new Event('input'));
         }
+
+        // UX FIX #1 y #5: Loading state y prevención de doble submit en login
+        const loginForm = document.getElementById('loginForm');
+        const btnLogin = document.getElementById('btnLogin');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const btnText = btnLogin.querySelector('.btn-text');
+
+        loginForm.addEventListener('submit', function (e) {
+            // Prevenir doble submit
+            if (btnLogin.disabled) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Activar loading state
+            btnLogin.disabled = true;
+            btnText.textContent = 'Iniciando sesión...';
+            loginSpinner.classList.remove('d-none');
+        });
     </script>
 @endpush

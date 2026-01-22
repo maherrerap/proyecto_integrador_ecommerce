@@ -33,11 +33,14 @@
                         </div>
                     </form>
 
-                    {{-- BOTÓN VACIAR CARRITO --}}
-                    <button id="btn-vaciar-carrito" class="btn btn-outline-danger" data-carrito="{{ $idCarrito }}"
-                        style="white-space: nowrap;">
-                        <i class="bi bi-trash"></i> Vaciar carrito
-                    </button>
+                    {{-- UX FIX MEDIO #2: Ocultar botón vaciar cuando no hay items --}}
+                    @if($items->count() > 0)
+                        {{-- BOTÓN VACIAR CARRITO --}}
+                        <button id="btn-vaciar-carrito" class="btn btn-outline-danger" data-carrito="{{ $idCarrito }}"
+                            style="white-space: nowrap;">
+                            <i class="bi bi-trash"></i> Vaciar carrito
+                        </button>
+                    @endif
                 </div>
 
                 {{-- MENSAJE DE BÚSQUEDA ACTIVA --}}

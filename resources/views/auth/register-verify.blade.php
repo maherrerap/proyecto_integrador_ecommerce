@@ -28,7 +28,7 @@
                     <div class="input-with-icon">
                         <i class="bi bi-envelope"></i>
                         <input type="email" class="form-control-center @error('cli_mail') is-invalid @enderror"
-                            id="cli_mail" name="cli_mail" placeholder="ejemplo@correo.com"
+                            id="cli_mail" name="cli_mail" placeholder="tu@email.com"
                             value="{{ old('cli_mail', session('pre_email', '')) }}" maxlength="60" required>
                     </div>
                     @error('cli_mail')
@@ -42,7 +42,7 @@
                     <div class="input-with-icon">
                         <i class="bi bi-card-text"></i>
                         <input type="text" class="form-control-center @error('cli_ruc_ced') is-invalid @enderror"
-                            id="cli_ruc_ced" name="cli_ruc_ced" placeholder="1234567890 o 1234567890001"
+                            id="cli_ruc_ced" name="cli_ruc_ced" placeholder="10 o 13 dígitos"
                             value="{{ old('cli_ruc_ced', session('pre_cedula', '')) }}" pattern="[0-9]{10}|[0-9]{13}"
                             maxlength="13" required>
                     </div>

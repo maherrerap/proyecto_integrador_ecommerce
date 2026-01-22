@@ -36,7 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 })
                 .catch(() => {
-                    Swal.fire('Error', 'Error de conexión al añadir al carrito', 'error');
+                    // UX FIX #4: Mensaje de error más útil y específico
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No pudimos añadir el producto',
+                        text: 'Verifica tu conexión a internet e intenta nuevamente. Si el problema persiste, recarga la página.',
+                        confirmButtonText: 'Entendido'
+                    });
                 });
         });
     }
@@ -55,6 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 confirmButtonColor: '#198754'
             }).then((result) => {
                 if (!result.isConfirmed) return;
+
+                // UX FIX #2: Activar loading state en botón de pago
+                btnAprobar.disabled = true;
+                const originalText = btnAprobar.innerHTML;
+                btnAprobar.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Procesando pago...';
 
                 fetch('/carrito/aprobar', {
                     method: 'POST',
@@ -175,12 +186,9 @@ function actualizarBadgeCarrito() {
             const badge = document.getElementById('cart-count');
             if (!badge) return;
 
-            if (Number(data.total) > 0) {
-                badge.textContent = data.total;
-                badge.style.display = 'inline-block';
-            } else {
-                badge.style.display = 'none';
-            }
+            // UX FIX MEDIO #7: Mostrar badge siempre, incluso en 0
+            badge.textContent = data.total || '0';
+            badge.style.display = 'inline-block';
         })
         .catch(() => { /* silencioso */ });
 }
@@ -216,10 +224,11 @@ function mostrarAlertaSuperior(mensaje) {
         </div>
     `;
 
+    // SECOND AUDIT FIX #5: Aumentar timeout a 4 segundos
     setTimeout(() => {
         const alerta = contenedor.querySelector('.alert');
         if (alerta) alerta.remove();
-    }, 2000);
+    }, 4000); // Cambiado de 2000 a 4000
 }
 
 /* Event delegation para botones dinámicos (+, -, eliminar) */
@@ -250,6 +259,10 @@ function actualizarCantidad(btn, cambio) {
 
     let cantidad = parseInt(qtySpan.textContent) + cambio;
     if (cantidad < 1) return;
+
+    // UX FIX #3: Mostrar feedback visual inmediato
+    qtySpan.style.opacity = '0.5';
+    btn.disabled = true;
 
     fetch('/carrito/update-cantidad', {
         method: 'POST',
