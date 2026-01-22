@@ -80,18 +80,20 @@
                                     ${{ number_format($item->pxf_precio, 2) }}
                                 </p>
                                 <div class="carrito-item-controles">
-                                    <button class="btn-minus" data-producto="{{ $item->id_producto }}"
-                                        data-carrito="{{ $idCarrito }}">−</button>
+                                    {{-- FOURTH AUDIT FIX #2: Agregar aria-labels a botones de cantidad --}}
+                                    <button class="btn-minus" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
+                                        aria-label="Reducir cantidad de {{ $item->pro_descripcion }}">−</button>
                                     <span id="qty-{{ $item->id_producto }}" class="carrito-item-cantidad">
                                         {{ $item->pxf_cantidad }}
                                     </span>
-                                    <button class="btn-plus" data-producto="{{ $item->id_producto }}"
-                                        data-carrito="{{ $idCarrito }}">+</button>
+                                    <button class="btn-plus" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
+                                        aria-label="Aumentar cantidad de {{ $item->pro_descripcion }}">+</button>
                                 </div>
                             </div>
 
-                            <!-- BOTÓN ELIMINAR -->
-                            <button class="btn-remove" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}">
+                            {{-- FOURTH AUDIT FIX #3: Agregar aria-label a botón eliminar --}}
+                            <button class="btn-remove" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
+                                aria-label="Eliminar {{ $item->pro_descripcion }} del carrito">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>

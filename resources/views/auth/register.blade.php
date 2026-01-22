@@ -28,8 +28,8 @@
                     <div class="input-with-icon">
                         <i class="bi bi-person"></i>
                         <input type="text" class="form-control-center @error('cli_nombre') is-invalid @enderror"
-                            id="cli_nombre" name="cli_nombre" placeholder="Tu nombre completo" value="{{ old('cli_nombre') }}"
-                            maxlength="40" required>
+                            id="cli_nombre" name="cli_nombre" placeholder="Tu nombre completo"
+                            value="{{ old('cli_nombre') }}" maxlength="40" autocomplete="name" required>
                     </div>
                     @error('cli_nombre')
                         <span class="error-message">{{ $message }}</span>
@@ -44,7 +44,7 @@
                         <input type="text" class="form-control-center @error('cli_ruc_ced') is-invalid @enderror"
                             id="cli_ruc_ced" name="cli_ruc_ced" placeholder="10 o 13 dígitos"
                             value="{{ old('cli_ruc_ced', session('pre_cedula', '')) }}" pattern="[0-9]{10}|[0-9]{13}"
-                            maxlength="13" required>
+                            maxlength="13" autocomplete="off" required>
                     </div>
                     <span class="form-text-minimal">Ingrese 10 dígitos para cédula o 13 para RUC</span>
                     @error('cli_ruc_ced')
@@ -59,7 +59,8 @@
                         <i class="bi bi-envelope"></i>
                         <input type="email" class="form-control-center @error('cli_mail') is-invalid @enderror"
                             id="cli_mail" name="cli_mail" placeholder="tu@email.com"
-                            value="{{ old('cli_mail', session('pre_email', '')) }}" maxlength="60" required>
+                            value="{{ old('cli_mail', session('pre_email', '')) }}" maxlength="60" autocomplete="email"
+                            required>
                     </div>
                     @error('cli_mail')
                         <span class="error-message">{{ $message }}</span>
@@ -75,7 +76,8 @@
                                 <i class="bi bi-telephone"></i>
                                 <input type="text" class="form-control-center @error('cli_telefono') is-invalid @enderror"
                                     id="cli_telefono" name="cli_telefono" placeholder="Número de teléfono"
-                                    value="{{ old('cli_telefono') }}" pattern="0[2-3][0-9]{7}" maxlength="9">
+                                    value="{{ old('cli_telefono') }}" pattern="0[2-3][0-9]{7}" maxlength="9"
+                                    autocomplete="tel">
                             </div>
                             <span class="form-text-minimal">Ej: 022345678</span>
                             @error('cli_telefono')
@@ -91,7 +93,8 @@
                                 <i class="bi bi-phone"></i>
                                 <input type="text" class="form-control-center @error('cli_celular') is-invalid @enderror"
                                     id="cli_celular" name="cli_celular" placeholder="Número de celular"
-                                    value="{{ old('cli_celular') }}" pattern="09[0-9]{8}" maxlength="10" required>
+                                    value="{{ old('cli_celular') }}" pattern="09[0-9]{8}" maxlength="10" autocomplete="tel"
+                                    required>
                             </div>
                             <span class="form-text-minimal">Ej: 0991234567</span>
                             @error('cli_celular')
@@ -108,7 +111,7 @@
                         <i class="bi bi-geo-alt"></i>
                         <input type="text" class="form-control-center @error('cli_direccion') is-invalid @enderror"
                             id="cli_direccion" name="cli_direccion" placeholder="Tu dirección de residencia"
-                            value="{{ old('cli_direccion') }}" maxlength="60" required>
+                            value="{{ old('cli_direccion') }}" maxlength="60" autocomplete="street-address" required>
                     </div>
                     @error('cli_direccion')
                         <span class="error-message">{{ $message }}</span>
@@ -123,7 +126,8 @@
                             <div class="input-with-icon">
                                 <i class="bi bi-lock"></i>
                                 <input type="password" class="form-control-center @error('password') is-invalid @enderror"
-                                    id="password" name="password" placeholder="••••••••••" minlength="10" required>
+                                    id="password" name="password" placeholder="••••••••••" minlength="10"
+                                    autocomplete="new-password" required>
                                 <button type="button" class="toggle-password-center" id="togglePassword">
                                     <i class="bi bi-eye"></i>
                                 </button>

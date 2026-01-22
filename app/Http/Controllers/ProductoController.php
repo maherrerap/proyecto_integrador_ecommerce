@@ -123,9 +123,12 @@ class ProductoController extends Controller
 
     public function destroy(Producto $producto)
     {
+        // FIFTH AUDIT FIX #2: Implementar lógica de inhabilitación
+        $producto->update(['estado_prod' => 'INA']);
+
         return redirect()
             ->route('productos.index')
-            ->with('success', 'Producto Inhabilitado Exitosamente!');
+            ->with('success', 'Producto inhabilitado exitosamente.');
     }
 
 
