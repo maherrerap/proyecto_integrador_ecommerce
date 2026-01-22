@@ -169,7 +169,7 @@
         <div class="col-lg-3 col-md-4">
             <aside class="card cart-card sticky-cart">
                 <div class="card-body" id="cart-summary">
-                    <p class="mb-0 text-muted">Cargando carrito...</p>
+                    <p class="mb-0 text-muted">Inicia sesión para ver carrito</p>
                 </div>
             </aside>
         </div>
