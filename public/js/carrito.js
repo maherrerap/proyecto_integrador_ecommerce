@@ -253,13 +253,13 @@ function actualizarResumenCarrito() {
         .then(res => res.json())
         .then(data => {
             if (!data || !data.ok) {
-                contenedor.innerHTML = `<p class="mb-0 text-muted">No se pudo cargar el carrito.</p>`;
+                contenedor.innerHTML = `<p class="mb-0 text-muted">Debe de Iniciar Sesión para ver el carrito</p>`;
                 return;
             }
             contenedor.innerHTML = data.html;
         })
         .catch(() => {
-            contenedor.innerHTML = `<p class="mb-0 text-muted">No se pudo cargar el carrito.</p>`;
+            contenedor.innerHTML = `<p class="mb-0 text-muted">Debe de Iniciar Sesión para ver el carrito</p>`;
         });
 }
 
