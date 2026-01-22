@@ -45,8 +45,10 @@
                     <h2 class="section-title">Quiénes Somos</h2>
                     <p class="section-lead">
                         En <strong class="brand-highlight">Cold Market</strong>, nos dedicamos a ofrecerte los mejores
-                        productos frescos y de consumo diario. Somos tu aliado confiable para mantener tu hogar
-                        abastecido con alimentos de calidad, garantizando frescura y los mejores precios del mercado.
+                        productos de consumo diario, ropa, ferreteria y electr. Somos tu aliado confiable para mantener tu
+                        hogar
+                        abastecido con alimentos, productos de calidad, garantizando frescura y los mejores precios del
+                        mercado.
                         Trabajamos con proveedores locales y nacionales para traerte productos que cumplen con
                         los más altos estándares.
                     </p>
@@ -293,7 +295,7 @@
                             </div>
                             <h3 class="principle-title">Misión</h3>
                             <p class="principle-text">
-                                Proveer alimentos frescos y productos de consumo diario con altos estándares de calidad,
+                                Proveer alimentos frescos y productos de hogar con altos estándares de calidad,
                                 ofreciendo un servicio confiable y accesible para todas las familias.
                             </p>
                         </div>
@@ -308,7 +310,8 @@
                             </div>
                             <h3 class="principle-title">Visión</h3>
                             <p class="principle-text">
-                                Ser un mercado líder a nivel local y nacional, reconocido por la frescura de nuestros
+                                Ser un mercado líder a nivel local y nacional, reconocido por la frescura y calidad de
+                                nuestros
                                 productos, la excelencia en el servicio al cliente y el compromiso con la comunidad.
                             </p>
                         </div>
