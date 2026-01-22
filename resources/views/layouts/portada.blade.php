@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="d-flex align-items-center gap-3">
-                    <a href="{{ route('login.index') }}" class="btn btn-login-header fw-semibold">Iniciar sesión</a>
+                    <a href="{{ route('auth.login') }}" class="btn btn-login-header fw-semibold">Iniciar sesión</a>
                 </div>
             </div>
         </nav>
