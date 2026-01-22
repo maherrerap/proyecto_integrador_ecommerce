@@ -23,7 +23,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     cantidad: 1
                 })
             })
-                .then(res => res.json())
+                .then(res => {
+                    // FIX: Manejar 401 no autenticado - redirigir a login
+                    if (res.status === 401) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Debe iniciar sesión',
+                            text: 'Para agregar productos al carrito debe iniciar sesión',
+                            confirmButtonText: 'Ir a iniciar sesión',
+                            showCancelButton: true,
+                            cancelButtonText: 'Cancelar',
+                            confirmButtonColor: '#198754'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '/login';
+                            }
+                        });
+                        throw new Error('No autenticado');
+                    }
+                    return res.json();
+                })
                 .then(data => {
                     if (data.ok) {
                         mostrarAlertaSuperior(data.message);
