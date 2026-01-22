@@ -142,7 +142,16 @@ class ProductoController extends Controller
 
         $stockActual = (int) $producto->pro_saldo_final;
 
-        return view('productos.show', compact('producto', 'stockActual'));
+        // Obtener productos relacionados de la misma categoría
+        $productosRelacionados = Producto::where('estado_prod', 'ACT')
+            ->where('id_categoria', $producto->id_categoria)
+            ->where('id_producto', '!=', $producto->id_producto) // Excluir el producto actual
+            ->with('categoria')
+            ->inRandomOrder()
+            ->take(4)
+            ->get();
+
+        return view('productos.show', compact('producto', 'stockActual', 'productosRelacionados'));
     }
 
 }
