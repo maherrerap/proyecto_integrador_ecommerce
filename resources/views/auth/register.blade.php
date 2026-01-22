@@ -68,8 +68,8 @@
                 </div>
 
                 <!-- Teléfono y Celular -->
-                <div class="row">
-                    <div class="col-md-6">
+                <div class="row g-2">
+                    <div class="col-12 col-sm-6">
                         <div class="form-group-center">
                             <label for="cli_telefono">Teléfono</label>
                             <div class="input-with-icon">
@@ -86,7 +86,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-12 col-sm-6">
                         <div class="form-group-center">
                             <label for="cli_celular">Celular <span class="required-minimal">*</span></label>
                             <div class="input-with-icon">
@@ -119,8 +119,8 @@
                 </div>
 
                 <!-- Contraseña y Confirmar Contraseña -->
-                <div class="row">
-                    <div class="col-md-6">
+                <div class="row g-2">
+                    <div class="col-12 col-sm-6">
                         <div class="form-group-center">
                             <label for="password">Contraseña <span class="required-minimal">*</span></label>
                             <div class="input-with-icon">
@@ -146,7 +146,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-12 col-sm-6">
                         <div class="form-group-center">
                             <label for="password_confirmation">Confirmar Contraseña <span
                                     class="required-minimal">*</span></label>
@@ -164,7 +164,7 @@
                 </div>
 
                 <!-- Botón Registrarse -->
-                <button type="submit" class="btn-register-minimal" id="btnSubmit">
+                <button type="submit" class="btn-register-minimal w-100" id="btnSubmit">
                     <i class="bi bi-person-check me-2"></i> Registrarse
                 </button>
             </form>

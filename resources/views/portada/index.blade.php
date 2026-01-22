@@ -15,7 +15,7 @@
 
         <div class="container-fluid hero-content-wrapper">
             <div class="row w-100 justify-content-center">
-                <div class="col-lg-8 mx-auto text-center">
+                <div class="col-12 col-sm-10 col-md-9 col-lg-8 mx-auto text-center">
                     <div class="glass-card">
                         <h1 class="hero-title">
                             Calidad y Frescura<br>
@@ -41,7 +41,7 @@
     <section class="about-section">
         <div class="container-fluid section-container">
             <div class="row">
-                <div class="col-lg-10 col-xl-8 mx-auto text-center">
+                <div class="col-12 col-md-10 col-lg-8 mx-auto text-center">
                     <h2 class="section-title">Quiénes Somos</h2>
                     <p class="section-lead">
                         En <strong class="brand-highlight">Cold Market</strong>, nos dedicamos a ofrecerte los mejores
@@ -64,10 +64,10 @@
     <section class="why-choose-section">
         <div class="container-fluid section-container">
             <div class="row align-items-center g-4 g-lg-5">
-                <div class="col-lg-6">
-                    <img src="{{ asset('images/why-choose-us.jpg') }}" alt="Por qué elegirnos" class="why-choose-image">
+                <div class="col-12 col-lg-6 d-flex justify-content-center">
+                    <img src="{{ asset('images/why-choose-us.jpg') }}" alt="Por qué elegirnos" class="why-choose-image img-fluid">
                 </div>
-                <div class="col-lg-6">
+                <div class="col-12 col-lg-6">
                     <h2 class="why-choose-title">
                         Te proporcionamos un espacio confiable para tu compra diaria
                     </h2>
@@ -89,8 +89,8 @@
         <div class="container-fluid section-container">
             <h2 class="text-center section-title">Nuestras Categorías</h2>
 
-            <div class="categories-grid">
-                <div class="col-sm-6 col-lg-3">
+            <div class="row g-3 g-md-4">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="category-card">
                         <div class="card-body">
                             <div class="category-icon">🍽️</div>
@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="category-card">
                         <div class="card-body">
                             <div class="category-icon">👕</div>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="category-card">
                         <div class="card-body">
                             <div class="category-icon">🔌</div>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="category-card">
                         <div class="card-body">
                             <div class="category-icon">🔧</div>
@@ -151,9 +151,9 @@
         <div class="container-fluid section-container">
             <h2 class="text-center section-title">Productos Destacados</h2>
 
-            <div class="featured-products-grid">
+            <div class="row g-3 g-md-4">
                 @forelse($productosDestacados as $producto)
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                         <div class="featured-product-card">
                             <div class="featured-product-image">
                                 @php

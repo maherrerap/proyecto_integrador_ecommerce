@@ -19,16 +19,19 @@
 <body>
 
     <header class="header-coldmarket">
-        <nav class="navbar navbar-dark">
-            <div class="container-fluid d-flex align-items-center justify-content-between">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a href="{{ route('portada.index') }}" class="navbar-brand">
+                    <img src="{{ asset('images/cold_tech_logo.png') }}" alt="coldmarket Logo" class="header-logo">
+                </a>
 
-                <!-- Logo y navegación principal -->
-                <div class="d-flex align-items-center gap-3">
-                    <a href="{{ route('portada.index') }}" class="d-flex align-items-center">
-                        <img src="{{ asset('images/cold_tech_logo.png') }}" alt="coldmarket Logo" class="header-logo">
-                    </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <ul class="navbar-nav flex-row align-items-center mb-0">
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
                         <li class="nav-item">
                             <a class="nav-link nav-link-coldmarket" href="{{ route('portada.index') }}">
                                 Inicio
@@ -49,41 +52,38 @@
                                         style="display: none;">
                                         0
                                     </span>
-                                    Carrito
+                                    <span class="d-lg-inline">Carrito</span>
                                 </a>
                             </li>
                         @endif
-                    </ul>
-                </div>
 
-                <!-- Usuario / Login -->
-                <div class="d-flex align-items-center">
-                    @if(session('autenticado'))
-                        <!-- Usuario autenticado -->
-                        <div class="dropdown">
-                            <a class="nav-link nav-link-coldmarket dropdown-toggle d-flex align-items-center gap-2" href="#"
-                                role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle"></i>
-                                <span>{{ session('nombreCliente') }}</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end admin-dropdown" aria-labelledby="userDropdown">
-                                <li>
-                                    <form action="{{ route('auth.logout') }}" method="POST" id="logoutForm">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item text-danger">
-                                            <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    @else
-                        <!-- Usuario NO autenticado -->
-                        <a href="{{ route('auth.login') }}" class="btn btn-login-header">
-                            <i class="bi bi-box-arrow-in-right"></i>
-                            <span>Iniciar sesión</span>
-                        </a>
-                    @endif
+                        <li class="nav-item">
+                            @if(session('autenticado'))
+                                <div class="dropdown">
+                                    <a class="nav-link nav-link-coldmarket dropdown-toggle d-flex align-items-center gap-2" href="#"
+                                        role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-circle"></i>
+                                        <span class="d-none d-lg-inline">{{ session('nombreCliente') }}</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end admin-dropdown" aria-labelledby="userDropdown">
+                                        <li>
+                                            <form action="{{ route('auth.logout') }}" method="POST" id="logoutForm">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item text-danger">
+                                                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @else
+                                <a href="{{ route('auth.login') }}" class="btn btn-login-header btn-sm">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    <span class="d-lg-inline">Iniciar sesión</span>
+                                </a>
+                            @endif
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>

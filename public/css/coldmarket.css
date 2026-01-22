@@ -3282,3 +3282,430 @@ header,
     flex: none !important;
     padding: 0 !important;
 }
+
+/* ========================================
+   EXTRA MOBILE IMPROVEMENTS (iOS & Android)
+   ======================================== */
+
+@media (max-width: 576px) {
+    /* Navbar mobile optimizations */
+    .navbar {
+        padding: 0.5rem 0 !important;
+    }
+
+    .navbar-brand {
+        padding: 0.5rem 1rem !important;
+    }
+
+    .navbar-toggler {
+        padding: 0.5rem 1rem !important;
+    }
+
+    .navbar-collapse {
+        padding: 0 1rem !important;
+    }
+
+    .nav-link {
+        padding: 0.75rem 0.5rem !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* Header logo responsive */
+    .header-logo {
+        max-height: 35px;
+    }
+
+    /* Hero section */
+    h1 {
+        font-size: 1.75rem !important;
+        letter-spacing: 5px !important;
+        padding-left: 8px !important;
+        border-left: 4px solid #0037ba !important;
+        margin: 0.75rem 0 !important;
+    }
+
+    .hero-title {
+        font-size: 1.5rem !important;
+        line-height: 1.3 !important;
+    }
+
+    .hero-title-accent {
+        font-size: 1.5rem !important;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem !important;
+        padding: 0.75rem !important;
+    }
+
+    .glass-card {
+        padding: 1.5rem 1rem !important;
+        margin: 1rem !important;
+    }
+
+    /* Button sizing */
+    .btn-lg {
+        padding: 0.75rem 1.5rem !important;
+        font-size: 0.95rem !important;
+    }
+
+    .btn-hero {
+        padding: 0.7rem 1.5rem !important;
+    }
+
+    /* Section titles */
+    .section-title {
+        font-size: 1.5rem !important;
+        margin: 1rem 0 !important;
+    }
+
+    .section-lead {
+        font-size: 0.9rem !important;
+        padding: 0 0.5rem !important;
+    }
+
+    /* Category cards */
+    .category-card {
+        margin-bottom: 1rem;
+    }
+
+    .category-icon {
+        font-size: 2rem !important;
+    }
+
+    .category-card-title {
+        font-size: 1rem !important;
+        margin: 0.5rem 0 !important;
+    }
+
+    .category-card-text {
+        font-size: 0.85rem !important;
+    }
+
+    /* Featured products */
+    .featured-product-card {
+        min-height: auto !important;
+    }
+
+    .featured-product-image {
+        height: 150px !important;
+    }
+
+    .featured-product-title {
+        font-size: 0.95rem !important;
+    }
+
+    .featured-product-price {
+        font-size: 1rem !important;
+        font-weight: 600;
+    }
+
+    /* Why choose section */
+    .why-choose-image {
+        margin-bottom: 1rem;
+        max-height: 200px;
+        object-fit: cover;
+    }
+
+    .why-choose-title {
+        font-size: 1.25rem !important;
+        margin: 0.75rem 0 !important;
+    }
+
+    .why-choose-text {
+        font-size: 0.9rem !important;
+        line-height: 1.5;
+    }
+
+    /* Testimonial */
+    .testimonial-quote {
+        margin: 1rem 0 !important;
+    }
+
+    .testimonial-text {
+        font-size: 0.95rem !important;
+    }
+
+    /* Forms - Mobile optimizations */
+    .form-group-center {
+        margin-bottom: 1.25rem !important;
+    }
+
+    .form-control-center,
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="number"] {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        padding: 0.75rem 0.5rem 0.75rem 2.5rem !important;
+        width: 100%;
+    }
+
+    .input-icon-left {
+        left: 0.5rem !important;
+    }
+
+    .toggle-password-center,
+    .input-validation-icon {
+        right: 0.5rem !important;
+    }
+
+    label {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .required-minimal {
+        font-size: 0.9rem;
+    }
+
+    .form-text-minimal {
+        font-size: 0.8rem !important;
+    }
+
+    .error-message {
+        font-size: 0.85rem !important;
+    }
+
+    .password-requirements-minimal {
+        font-size: 0.8rem !important;
+        margin-top: 0.5rem !important;
+    }
+
+    .password-requirements-minimal li {
+        padding: 0.25rem 0 !important;
+    }
+
+    /* Login/Register buttons */
+    .btn-entrar,
+    .btn-register-minimal,
+    .btn-login-header {
+        font-size: 0.95rem !important;
+        padding: 0.75rem 1rem !important;
+        width: 100% !important;
+    }
+
+    .btn-login-header {
+        width: auto !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Login split */
+    .login-split-image {
+        display: none !important;
+    }
+
+    .login-split-form {
+        width: 100% !important;
+    }
+
+    .login-card-center {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .login-header-center h3 {
+        font-size: 1.5rem !important;
+    }
+
+    .login-value-prop {
+        font-size: 0.9rem !important;
+    }
+
+    /* Register card */
+    .register-card-minimal {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .register-header-minimal h2 {
+        font-size: 1.5rem !important;
+    }
+
+    .register-header-minimal p {
+        font-size: 0.9rem !important;
+    }
+
+    /* Catalog page */
+    .catalog-title {
+        font-size: 1.5rem !important;
+    }
+
+    .catalog-search {
+        margin-bottom: 1rem;
+    }
+
+    .buscador-productos {
+        font-size: 0.9rem !important;
+    }
+
+    .catalog-topbar {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+
+    .filters-row {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        width: 100%;
+    }
+
+    .catalog-right-top {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        width: 100%;
+    }
+
+    .back-home {
+        display: inline-block;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .mini-note {
+        font-size: 0.85rem !important;
+    }
+
+    .filter-pill {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    /* Product cards */
+    .product-card {
+        margin-bottom: 0.75rem !important;
+    }
+
+    .tag-categoria {
+        font-size: 0.7rem !important;
+        padding: 0.3rem 0.5rem !important;
+    }
+
+    .product-img {
+        height: 150px !important;
+        object-fit: cover;
+    }
+
+    .product-img-wrap {
+        height: 150px !important;
+    }
+
+    .card-body {
+        padding: 0.75rem !important;
+    }
+
+    .price {
+        font-size: 1rem !important;
+        font-weight: 600;
+    }
+
+    .btn-detalle {
+        font-size: 0.85rem !important;
+        padding: 0.5rem 0.75rem !important;
+    }
+
+    /* Sticky cart */
+    .sticky-cart {
+        margin-top: 1rem;
+        position: static !important;
+    }
+
+    /* Footer */
+    .footer-coldmarket {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .footer-container {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        text-align: center;
+    }
+
+    .footer-left,
+    .footer-right {
+        width: 100%;
+    }
+
+    .footer-social {
+        margin: 0 0.5rem !important;
+    }
+
+    /* Alerts */
+    .alert {
+        padding: 0.75rem !important;
+        font-size: 0.9rem !important;
+        margin: 0.75rem 0 !important;
+    }
+
+    /* Dropdown menu */
+    .dropdown-menu {
+        font-size: 0.9rem !important;
+        min-width: auto !important;
+    }
+
+    /* Container spacing */
+    .container,
+    .container-fluid {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+
+    /* Security badge */
+    .security-badge {
+        font-size: 0.8rem !important;
+        padding: 0.5rem !important;
+    }
+
+    /* Testimonial author */
+    .testimonial-author {
+        font-size: 0.8rem !important;
+    }
+}
+
+/* Extra small devices (< 375px) */
+@media (max-width: 374px) {
+    h1 {
+        font-size: 1.4rem !important;
+        letter-spacing: 3px !important;
+    }
+
+    .hero-title {
+        font-size: 1.25rem !important;
+    }
+
+    .section-title {
+        font-size: 1.25rem !important;
+    }
+
+    .btn-lg {
+        padding: 0.65rem 1rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    .form-control-center {
+        font-size: 14px !important;
+    }
+
+    .login-card-center {
+        padding: 1rem !important;
+    }
+
+    .register-card-minimal {
+        padding: 1rem !important;
+    }
+}
+
+/* Tablet landscape (768px - 1024px) */
+@media (max-width: 1024px) and (orientation: landscape) {
+    .hero-content-wrapper {
+        padding: 2rem 1rem !important;
+    }
+
+    .glass-card {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .section-container {
+        padding: 2rem 1rem !important;
+    }
+}

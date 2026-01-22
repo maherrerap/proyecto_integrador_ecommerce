@@ -4,9 +4,9 @@
 @section('contenido')
     <div class="login-split-container">
         <div class="login-split-wrapper">
-            <!-- Lado IZQUIERDO: Imagen decorativa -->
-            <div class="login-split-image">
-                <img src="{{ asset('images/split_ColdMarket.png') }}" alt="ColdMarket Shopping">
+            <!-- Lado IZQUIERDO: Imagen decorativa (oculta en mobile) -->
+            <div class="login-split-image d-none d-lg-block">
+                <img src="{{ asset('images/split_ColdMarket.png') }}" alt="ColdMarket Shopping" class="img-fluid">
             </div>
 
             <!-- Lado DERECHO: Formulario -->
@@ -79,7 +79,7 @@
                         </div>
 
                         <!-- Botón Entrar -->
-                        <button type="submit" id="btnLogin" class="btn-entrar">
+                        <button type="submit" id="btnLogin" class="btn-entrar w-100">
                             <span class="btn-text">Entrar</span>
                             <span class="spinner-border spinner-border-sm d-none" role="status" id="loginSpinner"></span>
                         </button>

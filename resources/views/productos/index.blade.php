@@ -41,10 +41,10 @@
             <div class="mt-3 catalog-topbar">
 
                 {{-- IZQUIERDA: CATEGORÍAS --}}
-                <div class="filters-row d-flex flex-wrap align-items-center gap-3">
+                <div class="filters-row d-flex flex-wrap align-items-center gap-2 gap-md-3">
 
-                    <div class="d-flex flex-wrap align-items-center">
-                        <span class="me-2">Categorías Disponibles:</span>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <span class="me-2 text-nowrap">Categorías:</span>
 
                         @php
                             $selectedCats = (array) request('categorias', []);
@@ -72,7 +72,7 @@
                 </div>
 
                 {{-- DERECHA: NAVEGACIÓN --}}
-                <div class="catalog-right-top">
+                <div class="catalog-right-top mt-2 mt-md-0">
                     {{-- UX FIX BAJO #2: Simplificar texto sin puntos suspensivos --}}
                     <a href="{{ route('portada.index') }}" class="back-home">
                         Volver al Inicio
@@ -98,7 +98,7 @@
     <div class="row align-items-start">
 
         {{-- PRODUCTOS --}}
-        <div class="col-lg-9 col-md-8">
+        <div class="col-12 col-lg-9">
             
             {{-- UX FIX MEDIO #1: Mensaje más empático y útil --}}
             @if($productos->count() == 0 && !empty($criterio))
@@ -116,7 +116,7 @@
                     No hay productos disponibles en este momento.
                 </div>
             @else
-                <div class="row g-4">
+                <div class="row g-2 g-md-3 g-lg-4">
                     @foreach($productos as $producto)
                         @php
                             $id = $producto->id_producto ?? $producto->id ?? null;
@@ -166,7 +166,7 @@
         </div>
 
         {{-- SIDEBAR CARRITO --}}
-        <div class="col-lg-3 col-md-4">
+        <div class="col-12 col-lg-3 mt-4 mt-lg-0">
             <aside class="card cart-card sticky-cart">
                 <div class="card-body" id="cart-summary">
                     <p class="mb-0 text-muted">Inicia sesión para ver carrito</p>
