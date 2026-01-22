@@ -141,7 +141,7 @@
                                 <div class="tag-categoria">{{ $categoria }}</div>
 
                                 <div class="product-img-wrap">
-                                    <img src="{{ $img }}" alt="{{ $producto->pro_descripcion }}" class="product-img">
+                                    <img src="{{ $img }}" alt="{{ $producto->pro_descripcion }}" class="product-img" loading="lazy">
                                 </div>
 
                                 <div class="card-body d-flex flex-column text-center">

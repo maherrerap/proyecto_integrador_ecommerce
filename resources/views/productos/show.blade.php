@@ -43,7 +43,7 @@
                             style="height: 400px;">
                             <img id="imagenPrincipal"
                                 src="{{ $producto->pro_imagen ? asset(ltrim($producto->pro_imagen, '/')) : asset('images/no-image.png') }}"
-                                class="img-fluid" alt="{{ $producto->pro_descripcion }}"
+                                class="img-fluid" alt="{{ $producto->pro_descripcion }}" loading="lazy"
                                 style="max-height: 100%; object-fit: contain;">
                         </div>
                     </div>
@@ -102,7 +102,8 @@
                 <div class="text-center mb-4">
                     <h2 class="h3 fw-bold">Productos Relacionados</h2>
                     <p class="text-muted">Otros productos de la categoría
-                        <strong>{{ $producto->categoria->cat_descripcion ?? 'similar' }}</strong></p>
+                        <strong>{{ $producto->categoria->cat_descripcion ?? 'similar' }}</strong>
+                    </p>
                 </div>
 
                 <div class="row g-3 g-md-4">
@@ -116,7 +117,7 @@
                                         @endphp
                                         @if(file_exists(public_path($imagenPath)))
                                             <img src="{{ asset($imagenPath) }}" alt="{{ $productoRelacionado->pro_descripcion }}"
-                                                class="card-img-top p-3" style="height: 100%; object-fit: contain;">
+                                                class="card-img-top p-3" loading="lazy" style="height: 100%; object-fit: contain;">
                                         @else
                                             <div class="d-flex align-items-center justify-content-center h-100">
                                                 <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>

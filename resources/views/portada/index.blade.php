@@ -65,7 +65,8 @@
         <div class="container-fluid section-container">
             <div class="row align-items-center g-4 g-lg-5">
                 <div class="col-12 col-lg-6 d-flex justify-content-center">
-                    <img src="{{ asset('images/why-choose-us.jpg') }}" alt="Por qué elegirnos" class="why-choose-image img-fluid">
+                    <img src="{{ asset('images/why-choose-us.jpg') }}" alt="Por qué elegirnos"
+                        class="why-choose-image img-fluid">
                 </div>
                 <div class="col-12 col-lg-6">
                     <h2 class="why-choose-title">
@@ -160,7 +161,8 @@
                                     $imagenPath = 'images/productos/' . $producto->id_producto . '.jpg';
                                 @endphp
                                 @if(file_exists(public_path($imagenPath)))
-                                    <img src="{{ asset($imagenPath) }}" alt="{{ $producto->pro_descripcion }}" class="featured-img">
+                                    <img src="{{ asset($imagenPath) }}" alt="{{ $producto->pro_descripcion }}" class="featured-img"
+                                        loading="lazy">
                                 @else
                                     <div class="featured-product-placeholder">
                                         <i class="bi bi-image"></i>
