@@ -1,5 +1,5 @@
 /* ================
-   Coldmarket CSS
+   COLDMARKET CSS - VERSIÓN UNIFICADA COMPLETA
    ================ */
 
 /* -------- RESET Y VARIABLES GLOBALES -------- */
@@ -8,6 +8,7 @@
     --coldmarket-bg-hover: #102542;
     --coldmarket-border: rgba(255, 255, 255, 0.08);
     --coldmarket-text: #ffffff;
+    --coldmarket-accent: #00E0FF;
 }
 
 * {
@@ -71,6 +72,7 @@ nav a {
 
 /* -------- HEADER / NAVBAR -------- */
 header,
+.header-coldmarket,
 .header-coldmarket {
     background: linear-gradient(135deg, #0A1A2F 0%, #0d2137 100%);
     border-bottom: 1px solid rgba(0, 224, 255, 0.1);
@@ -85,16 +87,21 @@ header,
 }
 
 .header-coldmarket,
+.header-coldmarket,
 .header-coldmarket .navbar,
+.header-coldmarket .navbar,
+.header-coldmarket .container-fluid,
 .header-coldmarket .container-fluid {
     overflow: visible;
 }
 
+.header-coldmarket .navbar,
 .header-coldmarket .navbar {
     min-height: 64px;
     padding: 0.5rem 0;
 }
 
+.header-coldmarket .navbar-nav .nav-link,
 .header-coldmarket .navbar-nav .nav-link {
     line-height: 1;
     padding-top: 0.75rem;
@@ -114,6 +121,7 @@ header,
 }
 
 /* Links del navbar con efecto */
+.nav-link-coldmarket,
 .nav-link-coldmarket {
     font-size: 15px;
     color: rgba(255, 255, 255, 0.9) !important;
@@ -125,6 +133,7 @@ header,
     letter-spacing: 0.3px;
 }
 
+.nav-link-coldmarket:hover,
 .nav-link-coldmarket:hover {
     color: #ffffff !important;
     background: rgba(0, 224, 255, 0.08);
@@ -132,6 +141,7 @@ header,
 }
 
 /* Animación de subrayado de navbar */
+.nav-link-coldmarket::after,
 .nav-link-coldmarket::after {
     content: "";
     display: block;
@@ -146,17 +156,20 @@ header,
     border-radius: 2px;
 }
 
+.nav-link-coldmarket:hover::after,
 .nav-link-coldmarket:hover::after {
     width: 70%;
 }
 
 /* Icono del carrito */
+.nav-link-coldmarket i.bi-cart3,
 .nav-link-coldmarket i.bi-cart3 {
     font-size: 1.1rem;
     margin-right: 6px;
     transition: transform 0.3s ease;
 }
 
+.nav-link-coldmarket:hover i.bi-cart3,
 .nav-link-coldmarket:hover i.bi-cart3 {
     transform: scale(1.1);
 }
@@ -186,6 +199,7 @@ header,
     position: relative;
 }
 
+.dropdown .nav-link-coldmarket,
 .dropdown .nav-link-coldmarket {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -194,27 +208,32 @@ header,
     transition: all 0.3s ease;
 }
 
+.dropdown .nav-link-coldmarket:hover,
 .dropdown .nav-link-coldmarket:hover {
     background: rgba(0, 224, 255, 0.1);
     border-color: rgba(0, 224, 255, 0.3);
     transform: translateY(-1px);
 }
 
+.dropdown .nav-link-coldmarket::after,
 .dropdown .nav-link-coldmarket::after {
     display: none !important;
 }
 
+.dropdown .nav-link-coldmarket i.bi-person-circle,
 .dropdown .nav-link-coldmarket i.bi-person-circle {
     font-size: 1.3rem;
     color: #00E0FF;
     transition: transform 0.3s ease;
 }
 
+.dropdown .nav-link-coldmarket:hover i.bi-person-circle,
 .dropdown .nav-link-coldmarket:hover i.bi-person-circle {
     transform: rotate(10deg);
 }
 
 /* Dropdown menu mejorado - VERSIÓN FINAL */
+.header-coldmarket .dropdown-menu.admin-dropdown,
 .header-coldmarket .dropdown-menu.admin-dropdown {
     background: linear-gradient(135deg, #0d2137 0%, #0A1A2F 100%) !important;
     border: 1px solid rgba(0, 224, 255, 0.2) !important;
@@ -231,6 +250,7 @@ header,
     transform: none !important;
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item,
 .header-coldmarket .admin-dropdown .dropdown-item {
     color: rgba(255, 255, 255, 0.9) !important;
     font-size: 14px !important;
@@ -244,26 +264,32 @@ header,
 }
 
 .header-coldmarket .admin-dropdown .dropdown-item:hover,
+.header-coldmarket .admin-dropdown .dropdown-item:hover,
+.header-coldmarket .admin-dropdown .dropdown-item:focus,
 .header-coldmarket .admin-dropdown .dropdown-item:focus {
     background: rgba(0, 224, 255, 0.1) !important;
     color: #ffffff !important;
     transform: translateX(4px);
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item.text-danger,
 .header-coldmarket .admin-dropdown .dropdown-item.text-danger {
     color: #ff6b6b !important;
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item.text-danger:hover,
 .header-coldmarket .admin-dropdown .dropdown-item.text-danger:hover {
     background: rgba(255, 107, 107, 0.1) !important;
     color: #ff5252 !important;
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item i,
 .header-coldmarket .admin-dropdown .dropdown-item i {
     transition: transform 0.3s ease;
     margin-right: 8px !important;
 }
 
+.header-coldmarket .admin-dropdown .dropdown-item:hover i,
 .header-coldmarket .admin-dropdown .dropdown-item:hover i {
     transform: translateX(2px);
 }
@@ -323,8 +349,10 @@ header,
     z-index: 2000;
 }
 
-/* Responsivo */
+/* Responsivo header/navbar */
 @media (max-width: 992px) {
+
+    .header-coldmarket .navbar,
     .header-coldmarket .navbar {
         min-height: 56px;
     }
@@ -341,6 +369,7 @@ header,
         gap: 0.25rem !important;
     }
 
+    .nav-link-coldmarket,
     .nav-link-coldmarket {
         font-size: 13px;
         padding: 6px 12px;
@@ -382,6 +411,150 @@ header,
 .catalog-search {
     width: 100%;
     max-width: 500px;
+}
+
+/* ========================================
+   ESTILOS PARA PORTADA
+   ======================================== */
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #F8FAFB 0%, #E8EEF2 100%);
+    padding: 4rem 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    border-bottom: 2px solid #E0E6ED;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    color: #0A1A2F;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    border: none;
+    padding: 0;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: #6B7280;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* About Us Section */
+.about-us {
+    padding: 3rem 2rem;
+    background: #FFFFFF;
+    margin-bottom: 3rem;
+}
+
+.about-us .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #0A1A2F;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    border: none;
+    padding: 0;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.about-text {
+    font-size: 1.1rem;
+    color: #495057;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.about-card {
+    background: #F8FAFB;
+    border: 2px solid #E0E6ED;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.15);
+    border-color: #0A1A2F;
+}
+
+.about-card h3 {
+    font-size: 1.5rem;
+    color: #0A1A2F;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    border: none;
+    padding: 0;
+}
+
+.about-card p {
+    font-size: 1rem;
+    color: #6B7280;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.about-card.mission {
+    border-left: 4px solid #007BFF;
+}
+
+.about-card.vision {
+    border-left: 4px solid #00E0FF;
+}
+
+.about-card.values {
+    border-left: 4px solid #0A1A2F;
+}
+
+/* Productos Section (para portada) */
+.productos {
+    padding: 3rem 2rem;
+    background: #F8FAFB;
+}
+
+.productos .section-title {
+    margin-bottom: 2rem;
+}
+
+/* Responsivo portada */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* -------- PRODUCTOS GRID -------- */
@@ -1031,6 +1204,7 @@ header,
 }
 
 /* -------- FOOTER -------- */
+.footer-coldmarket,
 .footer-coldmarket {
     background: linear-gradient(180deg, #0A1A2F 0%, #1E2024 100%);
     color: white;

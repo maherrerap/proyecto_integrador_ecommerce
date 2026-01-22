@@ -47,8 +47,17 @@ Route::prefix('auth')->name('auth.')->group(function () {
     Route::post('/check-ruc-cedula', [AuthController::class, 'checkRucCedula'])->name('checkRucCedula');
 });
 
-/* RUTAS DE PRODUCTOS */
-Route::resource('producto', ProductoController::class);
+/* RUTAS DE PRODUCTOS - ÁREA PÚBLICA (nombres en singular) */
+Route::resource('productos', ProductoController::class)->names([
+    'index' => 'producto.index',
+    'create' => 'producto.create',
+    'store' => 'producto.store',
+    'show' => 'producto.show',
+    'edit' => 'producto.edit',
+    'update' => 'producto.update',
+    'destroy' => 'producto.destroy',
+]);
+
 
 /* RUTAS DE CONTACTO */
 Route::resource('contacto', ContactoController::class);
@@ -82,6 +91,7 @@ Route::resource('login', LoginController::class);
 Route::prefix('admin')->name('admin.')->middleware(['auth.check'])->group(function () {
     Route::get('/', fn() => view('admin.dashboard'))->name('dashboard');
 
+    Route::resource('clientes', ClienteController::class);
     Route::resource('clientes', ClienteController::class);
     Route::resource('productos', ProductoController::class);
 });

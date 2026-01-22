@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('titulo', 'Registrarse - ColdMarket'); ?>
 
 <?php $__env->startSection('contenido'); ?>
@@ -7,7 +6,7 @@
             <!-- Header -->
             <div class="register-header-minimal">
                 <h2>Crear Cuenta</h2>
-                <p>Únete a ColdMarket y disfruta de nuestros productos</p>
+                <p>Completa todos los campos para registrarte</p>
             </div>
 
             <!-- Mensajes de Error General -->
@@ -65,7 +64,8 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
                             id="cli_ruc_ced" name="cli_ruc_ced" placeholder="1234567890 o 1234567890001"
-                            value="<?php echo e(old('cli_ruc_ced')); ?>" pattern="[0-9]{10}|[0-9]{13}" maxlength="13" required>
+                            value="<?php echo e(old('cli_ruc_ced', session('pre_cedula', ''))); ?>" pattern="[0-9]{10}|[0-9]{13}"
+                            maxlength="13" required>
                     </div>
                     <span class="form-text-minimal">Ingrese 10 dígitos para cédula o 13 para RUC</span>
                     <?php $__errorArgs = ['cli_ruc_ced'];
@@ -93,8 +93,8 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                            id="cli_mail" name="cli_mail" placeholder="ejemplo@correo.com" value="<?php echo e(old('cli_mail')); ?>"
-                            maxlength="60" required>
+                            id="cli_mail" name="cli_mail" placeholder="ejemplo@correo.com"
+                            value="<?php echo e(old('cli_mail', session('pre_email', ''))); ?>" maxlength="60" required>
                     </div>
                     <?php $__errorArgs = ['cli_mail'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');

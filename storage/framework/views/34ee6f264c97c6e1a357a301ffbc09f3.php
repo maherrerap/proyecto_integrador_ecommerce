@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('titulo', 'Iniciar Sesión - ColdMarket'); ?>
 
 <?php $__env->startSection('contenido'); ?>
@@ -122,7 +121,7 @@ unset($__errorArgs, $__bag); ?>
 
                     <!-- Link a Registro -->
                     <div class="login-footer-center">
-                        <p>¿No tienes cuenta? <a href="<?php echo e(route('auth.showRegister')); ?>">Regístrate aquí</a></p>
+                        <p>¿No tienes cuenta? <a href="<?php echo e(route('auth.showRegisterVerify')); ?>">Regístrate aquí</a></p>
                     </div>
                 </div>
 

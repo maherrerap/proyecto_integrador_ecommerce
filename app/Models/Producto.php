@@ -48,6 +48,11 @@ class Producto extends Model
         return $producto->update($data);
     }
 
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
+    }
+
     public function detallesCarrito()
     {
         return $this->hasMany(ProxCar::class, 'id_producto', 'id_producto');
