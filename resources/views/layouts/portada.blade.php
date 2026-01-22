@@ -100,19 +100,17 @@
             </div>
 
             <div class="footer-right">
-                <a href="#" class="footer-social">
+                {{-- UX FIX #11: Remover texto técnico de placeholder --}}
+                <a href="#" class="footer-social" aria-label="Facebook">
                     <img src="{{ asset('images/facebook.png') }}" alt="Facebook" height="30">
-                    <span>cuenta_facebook</span>
                 </a>
 
-                <a href="#" class="footer-social">
+                <a href="#" class="footer-social" aria-label="Instagram">
                     <img src="{{ asset('images/instagram.png') }}" alt="Instagram" height="30">
-                    <span>cuenta_instagram</span>
                 </a>
 
-                <a href="#" class="footer-social">
+                <a href="#" class="footer-social" aria-label="Twitter/X">
                     <img src="{{ asset('images/X_logo.png') }}" alt="X" height="30">
-                    <span>cuenta_X</span>
                 </a>
             </div>
         </div>
