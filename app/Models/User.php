@@ -45,13 +45,6 @@ class User extends Model
         $numero = self::obtenerUltimoNumeroCliente();
         return 'CLI' . str_pad($numero, 4, '0', STR_PAD_LEFT);
     }
-
-    /**
-     * Registra un nuevo usuario en el sistema
-     * 
-     * @param array $datos Datos del usuario
-     * @return array ['success' => bool, 'message' => string, 'id_cliente' => string|null]
-     */
     public static function registrarUsuario($datos)
     {
         try {
@@ -116,14 +109,6 @@ class User extends Model
             ];
         }
     }
-
-    /**
-     * Valida las credenciales del usuario (email y contraseña)
-     * 
-     * @param string $email
-     * @param string $password
-     * @return array ['success' => bool, 'message' => string, 'user' => object|null]
-     */
     public static function validarCredenciales($email, $password)
     {
         try {
@@ -182,13 +167,6 @@ class User extends Model
             ];
         }
     }
-
-    /**
-     * Verifica si un email ya está registrado
-     * 
-     * @param string $email
-     * @return bool
-     */
     public static function emailExiste($email)
     {
         $resultado = DB::selectOne("
@@ -200,12 +178,6 @@ class User extends Model
         return $resultado->total > 0;
     }
 
-    /**
-     * Verifica si un RUC/Cédula ya está registrado
-     * 
-     * @param string $rucCed
-     * @return bool
-     */
     public static function rucCedulaExiste($rucCed)
     {
         $resultado = DB::selectOne("
@@ -217,12 +189,6 @@ class User extends Model
         return $resultado->total > 0;
     }
 
-    /**
-     * Obtiene un usuario por su ID de cliente
-     * 
-     * @param string $idCliente
-     * @return object|null
-     */
     public static function obtenerPorIdCliente($idCliente)
     {
         return DB::selectOne("
@@ -241,14 +207,6 @@ class User extends Model
             LIMIT 1
         ", [$idCliente]);
     }
-
-    /**
-     * Verifica si un cliente existe en public.clientes con email y cédula
-     * 
-     * @param string $email
-     * @param string $cedula
-     * @return array ['existe' => bool, 'cliente' => object|null, 'tiene_auth' => bool]
-     */
     public static function verificarClienteExistente($email, $cedula)
     {
         $cliente = DB::selectOne("
@@ -286,15 +244,6 @@ class User extends Model
             'tiene_auth' => false
         ];
     }
-
-    /**
-     * Registra solo la autenticación web de un cliente existente
-     * 
-     * @param string $idCliente
-     * @param string $email
-     * @param string $password
-     * @return array ['success' => bool, 'message' => string]
-     */
     public static function registrarAuthCliente($idCliente, $email, $password)
     {
         try {

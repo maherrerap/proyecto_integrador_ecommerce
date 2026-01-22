@@ -418,6 +418,178 @@ header,
     max-width: 500px;
 }
 
+/* -------- FILTROS DE CATEGORÍAS -------- */
+/* Contenedor principal de la barra de catálogo */
+.catalog-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 1rem 0;
+    flex-wrap: wrap;
+}
+
+/* Fila de filtros */
+.filters-row {
+    flex: 1;
+    min-width: 0;
+}
+
+.filters-row>div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Label "Categorías Disponibles:" */
+.filters-row>div>span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6B7280;
+    white-space: nowrap;
+    margin-right: 0.25rem;
+}
+
+/* Pills de filtro (checkboxes estilizados) */
+.filter-pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.filter-pill input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.filter-pill span {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4B5563;
+    background: #F3F4F6;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+/* Hover effect */
+.filter-pill:hover span {
+    background: #E5E7EB;
+    border-color: #D1D5DB;
+    transform: translateY(-1px);
+}
+
+/* Checked state */
+.filter-pill input[type="checkbox"]:checked+span {
+    background: linear-gradient(135deg, #0A1A2F 0%, #102542 100%);
+    color: #FFFFFF;
+    border-color: #0A1A2F;
+    box-shadow: 0 2px 8px rgba(10, 26, 47, 0.2);
+}
+
+/* Checked hover */
+.filter-pill input[type="checkbox"]:checked:hover+span {
+    background: linear-gradient(135deg, #102542 0%, #0A1A2F 100%);
+    box-shadow: 0 4px 12px rgba(10, 26, 47, 0.3);
+}
+
+/* Pill "Todos" - estilo especial */
+.filter-pill:first-of-type span {
+    background: #FFFFFF;
+    border-color: #D1D5DB;
+}
+
+.filter-pill:first-of-type input[type="checkbox"]:checked+span {
+    background: linear-gradient(135deg, #00E0FF 0%, #0099cc 100%);
+    color: #0A1A2F;
+    border-color: #00E0FF;
+    font-weight: 600;
+}
+
+/* Sección derecha del topbar */
+.catalog-right-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-end;
+}
+
+/* Botón "Volver al Inicio" */
+.back-home {
+    font-size: 0.875rem;
+    color: #0A1A2F;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.back-home:hover {
+    color: #00E0FF;
+    text-decoration: underline;
+}
+
+/* Paginación del catálogo */
+.catalog-pager {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Mini nota de conteo */
+.mini-note {
+    font-size: 0.8rem;
+    color: #6B7280;
+    text-align: right;
+}
+
+.mini-note strong {
+    color: #0A1A2F;
+    font-weight: 600;
+}
+
+/* Responsive para filtros */
+@media (max-width: 992px) {
+    .catalog-topbar {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .catalog-right-top {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .catalog-pager {
+        justify-content: flex-start;
+    }
+
+    .mini-note {
+        text-align: left;
+    }
+}
+
+@media (max-width: 768px) {
+    .filters-row>div>span {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .filter-pill span {
+        padding: 0.4rem 0.85rem;
+        font-size: 0.8rem;
+    }
+}
+
+
 /* ========================================
    ESTILOS PARA PORTADA
    ======================================== */
