@@ -120,7 +120,7 @@
         <div class="footer-container">
             <div class="footer-left">
                 <p id="texto_footer">
-                    © 2025 ColdMarket Inc. | Todos los Derechos Reservados
+                    © 2026 ColdMarket Inc. | Todos los Derechos Reservados
                 </p>
             </div>
 
@@ -129,27 +129,18 @@
                     <img src="{{ asset('images/facebook.png') }}" alt="Facebook" height="30">
                     <span>cuenta_facebook</span>
                 </a>
-                <div class="footer-right">
-                    <a href="#" class="footer-social">
-                        <img src="{{ asset('images/facebook.png') }}" alt="Facebook" height="30">
-                        <span>cuenta_facebook</span>
-                    </a>
 
-                    <a href="#" class="footer-social">
-                        <img src="{{ asset('images/instagram.png') }}" alt="Instagram" height="30">
-                        <span>cuenta_instagram</span>
-                    </a>
-                    <a href="#" class="footer-social">
-                        <img src="{{ asset('images/instagram.png') }}" alt="Instagram" height="30">
-                        <span>cuenta_instagram</span>
-                    </a>
+                <a href="#" class="footer-social">
+                    <img src="{{ asset('images/instagram.png') }}" alt="Instagram" height="30">
+                    <span>cuenta_instagram</span>
+                </a>
 
-                    <a href="#" class="footer-social">
-                        <img src="{{ asset('images/X_logo.png') }}" alt="X" height="30">
-                        <span>cuenta_X</span>
-                    </a>
-                </div>
+                <a href="#" class="footer-social">
+                    <img src="{{ asset('images/X_logo.png') }}" alt="X" height="30">
+                    <span>cuenta_X</span>
+                </a>
             </div>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
