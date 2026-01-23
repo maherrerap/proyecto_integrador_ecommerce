@@ -33,10 +33,6 @@ class HistorialComprasController extends Controller
     }
 
     /**
-     * Obtener el detalle de productos de un carrito específico
-     */
-
-    /**
      * Obtiene el detalle de productos de un carrito específico
      */
     public function detalle($idCarrito)
