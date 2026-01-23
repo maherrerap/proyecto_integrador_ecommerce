@@ -92,6 +92,14 @@
                                 <span><?php echo e($disabled ? 'Producto Agotado' : 'Añadir al Carrito'); ?></span>
                             </button>
                         </div>
+
+                        
+                        <div class="mt-3">
+                            <div class="alert alert-info" role="alert">
+                                <i class="bi bi-info-circle me-2"></i>
+                                <strong>Aviso Importante:</strong> Para añadir más de una unidad de este producto, puedes modificar su cantidad en la pestaña de Carrito.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

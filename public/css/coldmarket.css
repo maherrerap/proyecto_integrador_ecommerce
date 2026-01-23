@@ -1397,21 +1397,6 @@ header,
     margin-bottom: 1rem;
 }
 
-.historial-header-line {
-    width: 6px;
-    height: 44px;
-    background: #0d2b45;
-    border-radius: 3px;
-}
-
-.historial-title {
-    margin: 0;
-    letter-spacing: 6px;
-    font-weight: 800;
-    border-left: none !important;
-    padding-left: 0 !important;
-}
-
 /* Estado vacío del historial */
 .historial-vacio {
     text-align: center;

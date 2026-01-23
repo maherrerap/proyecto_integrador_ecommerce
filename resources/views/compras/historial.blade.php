@@ -5,8 +5,7 @@
 
     {{-- Título estilo carrito --}}
     <div class="historial-header">
-        <div class="historial-header-line"></div>
-        <h1 class="historial-title">
+        <h1 class="catalog-title mb-3">
             Historial de Compras
         </h1>
     </div>
