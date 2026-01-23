@@ -60,12 +60,14 @@
                         <li class="nav-item">
                             @if(session('autenticado'))
                                 <div class="dropdown">
-                                    <a class="nav-link nav-link-coldmarket dropdown-toggle d-flex align-items-center gap-2" href="#"
-                                        role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link nav-link-coldmarket dropdown-toggle d-flex align-items-center gap-2"
+                                        href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                         <i class="bi bi-person-circle"></i>
                                         <span class="d-none d-lg-inline">{{ session('nombreCliente') }}</span>
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-end admin-dropdown" aria-labelledby="userDropdown">
+                                    <ul class="dropdown-menu dropdown-menu-end admin-dropdown"
+                                        aria-labelledby="userDropdown">
                                         <li>
                                             <form action="{{ route('auth.logout') }}" method="POST" id="logoutForm">
                                                 @csrf
@@ -147,7 +149,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- FIX: Cargar carrito.js SIEMPRE para que el botón añadir funcione incluso sin login --}}
-    <script src="{{ asset('js/carrito.js') }}"></script>
+    <script src="{{ asset('js/carrito.js') }}?v={{ time() }}"></script>
 
     @stack('scripts')
 </body>
