@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 timer: 1500,
                                 showConfirmButton: false
                             }).then(() => {
-                                window.location.href = '/carrito';
+                                window.location.href = '/productos';
                             });
                         } else {
                             // MEDIUM FIX #9: Restaurar botón en error
@@ -304,20 +304,67 @@ document.addEventListener('click', e => {
     }
 });
 
+/* Event listener para cambio manual de cantidad en el input */
+document.addEventListener('change', e => {
+    if (e.target.classList.contains('carrito-item-cantidad-input')) {
+        let cantidad = parseInt(e.target.value);
+        const idProducto = e.target.dataset.producto;
+        const idCarrito = e.target.dataset.carrito;
+
+        // Validar que sea un número válido y mayor a 0
+        if (isNaN(cantidad) || cantidad < 1) {
+            cantidad = 1;
+            e.target.value = 1;
+        }
+
+        // Mostrar feedback visual
+        e.target.style.opacity = '0.5';
+
+        // Actualizar cantidad en el servidor
+        enviarActualizacionCantidad(idCarrito, idProducto, cantidad, () => {
+            e.target.style.opacity = '1';
+        });
+    }
+});
+
+/* Validación en tiempo real mientras se escribe */
+document.addEventListener('input', e => {
+    if (e.target.classList.contains('carrito-item-cantidad-input')) {
+        let valor = e.target.value;
+
+        // Evitar valores negativos
+        if (parseInt(valor) < 0) {
+            e.target.value = '';
+        }
+    }
+});
+
 /* Actualizar cantidad de un producto en el carrito */
 function actualizarCantidad(btn, cambio) {
     const idProducto = btn.dataset.producto;
     const idCarrito = btn.dataset.carrito;
-    const qtySpan = document.getElementById(`qty-${idProducto}`);
-    if (!qtySpan) return;
+    const qtyInput = document.getElementById(`qty-${idProducto}`);
+    if (!qtyInput) return;
 
-    let cantidad = parseInt(qtySpan.textContent) + cambio;
+    let cantidad = parseInt(qtyInput.value) + cambio;
     if (cantidad < 1) return;
 
     // UX FIX #3: Mostrar feedback visual inmediato
-    qtySpan.style.opacity = '0.5';
+    qtyInput.style.opacity = '0.5';
     btn.disabled = true;
 
+    // Actualizar el valor del input inmediatamente
+    qtyInput.value = cantidad;
+
+    enviarActualizacionCantidad(idCarrito, idProducto, cantidad, () => {
+        // Restaurar estado visual
+        qtyInput.style.opacity = '1';
+        btn.disabled = false;
+    });
+}
+
+/* Función auxiliar para enviar la actualización al servidor */
+function enviarActualizacionCantidad(idCarrito, idProducto, cantidad, callback) {
     fetch('/carrito/update-cantidad', {
         method: 'POST',
         headers: {
@@ -338,10 +385,12 @@ function actualizarCantidad(btn, cambio) {
                 location.reload();
             } else {
                 onCarritoCambiado();
+                if (callback) callback();
             }
         })
         .catch(() => {
             Swal.fire('Error', 'Error al actualizar cantidad', 'error');
+            if (callback) callback();
         });
 }
 

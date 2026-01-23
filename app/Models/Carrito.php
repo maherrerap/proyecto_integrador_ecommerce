@@ -146,4 +146,26 @@ class Carrito extends Model
             'idCarrito' => $idCarrito
         ];
     }
+
+    /**
+     * Método para mostrar el historial de los carritos pagados del cliente
+     */
+
+    public static function obtenerHistorialCompras($idCliente, $criterio = '') {
+        $query = self::query()
+            ->where('id_cliente', $idCliente)
+            ->where('estado_fac', 'PAG')
+            ->select('id_carrito', 'fac_subtotal', 'fac_iva', 'fac_fecha_pago', 'fac_total')
+            ->orderByRaw('fac_fecha_pago DESC NULLS LAST');
+
+        if (!empty($criterio)) {
+            $like = '%' . trim($criterio) . '%';
+            $query->where(function ($q) use ($like) {
+                // Buscar por id_carrito o por total/subtotal/iva como texto (simple)
+                $q->whereRaw("CAST(id_carrito AS TEXT) ILIKE ?", [$like])
+                ->orWhereRaw("CAST(fac_total AS TEXT) ILIKE ?", [$like]);
+            });
+        }
+        return $query->paginate(10)->appends(['criterio' => $criterio]);
+    }
 }

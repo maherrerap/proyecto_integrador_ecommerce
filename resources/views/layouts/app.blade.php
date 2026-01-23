@@ -55,6 +55,12 @@
                                     <span class="d-lg-inline">Carrito</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-coldmarket" href="{{ route('compras.historial') }}">
+                                    <i class="bi bi-receipt"></i>
+                                    <span class="d-lg-inline">Historial de Compras</span>
+                                </a>
+                            </li>
                         @endif
 
                         <li class="nav-item">

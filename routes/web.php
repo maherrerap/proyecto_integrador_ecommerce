@@ -8,6 +8,7 @@ use App\Http\Controllers\PortadaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HistorialComprasController;
 
 /* ============================================
    RUTAS PÚBLICAS
@@ -77,6 +78,7 @@ Route::middleware(['auth.check'])->group(function () {
     Route::get('/carrito/count', [CarritoController::class, 'count'])->name('carrito.count');
     Route::post('/carrito/aprobar', [CarritoController::class, 'aprobar'])->name('carrito.aprobar');
     Route::get('/carrito/resumen', [CarritoController::class, 'resumen'])->name('carrito.resumen');
+    Route::get('/historial-compras', [HistorialComprasController::class, 'index'])->name('compras.historial');
 });
 
 /* RUTAS DE LOGIN (LEGACY - Mantener por compatibilidad) */

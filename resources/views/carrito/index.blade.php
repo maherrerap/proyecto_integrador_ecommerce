@@ -80,12 +80,17 @@
                                     ${{ number_format($item->pxf_precio, 2) }}
                                 </p>
                                 <div class="carrito-item-controles">
-                                    {{-- FOURTH AUDIT FIX #2: Agregar aria-labels a botones de cantidad --}}
                                     <button class="btn-minus" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
                                         aria-label="Reducir cantidad de {{ $item->pro_descripcion }}">−</button>
-                                    <span id="qty-{{ $item->id_producto }}" class="carrito-item-cantidad">
-                                        {{ $item->pxf_cantidad }}
-                                    </span>
+                                    <input type="number" 
+                                        id="qty-{{ $item->id_producto }}" 
+                                        class="carrito-item-cantidad-input" 
+                                        value="{{ $item->pxf_cantidad }}" 
+                                        min="1" 
+                                        max="9999"
+                                        data-producto="{{ $item->id_producto }}" 
+                                        data-carrito="{{ $idCarrito }}"
+                                        aria-label="Cantidad de {{ $item->pro_descripcion }}">
                                     <button class="btn-plus" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
                                         aria-label="Aumentar cantidad de {{ $item->pro_descripcion }}">+</button>
                                 </div>

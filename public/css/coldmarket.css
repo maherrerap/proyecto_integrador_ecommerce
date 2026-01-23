@@ -1387,6 +1387,49 @@ header,
     opacity: 0.85;
 }
 
+/* -------- PÁGINA DE HISTORIAL DE COMPRAS -------- */
+
+/* Header del historial */
+.historial-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.historial-header-line {
+    width: 6px;
+    height: 44px;
+    background: #0d2b45;
+    border-radius: 3px;
+}
+
+.historial-title {
+    margin: 0;
+    letter-spacing: 6px;
+    font-weight: 800;
+    border-left: none !important;
+    padding-left: 0 !important;
+}
+
+/* Estado vacío del historial */
+.historial-vacio {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.historial-vacio-text {
+    color: #6B7280;
+    margin-bottom: 0;
+}
+
+/* Nota informativa del resumen */
+.historial-note {
+    margin-top: 1rem;
+    color: #6B7280;
+    font-size: 0.95rem;
+}
+
 /* -------- FOOTER -------- */
 .footer-coldmarket,
 .footer-coldmarket {
@@ -3288,6 +3331,7 @@ header,
    ======================================== */
 
 @media (max-width: 576px) {
+
     /* Navbar mobile optimizations */
     .navbar {
         padding: 0.5rem 0 !important;
@@ -3437,7 +3481,8 @@ header,
     input[type="password"],
     input[type="tel"],
     input[type="number"] {
-        font-size: 16px !important; /* Prevents zoom on iOS */
+        font-size: 16px !important;
+        /* Prevents zoom on iOS */
         padding: 0.75rem 0.5rem 0.75rem 2.5rem !important;
         width: 100%;
     }
@@ -3708,4 +3753,36 @@ header,
     .section-container {
         padding: 2rem 1rem !important;
     }
+}
+
+/*********************************************************/
+/* ARREGLO CARRITO PARA INGRESAR CANTIDADES MANUALMENTE */
+.carrito-item-cantidad-input {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 8px;
+}
+
+.carrito-item-cantidad-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+/* Ocultar las flechas del input number en Chrome, Safari, Edge */
+.carrito-item-cantidad-input::-webkit-outer-spin-button,
+.carrito-item-cantidad-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ocultar las flechas del input number en Firefox */
+.carrito-item-cantidad-input[type=number] {
+    appearance: textfield;
+    /* Versión estándar moderna */
 }
