@@ -61,13 +61,23 @@
                         <h1 class="h2 fw-bold mb-3"><?php echo e($producto->pro_descripcion); ?></h1>
 
                         
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <span class="h3 text-primary fw-bold">
                                 $<?php echo e(number_format((float) $producto->pro_precio_venta, 2, '.', ',')); ?>
 
                             </span>
                         </div>
 
+                        
+                        <?php if($producto->unidadMedidaVenta): ?>
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-box-seam text-muted"></i>
+                                <span class="text-muted">Unidad de venta:</span>
+                                <strong><?php echo e($producto->unidadMedidaVenta->um_descripcion); ?></strong>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                         
                         <div class="mb-4 p-3 bg-light rounded">
                             <div class="d-flex align-items-center gap-2">

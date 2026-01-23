@@ -142,6 +142,8 @@ class ProductoController extends Controller
 
         $stockActual = (int) $producto->pro_saldo_final;
 
+        $producto->load('unidadMedidaVenta');
+
         // Obtener productos relacionados de la misma categoría
         $productosRelacionados = Producto::where('estado_prod', 'ACT')
             ->where('id_categoria', $producto->id_categoria)

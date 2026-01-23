@@ -63,12 +63,22 @@
                         <h1 class="h2 fw-bold mb-3">{{ $producto->pro_descripcion }}</h1>
 
                         {{-- Precio --}}
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <span class="h3 text-primary fw-bold">
                                 ${{ number_format((float) $producto->pro_precio_venta, 2, '.', ',') }}
                             </span>
                         </div>
 
+                        {{-- Unidad de Medida --}}
+                        @if($producto->unidadMedidaVenta)
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-box-seam text-muted"></i>
+                                <span class="text-muted">Unidad de venta:</span>
+                                <strong>{{ $producto->unidadMedidaVenta->um_descripcion }}</strong>
+                            </div>
+                        </div>
+                        @endif
                         {{-- Stock --}}
                         <div class="mb-4 p-3 bg-light rounded">
                             <div class="d-flex align-items-center gap-2">

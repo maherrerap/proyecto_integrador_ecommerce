@@ -55,15 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 })
                 .catch((err) => {
-                    // CRITICAL FIX #3: Diferenciar tipos de error
-                    // Solo mostrar error si NO es el caso de "No autenticado"
-                    // ya que ese caso está manejado en el bloque anterior (líneas 28-43)
                     if (err.message === 'No autenticado') {
-                        return; // No hacer nada, ya se mostró el modal de login
+                        return;
                     }
 
                     let title = 'No pudimos añadir el producto';
-                    let text = 'Ocurrió un error inesperado';
+                    let text = 'Primero Inicie Sesión antes de Añadir un Producto al Carrito';
 
                     if (err.name === 'TypeError' || !navigator.onLine) {
                         title = 'Sin conexión';
@@ -77,7 +74,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         icon: 'error',
                         title: title,
                         text: text,
-                        confirmButtonText: 'Entendido'
+                        showCancelButton: true,
+                        confirmButtonText: 'Ir a Login',
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonColor: '#198754',
+                        cancelButtonColor: '#6c757d'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/auth/login';
+                        }
                     });
                 });
         });

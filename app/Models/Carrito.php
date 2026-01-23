@@ -97,15 +97,15 @@ class Carrito extends Model
     public static function contarProductos($idCliente)
     {
         $resultado = DB::selectOne(" 
-            SELECT COUNT(*) AS total
+            SELECT COALESCE(SUM(pxc.pxf_cantidad), 0) AS total
             FROM ecommerce.pro_x_car pxc
             JOIN ecommerce.carrito c ON c.id_carrito = pxc.id_carrito
             WHERE c.id_cliente = ?
-              AND c.estado_fac = 'ABI'
-              AND pxc.estado_pxf = 'ABI'
+            AND c.estado_fac = 'ABI'
+            AND pxc.estado_pxf = 'ABI'
         ", [$idCliente]);
 
-        return $resultado->total ?? 0;
+        return (int) ($resultado->total ?? 0);
     }
 
     /**
@@ -150,22 +150,12 @@ class Carrito extends Model
     /**
      * Método para mostrar el historial de los carritos pagados del cliente
      */
-
-    public static function obtenerHistorialCompras($idCliente, $criterio = '') {
-        $query = self::query()
+    public static function obtenerHistorialCompras($idCliente) {
+        return self::query()
             ->where('id_cliente', $idCliente)
             ->where('estado_fac', 'PAG')
             ->select('id_carrito', 'fac_subtotal', 'fac_iva', 'fac_fecha_pago', 'fac_total')
-            ->orderByRaw('fac_fecha_pago DESC NULLS LAST');
-
-        if (!empty($criterio)) {
-            $like = '%' . trim($criterio) . '%';
-            $query->where(function ($q) use ($like) {
-                // Buscar por id_carrito o por total/subtotal/iva como texto (simple)
-                $q->whereRaw("CAST(id_carrito AS TEXT) ILIKE ?", [$like])
-                ->orWhereRaw("CAST(fac_total AS TEXT) ILIKE ?", [$like]);
-            });
-        }
-        return $query->paginate(10)->appends(['criterio' => $criterio]);
+            ->orderByRaw('fac_fecha_pago DESC NULLS LAST')
+            ->paginate(10);
     }
 }

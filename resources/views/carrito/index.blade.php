@@ -62,47 +62,67 @@
                     </div>
                 @else
                     {{-- LISTA DE PRODUCTOS DEL CARRITO --}}
-                    @foreach($items as $item)
-                        <div class="carrito-item">
+                @foreach($items as $item)
+                    <div class="carrito-item">
 
-                            <!-- IMAGEN -->
-                            <div class="carrito-item-imagen-wrapper">
-                                <img src="{{ asset(ltrim($item->pro_imagen, '/')) }}" alt="{{ $item->pro_descripcion }}"
-                                    class="carrito-item-imagen">
-                            </div>
-
-                            <!-- DETALLES DEL PRODUCTO -->
-                            <div class="carrito-item-detalles">
-                                <h6 class="carrito-item-titulo">
-                                    {{ $item->pro_descripcion }}
-                                </h6>
-                                <p class="carrito-item-precio">
-                                    ${{ number_format($item->pxf_precio, 2) }}
-                                </p>
-                                <div class="carrito-item-controles">
-                                    <button class="btn-minus" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
-                                        aria-label="Reducir cantidad de {{ $item->pro_descripcion }}">−</button>
-                                    <input type="number" 
-                                        id="qty-{{ $item->id_producto }}" 
-                                        class="carrito-item-cantidad-input" 
-                                        value="{{ $item->pxf_cantidad }}" 
-                                        min="1" 
-                                        max="9999"
-                                        data-producto="{{ $item->id_producto }}" 
-                                        data-carrito="{{ $idCarrito }}"
-                                        aria-label="Cantidad de {{ $item->pro_descripcion }}">
-                                    <button class="btn-plus" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
-                                        aria-label="Aumentar cantidad de {{ $item->pro_descripcion }}">+</button>
-                                </div>
-                            </div>
-
-                            {{-- FOURTH AUDIT FIX #3: Agregar aria-label a botón eliminar --}}
-                            <button class="btn-remove" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
-                                aria-label="Eliminar {{ $item->pro_descripcion }} del carrito">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                        <!-- IMAGEN -->
+                        <div class="carrito-item-imagen-wrapper">
+                            <img src="{{ asset(ltrim($item->pro_imagen, '/')) }}" alt="{{ $item->pro_descripcion }}"
+                                class="carrito-item-imagen">
                         </div>
-                    @endforeach
+
+                        <!-- DETALLES DEL PRODUCTO -->
+                        <div class="carrito-item-detalles">
+                            <h6 class="carrito-item-titulo">
+                                {{ $item->pro_descripcion }}
+                            </h6>
+                            <p class="carrito-item-precio">
+                                ${{ number_format($item->pxf_precio, 2) }}
+                                @if($item->unidad_medida)
+                                    <span class="text-muted" style="font-size: 0.85rem;">/ {{ $item->unidad_medida }}</span>
+                                @endif
+                            </p>
+                            
+                            <!-- INFORMACIÓN DE STOCK Y UNIDAD -->
+                            <div class="mb-2">
+                                @if($item->unidad_medida)
+                                    <small class="text-muted">
+                                        <i class="bi bi-box-seam"></i> Unidad: <strong>{{ $item->unidad_medida }}</strong>
+                                    </small>
+                                    <span class="text-muted mx-1">•</span>
+                                @endif
+                                <small class="text-muted">
+                                    <i class="bi bi-archive"></i> Stock disponible: 
+                                    <strong class="{{ $item->pro_saldo_final <= 5 ? 'text-warning' : 'text-success' }}">
+                                        {{ $item->pro_saldo_final }} {{ $item->unidad_medida ? strtolower($item->unidad_medida) : 'unidades' }}
+                                    </strong>
+                                </small>
+                            </div>
+
+                            <div class="carrito-item-controles">
+                                <button class="btn-minus" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
+                                    aria-label="Reducir cantidad de {{ $item->pro_descripcion }}">−</button>
+                                <input type="number" 
+                                    id="qty-{{ $item->id_producto }}" 
+                                    class="carrito-item-cantidad-input" 
+                                    value="{{ $item->pxf_cantidad }}" 
+                                    min="1" 
+                                    max="{{ $item->pro_saldo_final }}"
+                                    data-producto="{{ $item->id_producto }}" 
+                                    data-carrito="{{ $idCarrito }}"
+                                    aria-label="Cantidad de {{ $item->pro_descripcion }}">
+                                <button class="btn-plus" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
+                                    aria-label="Aumentar cantidad de {{ $item->pro_descripcion }}">+</button>
+                            </div>
+                        </div>
+
+                        {{-- FOURTH AUDIT FIX #3: Agregar aria-label a botón eliminar --}}
+                        <button class="btn-remove" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
+                            aria-label="Eliminar {{ $item->pro_descripcion }} del carrito">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                @endforeach
 
                     {{-- COMPRAR MÁS --}}
                     <a href="{{ route('producto.index') }}" class="btn btn-primary mt-3">

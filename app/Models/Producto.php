@@ -63,6 +63,11 @@ class Producto extends Model
         return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
     }
 
+    public function unidadMedidaVenta()
+    {
+        return $this->belongsTo(UnidadMedida::class, 'pro_um_venta', 'id_unidad_medida');
+    }
+
     public function detallesCarrito()
     {
         return $this->hasMany(ProxCar::class, 'id_producto', 'id_producto');

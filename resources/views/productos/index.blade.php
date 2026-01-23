@@ -192,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   syncTodos();
 
+  // Cuando se hace clic en "Todos"
   chkTodos.addEventListener('change', () => {
     if (chkTodos.checked) {
       catChecks.forEach(c => c.checked = false);
@@ -199,27 +200,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // CAMBIO PRINCIPAL: Al hacer clic en una categoría, desmarcar las demás
   catChecks.forEach(chk => {
-    chk.addEventListener('change', () => {
+    chk.addEventListener('change', function() {
+      if (this.checked) {
+        // Desmarcar todas las demás categorías excepto la actual
+        catChecks.forEach(c => {
+          if (c !== this) {
+            c.checked = false;
+          }
+        });
+      }
+      
       syncTodos();
       form.submit();
     });
   });
 
-  // CRITICAL FIX #5: Loading state en búsqueda/filtrado con timeout de seguridad
+  // Loading state en búsqueda/filtrado con timeout de seguridad
   form.addEventListener('submit', function() {
     const loadingOverlay = document.createElement('div');
     loadingOverlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:9999;';
     loadingOverlay.innerHTML = '<div class="spinner-border text-light" role="status"><span class="visually-hidden">Cargando...</span></div>';
     document.body.appendChild(loadingOverlay);
     
-    // CRITICAL FIX #5: Timeout de seguridad para remover overlay si no redirige
     setTimeout(() => {
       if (loadingOverlay.parentNode) {
         loadingOverlay.remove();
         console.warn('Loading overlay removido por timeout');
       }
-    }, 10000); // 10 segundos máximo
+    }, 10000);
   });
 });
 </script>

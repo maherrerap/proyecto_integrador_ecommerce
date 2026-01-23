@@ -61,49 +61,70 @@
                     </div>
                 <?php else: ?>
                     
-                    <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="carrito-item">
+                <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="carrito-item">
 
-                            <!-- IMAGEN -->
-                            <div class="carrito-item-imagen-wrapper">
-                                <img src="<?php echo e(asset(ltrim($item->pro_imagen, '/'))); ?>" alt="<?php echo e($item->pro_descripcion); ?>"
-                                    class="carrito-item-imagen">
-                            </div>
-
-                            <!-- DETALLES DEL PRODUCTO -->
-                            <div class="carrito-item-detalles">
-                                <h6 class="carrito-item-titulo">
-                                    <?php echo e($item->pro_descripcion); ?>
-
-                                </h6>
-                                <p class="carrito-item-precio">
-                                    $<?php echo e(number_format($item->pxf_precio, 2)); ?>
-
-                                </p>
-                                <div class="carrito-item-controles">
-                                    <button class="btn-minus" data-producto="<?php echo e($item->id_producto); ?>" data-carrito="<?php echo e($idCarrito); ?>"
-                                        aria-label="Reducir cantidad de <?php echo e($item->pro_descripcion); ?>">−</button>
-                                    <input type="number" 
-                                        id="qty-<?php echo e($item->id_producto); ?>" 
-                                        class="carrito-item-cantidad-input" 
-                                        value="<?php echo e($item->pxf_cantidad); ?>" 
-                                        min="1" 
-                                        max="9999"
-                                        data-producto="<?php echo e($item->id_producto); ?>" 
-                                        data-carrito="<?php echo e($idCarrito); ?>"
-                                        aria-label="Cantidad de <?php echo e($item->pro_descripcion); ?>">
-                                    <button class="btn-plus" data-producto="<?php echo e($item->id_producto); ?>" data-carrito="<?php echo e($idCarrito); ?>"
-                                        aria-label="Aumentar cantidad de <?php echo e($item->pro_descripcion); ?>">+</button>
-                                </div>
-                            </div>
-
-                            
-                            <button class="btn-remove" data-producto="<?php echo e($item->id_producto); ?>" data-carrito="<?php echo e($idCarrito); ?>"
-                                aria-label="Eliminar <?php echo e($item->pro_descripcion); ?> del carrito">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                        <!-- IMAGEN -->
+                        <div class="carrito-item-imagen-wrapper">
+                            <img src="<?php echo e(asset(ltrim($item->pro_imagen, '/'))); ?>" alt="<?php echo e($item->pro_descripcion); ?>"
+                                class="carrito-item-imagen">
                         </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                        <!-- DETALLES DEL PRODUCTO -->
+                        <div class="carrito-item-detalles">
+                            <h6 class="carrito-item-titulo">
+                                <?php echo e($item->pro_descripcion); ?>
+
+                            </h6>
+                            <p class="carrito-item-precio">
+                                $<?php echo e(number_format($item->pxf_precio, 2)); ?>
+
+                                <?php if($item->unidad_medida): ?>
+                                    <span class="text-muted" style="font-size: 0.85rem;">/ <?php echo e($item->unidad_medida); ?></span>
+                                <?php endif; ?>
+                            </p>
+                            
+                            <!-- INFORMACIÓN DE STOCK Y UNIDAD -->
+                            <div class="mb-2">
+                                <?php if($item->unidad_medida): ?>
+                                    <small class="text-muted">
+                                        <i class="bi bi-box-seam"></i> Unidad: <strong><?php echo e($item->unidad_medida); ?></strong>
+                                    </small>
+                                    <span class="text-muted mx-1">•</span>
+                                <?php endif; ?>
+                                <small class="text-muted">
+                                    <i class="bi bi-archive"></i> Stock disponible: 
+                                    <strong class="<?php echo e($item->pro_saldo_final <= 5 ? 'text-warning' : 'text-success'); ?>">
+                                        <?php echo e($item->pro_saldo_final); ?> <?php echo e($item->unidad_medida ? strtolower($item->unidad_medida) : 'unidades'); ?>
+
+                                    </strong>
+                                </small>
+                            </div>
+
+                            <div class="carrito-item-controles">
+                                <button class="btn-minus" data-producto="<?php echo e($item->id_producto); ?>" data-carrito="<?php echo e($idCarrito); ?>"
+                                    aria-label="Reducir cantidad de <?php echo e($item->pro_descripcion); ?>">−</button>
+                                <input type="number" 
+                                    id="qty-<?php echo e($item->id_producto); ?>" 
+                                    class="carrito-item-cantidad-input" 
+                                    value="<?php echo e($item->pxf_cantidad); ?>" 
+                                    min="1" 
+                                    max="<?php echo e($item->pro_saldo_final); ?>"
+                                    data-producto="<?php echo e($item->id_producto); ?>" 
+                                    data-carrito="<?php echo e($idCarrito); ?>"
+                                    aria-label="Cantidad de <?php echo e($item->pro_descripcion); ?>">
+                                <button class="btn-plus" data-producto="<?php echo e($item->id_producto); ?>" data-carrito="<?php echo e($idCarrito); ?>"
+                                    aria-label="Aumentar cantidad de <?php echo e($item->pro_descripcion); ?>">+</button>
+                            </div>
+                        </div>
+
+                        
+                        <button class="btn-remove" data-producto="<?php echo e($item->id_producto); ?>" data-carrito="<?php echo e($idCarrito); ?>"
+                            aria-label="Eliminar <?php echo e($item->pro_descripcion); ?> del carrito">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     
                     <a href="<?php echo e(route('producto.index')); ?>" class="btn btn-primary mt-3">

@@ -23,12 +23,15 @@ class ProxCar extends Model
      */
     public static function obtenerProductosDelCarrito($idCarrito, $criterio = null) {
         $query = self::join('public.productos', 'public.productos.id_producto', '=', 'ecommerce.pro_x_car.id_producto')
+            ->leftJoin('public.unidades_medidas as um', 'public.productos.pro_um_venta', '=', 'um.id_unidad_medida')
             ->where('ecommerce.pro_x_car.id_carrito', $idCarrito)
             ->where('ecommerce.pro_x_car.estado_pxf', 'ABI')
             ->select(
                 'public.productos.id_producto', 
                 'public.productos.pro_descripcion', 
                 'public.productos.pro_imagen',
+                'public.productos.pro_saldo_final',
+                'um.um_descripcion as unidad_medida',
                 'ecommerce.pro_x_car.pxf_cantidad', 
                 'ecommerce.pro_x_car.pxf_precio', 
                 'ecommerce.pro_x_car.pxf_subtotal'
@@ -40,7 +43,7 @@ class ProxCar extends Model
             
             $query->where(function ($q) use ($like) {
                 $q->whereRaw("unaccent(public.productos.pro_descripcion) ILIKE unaccent(?)", [$like])
-                  ->orWhereRaw("unaccent(public.productos.id_producto) ILIKE unaccent(?)", [$like]);
+                ->orWhereRaw("unaccent(public.productos.id_producto) ILIKE unaccent(?)", [$like]);
             });
         }
 

@@ -79,6 +79,7 @@ Route::middleware(['auth.check'])->group(function () {
     Route::post('/carrito/aprobar', [CarritoController::class, 'aprobar'])->name('carrito.aprobar');
     Route::get('/carrito/resumen', [CarritoController::class, 'resumen'])->name('carrito.resumen');
     Route::get('/historial-compras', [HistorialComprasController::class, 'index'])->name('compras.historial');
+    Route::get('/historial-compras/{idCarrito}/detalle', [HistorialComprasController::class, 'detalle'])->name('compras.detalle');
 });
 
 /* RUTAS DE LOGIN (LEGACY - Mantener por compatibilidad) */
