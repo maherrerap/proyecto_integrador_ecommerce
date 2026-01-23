@@ -56,6 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch((err) => {
                     // CRITICAL FIX #3: Diferenciar tipos de error
+                    // Solo mostrar error si NO es el caso de "No autenticado"
+                    // ya que ese caso está manejado en el bloque anterior (líneas 28-43)
+                    if (err.message === 'No autenticado') {
+                        return; // No hacer nada, ya se mostró el modal de login
+                    }
+
                     let title = 'No pudimos añadir el producto';
                     let text = 'Ocurrió un error inesperado';
 
@@ -65,9 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else if (err.status === 500) {
                         title = 'Error del servidor';
                         text = 'Nuestro servidor está experimentando problemas. Intenta nuevamente en unos minutos.';
-                    } else if (err.status === 401) {
-                        title = 'Sesión expirada';
-                        text = 'Tu sesión ha expirado. Por favor inicia sesión nuevamente.';
                     }
 
                     Swal.fire({
