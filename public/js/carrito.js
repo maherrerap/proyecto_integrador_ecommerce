@@ -231,6 +231,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ====== Helpers generales ====== */
 
+/* Muestra mensaje de alterta de stock */
+function mostrarStockAlert(idProducto, stock) {
+    const alertDiv = document.getElementById(`stock-alert-${idProducto}`);
+    if (!alertDiv) return;
+
+    alertDiv.classList.remove('d-none');
+    alertDiv.querySelector('.stock-value').innerText = stock;
+}
+
+/* Oculta mensaje de alterta de stock */
+function ocultarStockAlert(idProducto) {
+    const alertDiv = document.getElementById(`stock-alert-${idProducto}`);
+    if (!alertDiv) return;
+    alertDiv.classList.add('d-none');
+}
+
 /* Llamar cuando el carrito cambió: badge + resumen */
 function onCarritoCambiado() {
     actualizarBadgeCarrito();
@@ -312,25 +328,38 @@ document.addEventListener('click', e => {
 /* Event listener para cambio manual de cantidad en el input */
 document.addEventListener('change', e => {
     if (e.target.classList.contains('carrito-item-cantidad-input')) {
-        let cantidad = parseInt(e.target.value);
-        const idProducto = e.target.dataset.producto;
-        const idCarrito = e.target.dataset.carrito;
+        const input = e.target;
 
-        // Validar que sea un número válido y mayor a 0
+        let cantidad = parseInt(input.value, 10);
+        const max = parseInt(input.getAttribute('max') || '999999', 10);
+
+        const idProducto = input.dataset.producto;
+        const idCarrito = input.dataset.carrito;
+
+        // min 1
         if (isNaN(cantidad) || cantidad < 1) {
             cantidad = 1;
-            e.target.value = 1;
+            input.value = 1;
         }
 
-        // Mostrar feedback visual
-        e.target.style.opacity = '0.5';
+        // Bloquear si supera stock
+        if (!isNaN(max) && cantidad > max) {
+            input.value = max;
+            cantidad = max;
 
-        // Actualizar cantidad en el servidor
+            mostrarStockAlert(idProducto, max);
+        } else {
+            ocultarStockAlert(idProducto);
+        }
+
+        input.style.opacity = '0.5';
+
         enviarActualizacionCantidad(idCarrito, idProducto, cantidad, () => {
-            e.target.style.opacity = '1';
+            input.style.opacity = '1';
         });
     }
 });
+
 
 /* Validación en tiempo real mientras se escribe */
 document.addEventListener('input', e => {
@@ -341,8 +370,15 @@ document.addEventListener('input', e => {
         if (parseInt(valor) < 0) {
             e.target.value = '';
         }
+        if (!isNaN(max) && !isNaN(val) && val > max) {
+            input.value = max;
+            mostrarStockAlert(input.dataset.producto, max);
+        } else {
+            ocultarStockAlert(input.dataset.producto);
+        }
     }
 });
+
 
 /* Actualizar cantidad de un producto en el carrito */
 function actualizarCantidad(btn, cambio) {
@@ -351,22 +387,32 @@ function actualizarCantidad(btn, cambio) {
     const qtyInput = document.getElementById(`qty-${idProducto}`);
     if (!qtyInput) return;
 
-    let cantidad = parseInt(qtyInput.value) + cambio;
+    const max = parseInt(qtyInput.getAttribute('max') || '999999', 10);
+    let cantidad = parseInt(qtyInput.value || '1', 10) + cambio;
+
     if (cantidad < 1) return;
 
-    // UX FIX #3: Mostrar feedback visual inmediato
+    // Bloquear si supera stock
+    if (!isNaN(max) && cantidad > max) {
+        qtyInput.value = max;
+
+        mostrarStockAlert(idProducto, max);
+
+        return;
+    }
+
+    // Feedback visual
     qtyInput.style.opacity = '0.5';
     btn.disabled = true;
 
-    // Actualizar el valor del input inmediatamente
     qtyInput.value = cantidad;
 
     enviarActualizacionCantidad(idCarrito, idProducto, cantidad, () => {
-        // Restaurar estado visual
         qtyInput.style.opacity = '1';
         btn.disabled = false;
     });
 }
+
 
 /* Función auxiliar para enviar la actualización al servidor */
 function enviarActualizacionCantidad(idCarrito, idProducto, cantidad, callback) {
@@ -382,10 +428,27 @@ function enviarActualizacionCantidad(idCarrito, idProducto, cantidad, callback) 
             cantidad: cantidad
         })
     })
-        .then(res => res.json())
-        .then(data => {
-            // Si estás en /carrito, recarga porque se recalculan totales visuales
-            // Si no, solo refresca resumen/badge
+        .then(async (res) => {
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || data.ok === false) {
+                // Si backend devuelve stock disponible, corrige el input
+                const qtyInput = document.getElementById(`qty-${idProducto}`);
+                if (qtyInput && data.stock != null) {
+                    qtyInput.value = data.stock;
+                }
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Stock insuficiente',
+                    text: data.message || 'No se pudo actualizar la cantidad por stock insuficiente.',
+                    confirmButtonColor: '#198754'
+                });
+
+                if (callback) callback();
+                return;
+            }
+
+            // ok
             if (window.location.pathname === '/carrito') {
                 location.reload();
             } else {
@@ -398,6 +461,7 @@ function enviarActualizacionCantidad(idCarrito, idProducto, cantidad, callback) 
             if (callback) callback();
         });
 }
+
 
 /* Eliminar un producto individual del carrito */
 function eliminarProducto(btn) {

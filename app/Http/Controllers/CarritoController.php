@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Carrito;
 use App\Models\ProxCar;
+use App\Models\Producto;
 
 class CarritoController extends Controller
 {
@@ -75,6 +76,18 @@ class CarritoController extends Controller
             "cantidad" => "required|integer|min:1",
         ]);
 
+        // Validar stock actual
+        $stock = (int) Producto::where('id_producto', $request->id_producto)
+            ->value('pro_saldo_final');
+
+        if ($request->cantidad > $stock) {
+            return response()->json([
+                "ok" => false,
+                "message" => "Stock insuficiente. Disponible: {$stock}.",
+                "stock" => $stock
+            ], 422);
+        }
+
         Carrito::actualizarCantidadProducto(
             $request->id_carrito,
             $request->id_producto,
@@ -83,6 +96,7 @@ class CarritoController extends Controller
 
         return response()->json(["ok" => true]);
     }
+
 
     /**
      * Elimina un producto del carrito
@@ -143,7 +157,7 @@ class CarritoController extends Controller
                 "message" => "Pago realizado correctamente"
             ]);
         } catch (\Exception $e) {
-            // UX FIX #4: Mejorar manejo de errores con mensajes útiles
+            
             \Log::error('Error al procesar pago', [
                 'carrito_id' => $request->id_carrito,
                 'error' => $e->getMessage(),
@@ -152,7 +166,9 @@ class CarritoController extends Controller
 
             return response()->json([
                 "ok" => false,
-                "message" => "No pudimos procesar tu pago. Por favor verifica tu conexión e intenta nuevamente. Si el problema persiste, contacta a soporte."
+                "message" => "No pudimos procesar tu pago. Por favor 
+                                verifica el stock de los productos. \nSi el problema 
+                                persiste, contacta a soporte."
             ], 500);
         }
     }

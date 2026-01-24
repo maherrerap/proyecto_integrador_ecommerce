@@ -116,8 +116,10 @@
                                 <button class="btn-plus" data-producto="<?php echo e($item->id_producto); ?>" data-carrito="<?php echo e($idCarrito); ?>"
                                     aria-label="Aumentar cantidad de <?php echo e($item->pro_descripcion); ?>">+</button>
                             </div>
+                            <div class="stock-alert text-danger small mt-1 d-none" id="stock-alert-<?php echo e($item->id_producto); ?>">
+                                ⚠ Stock insuficiente. Disponible: <span class="stock-value"><?php echo e($item->pro_saldo_final); ?></span><br>Se le asigno automaticamente la cantidad máxima de stock.
+                            </div>
                         </div>
-
                         
                         <button class="btn-remove" data-producto="<?php echo e($item->id_producto); ?>" data-carrito="<?php echo e($idCarrito); ?>"
                             aria-label="Eliminar <?php echo e($item->pro_descripcion); ?> del carrito">

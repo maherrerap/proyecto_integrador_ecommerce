@@ -114,8 +114,10 @@
                                 <button class="btn-plus" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
                                     aria-label="Aumentar cantidad de {{ $item->pro_descripcion }}">+</button>
                             </div>
+                            <div class="stock-alert text-danger small mt-1 d-none" id="stock-alert-{{ $item->id_producto }}">
+                                ⚠ Cantidad mayor al stock disponible. Por favor verifique sus cantidades.<br>Se le asigno automaticamente la cantidad máxima de stock.
+                            </div>
                         </div>
-
                         {{-- FOURTH AUDIT FIX #3: Agregar aria-label a botón eliminar --}}
                         <button class="btn-remove" data-producto="{{ $item->id_producto }}" data-carrito="{{ $idCarrito }}"
                             aria-label="Eliminar {{ $item->pro_descripcion }} del carrito">
