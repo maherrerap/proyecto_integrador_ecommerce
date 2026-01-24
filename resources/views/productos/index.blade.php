@@ -146,6 +146,11 @@
                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                             <div class="card product-card h-100 position-relative">
                                 <div class="tag-categoria">{{ $categoria }}</div>
+                                
+                                {{-- Etiqueta de AGOTADO --}}
+                                @if($agotado)
+                                    <div class="tag-agotado">¡AGOTADO!</div>
+                                @endif
 
                                 <div class="product-img-wrap">
                                     <img src="{{ $img }}" alt="{{ $producto->pro_descripcion }}" class="product-img" loading="lazy">

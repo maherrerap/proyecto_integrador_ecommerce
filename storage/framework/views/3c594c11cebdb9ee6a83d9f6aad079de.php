@@ -149,6 +149,11 @@
                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                             <div class="card product-card h-100 position-relative">
                                 <div class="tag-categoria"><?php echo e($categoria); ?></div>
+                                
+                                
+                                <?php if($agotado): ?>
+                                    <div class="tag-agotado">¡AGOTADO!</div>
+                                <?php endif; ?>
 
                                 <div class="product-img-wrap">
                                     <img src="<?php echo e($img); ?>" alt="<?php echo e($producto->pro_descripcion); ?>" class="product-img" loading="lazy">

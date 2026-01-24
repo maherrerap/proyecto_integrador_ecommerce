@@ -4314,3 +4314,39 @@ header,
         height: 120px !important;
     }
 }
+
+
+/* Etiqueta de producto agotado */
+.tag-agotado {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: pulse-agotado 2s infinite;
+}
+
+/* Animación sutil para llamar la atención */
+@keyframes pulse-agotado {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Opcional: oscurecer un poco la imagen cuando está agotado */
+.product-card.agotado .product-img-wrap {
+    opacity: 0.6;
+    filter: grayscale(30%);
+}
